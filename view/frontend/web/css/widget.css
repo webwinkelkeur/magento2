@@ -1,0 +1,58 @@
+.webwinkelkeur-small-score .rating-summary {
+        float: left;
+        margin-right: 10px;
+}
+
+.webwinkelkeur-small-score .brandicon {
+        background: url(../images/webwinkelkeur_brand_icon.png) no-repeat;
+        background-size: 20px;
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        margin: -3px 0 0 -24px;
+}
+
+.webwinkelkeur-small-score p {
+        display: block;
+        padding: 4px;
+        margin-bottom: 0;
+}
+
+.webwinkelkeur-small-score a {
+        margin-left: 25px;
+}
+
+.webwinkelkeur-big-score.default, .webwinkelkeur-big-score.nl {
+        background-image: url(../images/webwinkelkeur_brand.png);
+}
+
+.webwinkelkeur-big-score.de,.webwinkelkeur-big-score.en,.webwinkelkeur-big-score.es,.webwinkelkeur-big-score.fr {
+        background-image: url(../images/valuedshops_brand.png);
+}
+
+.webwinkelkeur-big-score {
+        padding: 20px;
+        width: 250px;
+        background: #f8f8f8 no-repeat 60px 20px;
+        background-size: 150px;
+        image-rendering: auto;
+}
+
+.webwinkelkeur-big-score p {
+        display: block;
+        margin-top: 120px;
+        margin-bottom: 5px;
+}
+
+.webwinkelkeur-big-score .score {
+        font-weight: 700;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(126,128,126,0.08);
+        display: block;
+}
+
+.webwinkelkeur-big-score .text {
+        display: block;
+        font-size: 13px;
+        margin-top: 8px;
+}

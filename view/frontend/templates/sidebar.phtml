@@ -1,0 +1,21 @@
+<?php
+/**
+ * Copyright © 2016 Magmodules.eu. All rights reserved.
+ * See COPYING.txt for license details.
+ * @var $block \Magmodules\WebwinkelKeur\Block\Sidebar
+ */
+?>
+<?php if ($block->getEnabledSidebar()) { ?>
+    <script>
+        (function () {
+            _webwinkelkeur_id = <?php echo (int)$block->getWebshopId(); ?>;
+            _webwinkelkeur_language = '<?php echo $block->escapeHtml($block->getLanguage()); ?>';
+            var js = document.createElement('script');
+            js.type = 'text/javascript';
+            js.async = true;
+            js.src = '//www.webwinkelkeur.nl/js/sidebar.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(js, s);
+        })();
+    </script>
+<?php } ?>

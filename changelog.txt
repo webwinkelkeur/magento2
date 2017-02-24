@@ -1,3 +1,7 @@
+1.0.2
+* Updated composer.json
+* Updated copyright
+
 1.0.1
 * Rewritten review import function (ajax)
 * Bugfixes in widget when using WYSIWYG editor

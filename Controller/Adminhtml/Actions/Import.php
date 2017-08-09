@@ -55,23 +55,23 @@ class Import extends Action
         if (!empty($imports)) {
             foreach ($imports as $key => $data) {
                 if ($data['status'] == 'success') {
-                    $return_msg = __(
+                    $returnMsg = __(
                         '%1: Score %2/%3 with %4 reviews',
                         $data['name'],
                         $data['score'],
                         $data['score_max'],
                         $data['total_reviews']
                     );
-                    $msg[$key] = '<span class="webwinkelkeur-success-import">' . $return_msg . '</span>';
+                    $msg[$key] = '<span class="webwinkelkeur-success-import">' . $returnMsg . '</span>';
                 }
                 if ($data['status'] == 'error') {
-                    $return_msg = __('Webshop ID: %1<br> %2', $key, $data['msg']);
-                    $msg[$key] = '<span class="webwinkelkeur-error-import">' . $return_msg . '</span>';
+                    $returnMsg = __('Webshop ID: %1<br> %2', $key, $data['msg']);
+                    $msg[$key] = '<span class="webwinkelkeur-error-import">' . $returnMsg . '</span>';
                 }
             }
         } else {
-            $return_msg = __('Empty result');
-            $msg[] = '<span class="webwinkelkeur-error-import">' . $return_msg . '</span>';
+            $returnMsg = __('Empty result');
+            $msg[] = '<span class="webwinkelkeur-error-import">' . $returnMsg . '</span>';
         }
 
         $storeId = $this->request->getParam('store');
@@ -84,8 +84,8 @@ class Import extends Action
                     $displayMsg = $msg[$connectorData['webshop_id']];
                 }
             } else {
-                $return_msg = __('No updates found for this storeview');
-                $displayMsg = '<span class="webwinkelkeur-error-import">' . $return_msg . '</span>';
+                $returnMsg = __('No updates found for this storeview');
+                $displayMsg = '<span class="webwinkelkeur-error-import">' . $returnMsg . '</span>';
             }
         } else {
             $displayMsg = implode($msg);

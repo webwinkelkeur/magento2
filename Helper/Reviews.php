@@ -110,7 +110,7 @@ class Reviews extends AbstractHelper
      */
     public function saveReviewResult($result, $type = 'cron')
     {
-        $summary_data = [];
+        $summaryData = [];
         foreach ($result as $key => $row) {
             $error = '';
             if ($row['webshop']['status'] != 'success') {
@@ -122,33 +122,33 @@ class Reviews extends AbstractHelper
             if (empty($error)) {
                 $rating = $row['ratings_summary']['ratings_summary'];
                 $webshop = $row['webshop']['webshop'];
-                $summary_data[$key]['status'] = 'success';
-                $summary_data[$key]['type'] = $type;
-                $summary_data[$key]['name'] = $webshop['name'];
-                $summary_data[$key]['logo'] = $webshop['logo'];
+                $summaryData[$key]['status'] = 'success';
+                $summaryData[$key]['type'] = $type;
+                $summaryData[$key]['name'] = $webshop['name'];
+                $summaryData[$key]['logo'] = $webshop['logo'];
                 foreach ($webshop['languages'] as $language) {
                     $iso = $language['iso'];
                     $url = $language['url'];
-                    $summary_data[$key]['link'][$iso] = $url;
+                    $summaryData[$key]['link'][$iso] = $url;
                     if ($language['main']) {
-                        $summary_data[$key]['link']['default'] = $url;
-                        $summary_data[$key]['iso'] = $language['iso'];
+                        $summaryData[$key]['link']['default'] = $url;
+                        $summaryData[$key]['iso'] = $language['iso'];
                     }
                 }
-                $summary_data[$key]['total_reviews'] = $rating['amount'];
-                $summary_data[$key]['score'] = round($rating['rating_average'], 1);
-                $summary_data[$key]['score_max'] = '10';
-                $summary_data[$key]['percentage'] = round($rating['rating_average'] * 10) . '%';
+                $summaryData[$key]['total_reviews'] = $rating['amount'];
+                $summaryData[$key]['score'] = number_format((float)$rating['rating_average'], 1, '.', '');
+                $summaryData[$key]['score_max'] = '10';
+                $summaryData[$key]['percentage'] = round($rating['rating_average'] * 10) . '%';
             } else {
-                $summary_data[$key]['status'] = 'error';
-                $summary_data[$key]['msg'] = $error;
+                $summaryData[$key]['status'] = 'error';
+                $summaryData[$key]['msg'] = $error;
             }
         }
-        $update_msg = $this->datetime->gmtDate() . ' (' . $type . ')';
-        $this->general->setConfigData(json_encode($summary_data), self::XML_PATH_REVIEWS_RESULT);
-        $this->general->setConfigData($update_msg, self::XML_PATH_REVIEWS_LAST_IMPORT);
+        $updateMsg = $this->datetime->gmtDate() . ' (' . $type . ')';
+        $this->general->setConfigData(json_encode($summaryData), self::XML_PATH_REVIEWS_RESULT);
+        $this->general->setConfigData($updateMsg, self::XML_PATH_REVIEWS_LAST_IMPORT);
 
-        return $summary_data;
+        return $summaryData;
     }
 
     /**
@@ -158,11 +158,11 @@ class Reviews extends AbstractHelper
      */
     public function getSummaryData($storeId)
     {
-        $webshop_id = $this->general->getStoreValue(self::XML_PATH_REVIEWS_WEBSHOP_ID, $storeId);
+        $webshopId = $this->general->getStoreValue(self::XML_PATH_REVIEWS_WEBSHOP_ID, $storeId);
         $data = json_decode($this->general->getStoreValue(self::XML_PATH_REVIEWS_RESULT, $storeId), true);
-        if (!empty($data[$webshop_id]['status'])) {
-            if ($data[$webshop_id]['status'] == 'success') {
-                return $data[$webshop_id];
+        if (!empty($data[$webshopId]['status'])) {
+            if ($data[$webshopId]['status'] == 'success') {
+                return $data[$webshopId];
             }
         }
 
@@ -184,8 +184,8 @@ class Reviews extends AbstractHelper
      */
     public function getLastImported()
     {
-        $last_imported = $this->general->getStoreValue(self::XML_PATH_REVIEWS_LAST_IMPORT);
+        $lastImported = $this->general->getStoreValue(self::XML_PATH_REVIEWS_LAST_IMPORT);
 
-        return $last_imported;
+        return $lastImported;
     }
 }

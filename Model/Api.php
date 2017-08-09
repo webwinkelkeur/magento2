@@ -61,9 +61,9 @@ class Api
      */
     public function getReviews($type)
     {
-        $connector_data = $this->rev->getUniqueConnectorData();
+        $connectorData = $this->rev->getUniqueConnectorData();
         $result = [];
-        foreach ($connector_data as $key => $data) {
+        foreach ($connectorData as $key => $data) {
             $result[$key]['ratings_summary'] = $this->updateReviewStats($data);
             $result[$key]['webshop'] = $this->updateWebshopData($data);
         }
@@ -168,10 +168,10 @@ class Api
 
         if (!empty($config['language'])) {
             if ($config['language'] == 'cus') {
-                $lan_array = array('NL' => 'nld', 'EN' => 'eng', 'DE' => 'deu', 'FR' => 'fra', 'ES' => 'spa');
+                $lanArray = ['NL' => 'nld', 'EN' => 'eng', 'DE' => 'deu', 'FR' => 'fra', 'ES' => 'spa'];
                 $address = $order->getShippingAddress();
-                if (isset($lan_array[$address->getCountry()])) {
-                    $request['language'] = $lan_array[$address->getCountry()];
+                if (isset($lanArray[$address->getCountry()])) {
+                    $request['language'] = $lanArray[$address->getCountry()];
                 }
             } else {
                 $request['language'] = $config['language'];

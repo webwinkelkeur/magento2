@@ -82,12 +82,12 @@ class ImportButton extends Field
     public function getButtonHtml()
     {
         if (!$this->checkConnectorData()) {
-            $button_data = ['id' => 'import_button', 'label' => __('Manually import summary'), 'class' => 'disabled'];
+            $buttonData = ['id' => 'import_button', 'label' => __('Manually import summary'), 'class' => 'disabled'];
         } else {
-            $button_data = ['id' => 'import_button', 'label' => __('Manually import summary')];
+            $buttonData = ['id' => 'import_button', 'label' => __('Manually import summary')];
         }
 
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($button_data);
+        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($buttonData);
 
         return $button->toHtml();
     }

@@ -10,7 +10,7 @@
         <css src="Magmodules_WebwinkelKeur::css/widget.css" />
    </head>
    <referenceContainer name="before.body.end">
-        <block class="\Magmodules\WebwinkelKeur\Block\Sidebar" template="Magmodules_WebwinkelKeur::sidebar.phtml" name="module_js"/>
+        <block class="Magmodules\WebwinkelKeur\Block\Sidebar" template="Magmodules_WebwinkelKeur::sidebar.phtml" name="module_js"/>
     </referenceContainer>
 </page>
 

@@ -1,3 +1,6 @@
+1.0.3
+* Fixes for Magento v2.2
+
 1.0.2
 * Updated composer.json
 * Updated copyright

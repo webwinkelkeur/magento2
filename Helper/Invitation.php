@@ -16,28 +16,44 @@ use Magmodules\WebwinkelKeur\Helper\General as GeneralHelper;
 class Invitation extends AbstractHelper
 {
 
-    const XML_PATH_INVITATION_ENABLED = 'magmodules_webwinkelkeur/invitation/enabled';
-    const XML_PATH_API_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
-    const XML_PATH_API_API_KEY = 'magmodules_webwinkelkeur/api/api_key';
-    const XML_PATH_INVITATION_LANGUAGE = 'magmodules_webwinkelkeur/invitation/language';
-    const XML_PATH_INVITATION_STATUS = 'magmodules_webwinkelkeur/invitation/status';
-    const XML_PATH_INVITATION_DELAY = 'magmodules_webwinkelkeur/invitation/delay';
-    const XML_PATH_INVITATION_BACKLOG = 'magmodules_webwinkelkeur/invitation/backlog';
-    const XML_PATH_RESEND = 'magmodules_webwinkelkeur/invitation/resend_double';
-    const XML_PATH_INVITATION_DEBUG = 'magmodules_webwinkelkeur/invitation/debug';
+    const XPATH_INVITATION_ENABLED = 'magmodules_webwinkelkeur/invitation/enabled';
+    const XPATH_API_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
+    const XPATH_API_API_KEY = 'magmodules_webwinkelkeur/api/api_key';
+    const XPATH_INVITATION_LANGUAGE = 'magmodules_webwinkelkeur/invitation/language';
+    const XPATH_INVITATION_STATUS = 'magmodules_webwinkelkeur/invitation/status';
+    const XPATH_INVITATION_DELAY = 'magmodules_webwinkelkeur/invitation/delay';
+    const XPATH_INVITATION_BACKLOG = 'magmodules_webwinkelkeur/invitation/backlog';
+    const XPATH_RESEND = 'magmodules_webwinkelkeur/invitation/resend_double';
+    const XPATH_INVITATION_DEBUG = 'magmodules_webwinkelkeur/invitation/debug';
 
-    protected $productRepository;
-    protected $imgHelper;
-    protected $general;
-    protected $storeManager;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+
+    /**
+     * @var Image
+     */
+    private $imgHelper;
+
+    /**
+     * @var General
+     */
+    private $generalHelper;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
 
     /**
      * Invitation constructor.
-     * @param Context $context
-     * @param ProductRepository $productRepository
+     *
+     * @param Context               $context
+     * @param ProductRepository     $productRepository
      * @param StoreManagerInterface $storeManager
-     * @param Image $imgHelper
-     * @param General $generalHelper
+     * @param Image                 $imgHelper
+     * @param General               $generalHelper
      */
     public function __construct(
         Context $context,
@@ -48,29 +64,31 @@ class Invitation extends AbstractHelper
     ) {
         $this->productRepository = $productRepository;
         $this->imgHelper = $imgHelper;
-        $this->general = $generalHelper;
+        $this->generalHelper = $generalHelper;
         $this->storeManager = $storeManager;
         parent::__construct($context);
     }
 
     /**
      * Create array of invitation config data
+     *
      * @param $storeId
+     *
      * @return array|bool
      */
     public function getConfigData($storeId)
     {
         if ($this->getEnabledInvitation($storeId)) {
             $config = [];
-            $config['webshop_id'] = $this->general->getStoreValue(self::XML_PATH_API_WEBSHOP_ID, $storeId);
-            $config['api_key'] = $this->general->getStoreValue(self::XML_PATH_API_API_KEY, $storeId);
-            $config['language'] = $this->general->getStoreValue(self::XML_PATH_INVITATION_LANGUAGE, $storeId);
-            $config['status'] = $this->general->getStoreValue(self::XML_PATH_INVITATION_STATUS, $storeId);
-            $config['delay'] = $this->general->getStoreValue(self::XML_PATH_INVITATION_DELAY, $storeId);
-            $config['backlog'] = ($this->general->getStoreValue(self::XML_PATH_INVITATION_BACKLOG, $storeId) * 86400);
-            $config['resend'] = ($this->general->getStoreValue(self::XML_PATH_RESEND, $storeId) == 1) ? 0 : 1;
-            $config['noremail'] = ($this->general->getStoreValue(self::XML_PATH_RESEND, $storeId) == 1) ? 0 : 1;
-            $config['debug'] = $this->general->getStoreValue(self::XML_PATH_INVITATION_DEBUG, $storeId);
+            $config['webshop_id'] = $this->generalHelper->getStoreValue(self::XPATH_API_WEBSHOP_ID, $storeId);
+            $config['api_key'] = $this->generalHelper->getStoreValue(self::XPATH_API_API_KEY, $storeId);
+            $config['language'] = $this->generalHelper->getStoreValue(self::XPATH_INVITATION_LANGUAGE, $storeId);
+            $config['status'] = $this->generalHelper->getStoreValue(self::XPATH_INVITATION_STATUS, $storeId);
+            $config['delay'] = $this->generalHelper->getStoreValue(self::XPATH_INVITATION_DELAY, $storeId);
+            $config['backlog'] = ($this->generalHelper->getStoreValue(self::XPATH_INVITATION_BACKLOG, $storeId) * 86400);
+            $config['resend'] = ($this->generalHelper->getStoreValue(self::XPATH_RESEND, $storeId) == 1) ? 0 : 1;
+            $config['noremail'] = ($this->generalHelper->getStoreValue(self::XPATH_RESEND, $storeId) == 1) ? 0 : 1;
+            $config['debug'] = $this->generalHelper->getStoreValue(self::XPATH_INVITATION_DEBUG, $storeId);
 
             if (empty($config['backlog'])) {
                 $config['backlog'] = (30 * 86400);
@@ -88,13 +106,15 @@ class Invitation extends AbstractHelper
 
     /**
      * Check if Invitation is enabled
+     *
      * @param $storeId
+     *
      * @return bool|mixed
      */
     public function getEnabledInvitation($storeId)
     {
         if ($this->getEnabled($storeId)) {
-            return $this->general->getStoreValue(self::XML_PATH_INVITATION_ENABLED, $storeId);
+            return $this->generalHelper->getStoreValue(self::XPATH_INVITATION_ENABLED, $storeId);
         }
 
         return true;
@@ -102,11 +122,35 @@ class Invitation extends AbstractHelper
 
     /**
      * Check if extension is enabled
+     *
      * @param $storeId
+     *
      * @return mixed
      */
     public function getEnabled($storeId)
     {
-        return $this->general->getEnabled($storeId);
+        return $this->generalHelper->getEnabled($storeId);
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Order $order
+     *
+     * @return mixed
+     */
+    public function getCustomerName($order)
+    {
+        if ($order->getCustomerId()) {
+            return $order->getCustomerName();
+        }
+
+        $firstname = $order->getBillingAddress()->getFirstname();
+        $middlename = $order->getBillingAddress()->getMiddlename();
+        $lastname = $order->getBillingAddress()->getLastname();
+
+        if (!empty($middlename)) {
+            return $firstname . ' ' . $middlename . ' ' . $lastname;
+        } else {
+            return $firstname . ' ' . $lastname;
+        }
     }
 }

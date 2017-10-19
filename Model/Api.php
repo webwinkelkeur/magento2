@@ -22,33 +22,57 @@ class Api
     const WEBSHOP_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/webshop.json?id=%s&code=%s';
     const DEFAULT_TIMEOUT = 5;
 
-    protected $inv;
-    protected $rev;
-    protected $curl;
-    protected $logger;
-    protected $general;
-    protected $date;
+    /**
+     * @var InvitationHelper
+     */
+    private $inviationHelper;
+
+    /**
+     * @var ReviewsHelper
+     */
+    private $reviewHelper;
+
+    /**
+     * @var Curl
+     */
+    private $curl;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @var GeneralHelper
+     */
+    private $generalHelper;
+
+    /**
+     * @var DateTime
+     */
+    private $date;
 
     /**
      * Api constructor.
-     * @param ReviewsHelper $revHelper
-     * @param GeneralHelper $generalHelper
+     *
+     * @param ReviewsHelper    $reviewHelper
+     * @param GeneralHelper    $generalHelper
      * @param InvitationHelper $inviationHelper
-     * @param Curl $curl
-     * @param DateTime $dateTime
-     * @param LoggerInterface $logger
+     * @param Curl             $curl
+     * @param DateTime         $dateTime
+     * @param LoggerInterface  $logger
      */
     public function __construct(
-        ReviewsHelper $revHelper,
+        ReviewsHelper $reviewHelper,
         GeneralHelper $generalHelper,
         InvitationHelper $inviationHelper,
         Curl $curl,
         DateTime $dateTime,
         LoggerInterface $logger
     ) {
-        $this->rev = $revHelper;
-        $this->general = $generalHelper;
-        $this->inv = $inviationHelper;
+        $this->reviewHelper = $reviewHelper;
+        $this->generalHelper = $generalHelper;
+        $this->inviationHelper = $inviationHelper;
         $this->curl = $curl;
         $this->date = $dateTime;
         $this->logger = $logger;
@@ -56,25 +80,29 @@ class Api
 
     /**
      * Get Reviews by looping unique connector data
+     *
      * @param $type
+     *
      * @return array
      */
     public function getReviews($type)
     {
-        $connectorData = $this->rev->getUniqueConnectorData();
+        $connectorData = $this->reviewHelper->getUniqueConnectorData();
         $result = [];
         foreach ($connectorData as $key => $data) {
             $result[$key]['ratings_summary'] = $this->updateReviewStats($data);
             $result[$key]['webshop'] = $this->updateWebshopData($data);
         }
-        $result = $this->rev->saveReviewResult($result, $type);
+        $result = $this->reviewHelper->saveReviewResult($result, $type);
 
         return $result;
     }
 
     /**
      * Get summary data from WebwinkelKeur API
+     *
      * @param $data
+     *
      * @return array|mixed
      */
     public function updateReviewStats($data)
@@ -91,22 +119,23 @@ class Api
 
             if (!empty($result['status'])) {
                 if ($result['status'] == 'error') {
-                    return $this->general->createResponseError($result['message']);
+                    return $this->generalHelper->createResponseError($result['message']);
                 } else {
                     $result = ['status' => 'success', 'ratings_summary' => $result['data']];
 
                     return $result;
                 }
             } else {
-                return $this->general->createResponseError(__('General Error'));
+                return $this->generalHelper->createResponseError(__('General Error'));
             }
         } catch (\Exception $e) {
-            return $this->general->createResponseError($e);
+            return $this->generalHelper->createResponseError($e);
         }
     }
 
     /**
      * @param $data
+     *
      * @return array|mixed
      */
     public function updateWebshopData($data)
@@ -122,30 +151,32 @@ class Api
             $result = json_decode($response, true);
             if (!empty($result['status'])) {
                 if ($result['status'] == 'error') {
-                    return $this->general->createResponseError($result['message']);
+                    return $this->generalHelper->createResponseError($result['message']);
                 } else {
                     $result = ['status' => 'success', 'webshop' => $result['data']];
 
                     return $result;
                 }
             } else {
-                return $this->general->createResponseError(__('General Error'));
+                return $this->generalHelper->createResponseError(__('General Error'));
             }
         } catch (\Exception $e) {
-            return $this->general->createResponseError($e);
+            return $this->generalHelper->createResponseError($e);
         }
     }
 
     /**
      * SendInviation function for Orders
+     *
      * @param Order $order
+     *
      * @return bool|mixed
      */
     public function sendInvitation(Order $order)
     {
         $storeId = $order->getStoreId();
 
-        $config = $this->inv->getConfigData($storeId);
+        $config = $this->inviationHelper->getConfigData($storeId);
         if (empty($config)) {
             return false;
         }
@@ -162,7 +193,7 @@ class Api
         $request['email'] = $order->getCustomerEmail();
         $request['order'] = $order->getIncrementId();
         $request['delay'] = $config['delay'];
-        $request['customer_name'] = $order->getCustomerName();
+        $request['customer_name'] = $this->inviationHelper->getCustomerName($order);
         $request['client'] = 'magento2';
         $request['noremail'] = $config['noremail'];
 
@@ -185,8 +216,10 @@ class Api
 
     /**
      * Post order data for invitation
+     *
      * @param $request
      * @param $config
+     *
      * @return bool|mixed
      */
     public function postInvitation($request, $config)
@@ -211,7 +244,7 @@ class Api
                 $message = 'unknown error';
             }
             if (!empty($config['debug'])) {
-                $debugMsg  = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
+                $debugMsg = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
                 $debugMsg .= '(Status: ' . $status . ', Msg: ' . $message . ', ';
                 $debugMsg .= 'Url: ' . $url . ', Data: ' . json_encode($request) . ')';
                 $this->logger->debug($debugMsg);
@@ -221,7 +254,7 @@ class Api
             }
         } catch (\Exception $e) {
             if (!empty($config['debug'])) {
-                $debugMsg  = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
+                $debugMsg = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
                 $debugMsg .= '(Error: ' . $e . ', Request: ' . $url . ' Data: ' . json_encode($request) . ')';
                 $this->logger->debug($debugMsg);
             }

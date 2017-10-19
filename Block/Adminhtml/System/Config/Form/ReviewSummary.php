@@ -14,23 +14,44 @@ use Magmodules\WebwinkelKeur\Helper\Reviews as ReviewsHelper;
 class ReviewSummary extends Field
 {
 
-    protected $rev;
-    protected $request;
+    /**
+     * @var string
+     */
     protected $_template = 'Magmodules_WebwinkelKeur::system/config/fieldset/summary.phtml';
 
     /**
-     * @param Context $context
-     * @param ReviewsHelper $revHelper
-     * @param array $data
+     * @var ReviewsHelper
+     */
+    private $reviewHelper;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    private $request;
+
+    /**
+     * ReviewSummary constructor.
+     *
+     * @param Context       $context
+     * @param ReviewsHelper $reviewHelper
+     * @param array         $data
      */
     public function __construct(
         Context $context,
-        ReviewsHelper $revHelper,
+        ReviewsHelper $reviewHelper,
         array $data = []
     ) {
-        $this->rev = $revHelper;
+        $this->reviewHelper = $reviewHelper;
         $this->request = $context->getRequest();
         parent::__construct($context, $data);
+    }
+
+    /**
+     * @return null
+     */
+    public function getCacheLifetime()
+    {
+        return null;
     }
 
     /**
@@ -43,11 +64,11 @@ class ReviewSummary extends Field
         $websiteId = $this->request->getParam('website');
 
         if ($websiteId || $storeId) {
-            if ($data = $this->rev->getSummaryData($storeId, $websiteId)) {
+            if ($data = $this->reviewHelper->getSummaryData($storeId, $websiteId)) {
                 $summaryData[] = $data;
             }
         } else {
-            $summaryData = $this->rev->getAllSummaryData();
+            $summaryData = $this->reviewHelper->getAllSummaryData();
         }
 
         return $summaryData;
@@ -55,6 +76,7 @@ class ReviewSummary extends Field
 
     /**
      * @param AbstractElement $element
+     *
      * @return bool
      */
     public function render(AbstractElement $element)
@@ -66,6 +88,7 @@ class ReviewSummary extends Field
 
     /**
      * @param AbstractElement $element
+     *
      * @return bool
      */
     protected function _getElementHtml(AbstractElement $element)

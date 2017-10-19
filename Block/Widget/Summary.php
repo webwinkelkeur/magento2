@@ -14,27 +14,31 @@ use Magmodules\WebwinkelKeur\Helper\Reviews as ReviewsHelper;
 class Summary extends Template implements BlockInterface
 {
 
-    protected $rev;
+    /**
+     * @var ReviewsHelper
+     */
+    private $reviewHelper;
 
     /**
      * Summary constructor.
-     * @param Context $context
-     * @param ReviewsHelper $revHelper
-     * @param array $data
+     *
+     * @param Context       $context
+     * @param ReviewsHelper $reviewHelper
+     * @param array         $data
      */
     public function __construct(
         Context $context,
-        ReviewsHelper $revHelper,
+        ReviewsHelper $reviewHelper,
         array $data = []
     ) {
-        $this->rev = $revHelper;
+        $this->reviewHelper = $reviewHelper;
         parent::__construct($context, $data);
     }
 
     /**
      * Set template file, see getThemePath
      */
-    protected function _construct()
+    public function _construct()
     {
         $template = $this->getData('template');
         parent::_construct();
@@ -57,7 +61,7 @@ class Summary extends Template implements BlockInterface
     public function getSummaryData()
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $summaryData = $this->rev->getSummaryData($storeId);
+        $summaryData = $this->reviewHelper->getSummaryData($storeId);
         if ($summaryData) {
             $iso = $this->getData('webwinkel_url');
             if (empty($iso)) {

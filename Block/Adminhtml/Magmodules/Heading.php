@@ -14,7 +14,9 @@ class Heading extends Field
 
     /**
      * Styles heading sperator
+     *
      * @param AbstractElement $element
+     *
      * @return string
      */
     public function render(AbstractElement $element)

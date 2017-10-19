@@ -19,25 +19,45 @@ class General extends AbstractHelper
 {
 
     const MODULE_CODE = 'Magmodules_WebwinkelKeur';
-    const XML_PATH_EXTENSION_ENABLED = 'magmodules_webwinkelkeur/general/enabled';
-    const XML_PATH_API_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
-    const XML_PATH_SIDEBAR_ENABLED = 'magmodules_webwinkelkeur/sidebar/enabled';
-    const XML_PATH_SIDEBAR_LANGUAGE = 'magmodules_webwinkelkeur/sidebar/language';
+    const XPATH_EXTENSION_ENABLED = 'magmodules_webwinkelkeur/general/enabled';
+    const XPATH_API_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
+    const XPATH_SIDEBAR_ENABLED = 'magmodules_webwinkelkeur/sidebar/enabled';
+    const XPATH_SIDEBAR_LANGUAGE = 'magmodules_webwinkelkeur/sidebar/language';
 
-    protected $moduleList;
-    protected $metadata;
-    protected $storeManager;
-    protected $objectManager;
-    protected $config;
+    /**
+     * @var ModuleListInterface
+     */
+    private $moduleList;
+
+    /**
+     * @var ProductMetadataInterface
+     */
+    private $metadata;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    private $objectManager;
+
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * General constructor.
-     * @param Context $context
-     * @param ObjectManagerInterface $objectManager
-     * @param StoreManagerInterface $storeManager
-     * @param ModuleListInterface $moduleList
+     *
+     * @param Context                  $context
+     * @param ObjectManagerInterface   $objectManager
+     * @param StoreManagerInterface    $storeManager
+     * @param ModuleListInterface      $moduleList
      * @param ProductMetadataInterface $metadata
-     * @param Config $config
+     * @param Config                   $config
      */
     public function __construct(
         Context $context,
@@ -58,7 +78,7 @@ class General extends AbstractHelper
     public function getEnabledSidebar()
     {
         if ($this->getEnabled()) {
-            return $this->getStoreValue(self::XML_PATH_SIDEBAR_ENABLED);
+            return $this->getStoreValue(self::XPATH_SIDEBAR_ENABLED);
         }
 
         return false;
@@ -66,19 +86,23 @@ class General extends AbstractHelper
 
     /**
      * General check if Extension is enabled
+     *
      * @param null $storeId
+     *
      * @return mixed
      */
     public function getEnabled($storeId = null)
     {
-        return $this->getStoreValue(self::XML_PATH_EXTENSION_ENABLED, $storeId);
+        return $this->getStoreValue(self::XPATH_EXTENSION_ENABLED, $storeId);
     }
 
     /**
      * Get Configuration data
-     * @param $path
-     * @param $scope
+     *
+     * @param      $path
+     * @param      $scope
      * @param null $storeId
+     *
      * @return mixed
      */
     public function getStoreValue($path, $storeId = null, $scope = null)
@@ -93,6 +117,7 @@ class General extends AbstractHelper
     /**
      * @param $path
      * @param $websiteId
+     *
      * @return mixed
      */
     public function getWebsiteValue($path, $websiteId)
@@ -105,7 +130,7 @@ class General extends AbstractHelper
      */
     public function getWebshopId()
     {
-        return $this->getStoreValue(self::XML_PATH_API_WEBSHOP_ID);
+        return $this->getStoreValue(self::XPATH_API_WEBSHOP_ID);
     }
 
     /**
@@ -113,13 +138,14 @@ class General extends AbstractHelper
      */
     public function getLanguage()
     {
-        return $this->getStoreValue(self::XML_PATH_SIDEBAR_LANGUAGE);
+        return $this->getStoreValue(self::XPATH_SIDEBAR_LANGUAGE);
     }
-    
+
     /**
      * Set configuration data function
-     * @param $value
-     * @param $key
+     *
+     * @param      $value
+     * @param      $key
      * @param null $storeId
      */
     public function setConfigData($value, $key, $storeId = null)
@@ -133,7 +159,9 @@ class General extends AbstractHelper
 
     /**
      * Create error response array for usage in config (manual import)
+     *
      * @param $msg
+     *
      * @return array
      */
     public function createResponseError($msg)
@@ -145,6 +173,7 @@ class General extends AbstractHelper
 
     /**
      * Returns current version of the extension
+     *
      * @return mixed
      */
     public function getExtensionVersion()
@@ -156,6 +185,7 @@ class General extends AbstractHelper
 
     /**
      * Returns current version of Magento
+     *
      * @return string
      */
     public function getMagentoVersion()

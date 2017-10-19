@@ -10,10 +10,14 @@ use Magmodules\WebwinkelKeur\Model\Api as ApiModel;
 class ImportReviews
 {
 
-    protected $apiModel;
+    /**
+     * @var ApiModel
+     */
+    private $apiModel;
 
     /**
      * ImportReviews constructor.
+     *
      * @param ApiModel $apiModel
      */
     public function __construct(ApiModel $apiModel)

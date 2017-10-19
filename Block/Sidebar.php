@@ -14,41 +14,47 @@ use Magmodules\WebwinkelKeur\Helper\General as GeneralHelper;
 class Sidebar extends Template implements BlockInterface
 {
 
-    protected $general;
-    protected $storeManager;
+    /**
+     * @var GeneralHelper
+     */
+    private $generalHelper;
 
     /**
      * Summary constructor.
-     * @param Context $context
+     *
+     * @param Context       $context
      * @param GeneralHelper $generalHelper
-     * @param array $data
-     * @internal param ReviewsHelper $revHelper
+     * @param array         $data
+     *
+     * @internal param ReviewsHelper $reviewHelper
      */
     public function __construct(
         Context $context,
         GeneralHelper $generalHelper,
         array $data = []
     ) {
-        $this->general = $generalHelper;
+        $this->generalHelper = $generalHelper;
         parent::__construct($context, $data);
     }
 
     /**
      * Check if sidebar is enabled
+     *
      * @return bool|mixed
      */
     public function getEnabledSidebar()
     {
-        return $this->general->getEnabledSidebar();
+        return $this->generalHelper->getEnabledSidebar();
     }
 
     /**
      * Returns WebshopId for _webwinkelkeur_id JS
+     *
      * @return mixed
      */
     public function getWebshopId()
     {
-        return $this->general->getWebshopId();
+        return $this->generalHelper->getWebshopId();
     }
 
     /**
@@ -56,6 +62,6 @@ class Sidebar extends Template implements BlockInterface
      */
     public function getLanguage()
     {
-        return $this->general->getLanguage();
+        return $this->generalHelper->getLanguage();
     }
 }

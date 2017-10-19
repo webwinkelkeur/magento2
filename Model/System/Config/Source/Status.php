@@ -12,10 +12,14 @@ use Magento\Sales\Model\Order\Config;
 class Status implements ArrayInterface
 {
 
-    protected $orderConfig;
+    /**
+     * @var Config
+     */
+    private $orderConfig;
 
     /**
      * Status constructor.
+     *
      * @param Config $orderConfig
      */
     public function __construct(Config $orderConfig)
@@ -25,6 +29,7 @@ class Status implements ArrayInterface
 
     /**
      * Get order statuses array
+     *
      * @return array
      */
     public function toOptionArray()

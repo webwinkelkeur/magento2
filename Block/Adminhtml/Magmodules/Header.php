@@ -17,28 +17,39 @@ class Header extends Field
     /** Module and support code for loading image */
     const MODULE_CODE = 'webwinkelkeur-magento2';
 
-    /** Support and contact link */
+    /** Support link */
     const MODULE_SUPPORT_LINK = 'https://www.magmodules.eu/help/' . self::MODULE_CODE;
+
+    /** Contact link */
     const MODULE_CONTACT_LINK = 'https://www.magmodules.eu/support.html?ext=' . self::MODULE_CODE;
 
-    protected $general;
+    /**
+     * @var string
+     */
     protected $_template = 'Magmodules_WebwinkelKeur::system/config/fieldset/header.phtml';
 
     /**
+     * @var GeneralHelper
+     */
+    private $generalHelper;
+
+    /**
      * Header constructor.
-     * @param Context $context
-     * @param GeneralHelper $general
+     *
+     * @param Context       $context
+     * @param GeneralHelper $generalHelper
      */
     public function __construct(
         Context $context,
-        GeneralHelper $general
+        GeneralHelper $generalHelper
     ) {
-        $this->general = $general;
+        $this->generalHelper = $generalHelper;
         parent::__construct($context);
     }
 
     /**
      * @param AbstractElement $element
+     *
      * @return string
      */
     public function render(AbstractElement $element)
@@ -50,18 +61,20 @@ class Header extends Field
 
     /**
      * Image with extension and magento version
+     *
      * @return string
      */
     public function getImage()
     {
-        $extVersion = $this->general->getExtensionVersion();
-        $magVersion = $this->general->getMagentoVersion();
+        $extVersion = $this->generalHelper->getExtensionVersion();
+        $magVersion = $this->generalHelper->getMagentoVersion();
 
         return sprintf('https://www.magmodules.eu/logo/%s/%s/%s/logo.png', self::MODULE_CODE, $extVersion, $magVersion);
     }
 
     /**
      * Contact link for extension
+     *
      * @return string
      */
     public function getContactLink()
@@ -71,6 +84,7 @@ class Header extends Field
 
     /**
      * Support link for extension
+     *
      * @return string
      */
     public function getSupportLink()

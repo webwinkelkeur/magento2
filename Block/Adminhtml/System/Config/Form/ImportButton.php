@@ -14,27 +14,39 @@ use Magmodules\WebwinkelKeur\Helper\Reviews as ReviewsHelper;
 class ImportButton extends Field
 {
 
-    protected $rev;
-    protected $request;
+    /**
+     * @var string
+     */
     protected $_template = 'Magmodules_WebwinkelKeur::system/config/button/button.phtml';
 
     /**
-     * @param Context $context
-     * @param ReviewsHelper $revHelper
-     * @param array $data
+     * @var ReviewsHelper
+     */
+    private $reviewHelper;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    private $request;
+
+    /**
+     * @param Context       $context
+     * @param ReviewsHelper $reviewHelper
+     * @param array         $data
      */
     public function __construct(
         Context $context,
-        ReviewsHelper $revHelper,
+        ReviewsHelper $reviewHelper,
         array $data = []
     ) {
-        $this->rev = $revHelper;
+        $this->reviewHelper = $reviewHelper;
         $this->request = $context->getRequest();
         parent::__construct($context, $data);
     }
 
     /**
      * @param AbstractElement $element
+     *
      * @return string
      */
     public function render(AbstractElement $element)
@@ -46,6 +58,7 @@ class ImportButton extends Field
 
     /**
      * @param AbstractElement $element
+     *
      * @return string
      */
     public function _getElementHtml(AbstractElement $element)
@@ -69,11 +82,12 @@ class ImportButton extends Field
 
     /**
      * Get's last imported date to display as comment msg under button
+     *
      * @return mixed
      */
     public function getLastImported()
     {
-        return $this->rev->getLastImported();
+        return $this->reviewHelper->getLastImported();
     }
 
     /**
@@ -92,7 +106,6 @@ class ImportButton extends Field
         return $button->toHtml();
     }
 
-
     /**
      * @return bool
      */
@@ -101,7 +114,7 @@ class ImportButton extends Field
         $storeId = $this->request->getParam('store');
         $websiteId = $this->request->getParam('website');
 
-        if ($oauthData = $this->rev->getConnectorData($storeId, $websiteId)) {
+        if ($oauthData = $this->reviewHelper->getConnectorData($storeId, $websiteId)) {
             return true;
         }
 

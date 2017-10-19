@@ -16,27 +16,48 @@ use Magmodules\WebwinkelKeur\Model\Api as ApiModel;
 class Import extends Action
 {
 
-    protected $resultJsonFactory;
-    protected $apiModel;
-    protected $request;
-    protected $rev;
-    protected $cacheTypeList;
+    /**
+     * @var JsonFactory
+     */
+    private $resultJsonFactory;
+
+    /**
+     * @var ApiModel
+     */
+    private $apiModel;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    private $request;
+
+    /**
+     * @var ReviewsHelper
+     */
+    private $reviewHelper;
+
+    /**
+     * @var TypeListInterface
+     */
+    private $cacheTypeList;
 
     /**
      * Import constructor.
-     * @param Context $context
-     * @param ApiModel $apiModel
-     * @param JsonFactory $resultJsonFactory
-     * @param ReviewsHelper $revHelper
+     *
+     * @param Context           $context
+     * @param ApiModel          $apiModel
+     * @param JsonFactory       $resultJsonFactory
+     * @param ReviewsHelper     $reviewHelper
+     * @param TypeListInterface $cacheTypeList
      */
     public function __construct(
         Context $context,
         ApiModel $apiModel,
         JsonFactory $resultJsonFactory,
-        ReviewsHelper $revHelper,
+        ReviewsHelper $reviewHelper,
         TypeListInterface $cacheTypeList
     ) {
-        $this->rev = $revHelper;
+        $this->reviewHelper = $reviewHelper;
         $this->apiModel = $apiModel;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->request = $context->getRequest();
@@ -78,7 +99,7 @@ class Import extends Action
         $websiteId = $this->request->getParam('website');
         $displayMsg = '';
         if ($storeId || $websiteId) {
-            $connectorData = $this->rev->getConnectorData($storeId, $websiteId);
+            $connectorData = $this->reviewHelper->getConnectorData($storeId, $websiteId);
             if (!empty($connectorData['webshop_id'])) {
                 if (!empty($msg[$connectorData['webshop_id']])) {
                     $displayMsg = $msg[$connectorData['webshop_id']];

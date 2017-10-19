@@ -17,18 +17,36 @@ use Magento\Framework\App\Cache\TypeListInterface;
 class Reviews extends AbstractHelper
 {
 
-    const XML_PATH_REVIEWS_ENABLED = 'magmodules_webwinkelkeur/reviews/enabled';
-    const XML_PATH_REVIEWS_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
-    const XML_PATH_REVIEWS_API_KEY = 'magmodules_webwinkelkeur/api/api_key';
-    const XML_PATH_REVIEWS_RESULT = 'magmodules_webwinkelkeur/reviews/result';
-    const XML_PATH_REVIEWS_LAST_IMPORT = 'magmodules_webwinkelkeur/reviews/last_import';
+    const XPATH_REVIEWS_ENABLED = 'magmodules_webwinkelkeur/reviews/enabled';
+    const XPATH_REVIEWS_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
+    const XPATH_REVIEWS_API_KEY = 'magmodules_webwinkelkeur/api/api_key';
+    const XPATH_REVIEWS_RESULT = 'magmodules_webwinkelkeur/reviews/result';
+    const XPATH_REVIEWS_LAST_IMPORT = 'magmodules_webwinkelkeur/reviews/last_import';
 
-    protected $datetime;
-    protected $timezone;
-    protected $storeManager;
-    protected $general;
-    protected $config;
-    protected $cacheTypeList;
+    /**
+     * @var DateTime
+     */
+    private $datetime;
+
+    /**
+     * @var TimezoneInterface
+     */
+    private $timezone;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
+     * @var General
+     */
+    private $generalHelper;
+
+    /**
+     * @var TypeListInterface
+     */
+    private $cacheTypeList;
 
     /**
      * Reviews constructor.
@@ -50,7 +68,7 @@ class Reviews extends AbstractHelper
         $this->datetime = $datetime;
         $this->timezone = $timezone;
         $this->storeManager = $storeManager;
-        $this->general = $generalHelper;
+        $this->generalHelper = $generalHelper;
         $this->cacheTypeList = $cacheTypeList;
         parent::__construct($context);
     }
@@ -82,13 +100,13 @@ class Reviews extends AbstractHelper
         $connectorData = [];
 
         if ($websiteId) {
-            $reviewsEnabled = $this->general->getWebsiteValue(self::XML_PATH_REVIEWS_ENABLED, $websiteId);
-            $webshopId = $this->general->getWebsiteValue(self::XML_PATH_REVIEWS_WEBSHOP_ID, $websiteId);
-            $apiKey = $this->general->getWebsiteValue(self::XML_PATH_REVIEWS_API_KEY, $websiteId);
+            $reviewsEnabled = $this->generalHelper->getWebsiteValue(self::XPATH_REVIEWS_ENABLED, $websiteId);
+            $webshopId = $this->generalHelper->getWebsiteValue(self::XPATH_REVIEWS_WEBSHOP_ID, $websiteId);
+            $apiKey = $this->generalHelper->getWebsiteValue(self::XPATH_REVIEWS_API_KEY, $websiteId);
         } else {
-            $reviewsEnabled = $this->general->getStoreValue(self::XML_PATH_REVIEWS_ENABLED, $storeId);
-            $webshopId = $this->general->getStoreValue(self::XML_PATH_REVIEWS_WEBSHOP_ID, $storeId);
-            $apiKey = $this->general->getStoreValue(self::XML_PATH_REVIEWS_API_KEY, $storeId);
+            $reviewsEnabled = $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_ENABLED, $storeId);
+            $webshopId = $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_WEBSHOP_ID, $storeId);
+            $apiKey = $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_API_KEY, $storeId);
         }
 
         if ($reviewsEnabled && $webshopId && $apiKey) {
@@ -145,8 +163,8 @@ class Reviews extends AbstractHelper
             }
         }
         $updateMsg = $this->datetime->gmtDate() . ' (' . $type . ')';
-        $this->general->setConfigData(json_encode($summaryData), self::XML_PATH_REVIEWS_RESULT);
-        $this->general->setConfigData($updateMsg, self::XML_PATH_REVIEWS_LAST_IMPORT);
+        $this->generalHelper->setConfigData(json_encode($summaryData), self::XPATH_REVIEWS_RESULT);
+        $this->generalHelper->setConfigData($updateMsg, self::XPATH_REVIEWS_LAST_IMPORT);
 
         return $summaryData;
     }
@@ -158,8 +176,8 @@ class Reviews extends AbstractHelper
      */
     public function getSummaryData($storeId)
     {
-        $webshopId = $this->general->getStoreValue(self::XML_PATH_REVIEWS_WEBSHOP_ID, $storeId);
-        $data = json_decode($this->general->getStoreValue(self::XML_PATH_REVIEWS_RESULT, $storeId), true);
+        $webshopId = $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_WEBSHOP_ID, $storeId);
+        $data = json_decode($this->generalHelper->getStoreValue(self::XPATH_REVIEWS_RESULT, $storeId), true);
         if (!empty($data[$webshopId]['status'])) {
             if ($data[$webshopId]['status'] == 'success') {
                 return $data[$webshopId];
@@ -175,7 +193,7 @@ class Reviews extends AbstractHelper
      */
     public function getAllSummaryData()
     {
-        return json_decode($this->general->getStoreValue(self::XML_PATH_REVIEWS_RESULT), true);
+        return json_decode($this->generalHelper->getStoreValue(self::XPATH_REVIEWS_RESULT), true);
     }
 
     /**
@@ -184,7 +202,7 @@ class Reviews extends AbstractHelper
      */
     public function getLastImported()
     {
-        $lastImported = $this->general->getStoreValue(self::XML_PATH_REVIEWS_LAST_IMPORT);
+        $lastImported = $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_LAST_IMPORT);
 
         return $lastImported;
     }

@@ -198,21 +198,19 @@ class Api
         $request['noremail'] = $config['noremail'];
 
         if (!empty($config['language'])) {
+            $request['language'] = $config['language'];
             if ($config['language'] == 'cus') {
                 $lanArray = ['NL' => 'nld', 'EN' => 'eng', 'DE' => 'deu', 'FR' => 'fra', 'ES' => 'spa'];
-                $address = $order->getShippingAddress();
-                if (isset($lanArray[$address->getCountry()])) {
-                    $request['language'] = $lanArray[$address->getCountry()];
+                if (!empty($address)) {
+                    if (isset($lanArray[$address->getCountry()])) {
+                        $request['language'] = $lanArray[$address->getCountry()];
+                    }
                 }
-            } else {
-                $request['language'] = $config['language'];
             }
         }
-
-        $result = $this->postInvitation($request, $config);
-
-        return $result;
+        return $this->postInvitation($request, $config);
     }
+
 
     /**
      * Post order data for invitation

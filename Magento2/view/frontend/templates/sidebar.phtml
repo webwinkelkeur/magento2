@@ -1,0 +1,24 @@
+<?php
+/**
+ * Copyright © 2017 Magmodules.eu. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * @var $block \WebwinkelKeur\Magento2\Block\Sidebar
+ */
+?>
+<?php if ($block->getEnabledSidebar()) { ?>
+    <script>
+        require(['jquery'], function ($) {
+            (function () {
+                _webwinkelkeur_id = <?php echo (int)$block->getWebshopId(); ?>;
+                _webwinkelkeur_language = '<?php echo $block->escapeHtml($block->getLanguage()); ?>';
+                var js = document.createElement('script');
+                js.type = 'text/javascript';
+                js.async = true;
+                js.src = '//dashboard.webwinkelkeur.nl/webshops/sidebar.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(js, s);
+            })();
+        });
+    </script>
+<?php } ?>

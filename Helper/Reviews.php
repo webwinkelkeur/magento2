@@ -4,9 +4,9 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Helper;
+namespace WebwinkelKeur\Magento2\Helper;
 
-use Magmodules\WebwinkelKeur\Helper\General as GeneralHelper;
+use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Store\Model\StoreManagerInterface;

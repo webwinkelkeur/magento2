@@ -4,12 +4,12 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Block;
+namespace WebwinkelKeur\Magento2\Block;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
 use Magento\Backend\Block\Template\Context;
-use Magmodules\WebwinkelKeur\Helper\General as GeneralHelper;
+use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
 
 class Sidebar extends Template implements BlockInterface
 {

@@ -3,9 +3,9 @@
  * Copyright © 2017 Magmodules.eu. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Magmodules\WebwinkelKeur\Cron;
+namespace WebwinkelKeur\Magento2\Cron;
 
-use Magmodules\WebwinkelKeur\Model\Api as ApiModel;
+use WebwinkelKeur\Magento2\Model\Api as ApiModel;
 
 class ImportReviews
 {

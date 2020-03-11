@@ -4,11 +4,11 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Model;
+namespace WebwinkelKeur\Magento2\Model;
 
-use Magmodules\WebwinkelKeur\Helper\General as GeneralHelper;
-use Magmodules\WebwinkelKeur\Helper\Reviews as ReviewsHelper;
-use Magmodules\WebwinkelKeur\Helper\Invitation as InvitationHelper;
+use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
+use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
+use WebwinkelKeur\Magento2\Helper\Invitation as InvitationHelper;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
 use Psr\Log\LoggerInterface;

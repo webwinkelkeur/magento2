@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-/**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
-    <widget id="webwinkelkeur_summay_widget" class="Magmodules\WebwinkelKeur\Block\Widget\Summary" placeholder_image="Magmodules_WebwinkelKeur::images/summary_widget.png">
+    <widget id="webwinkelkeur_summay_widget" class="WebwinkelKeur\Magento2\Block\Widget\Summary" placeholder_image="WebwinkelKeur::images/summary_widget.png">
 		<label translate="true">WebwinkelKeur - Summary Widget</label>
 		<description>Add WebwinkelKeur summary widget</description>
         <parameters>
 			<parameter name="template" xsi:type="select" visible="true">
 				<label translate="true">Template</label>
                 <options>
-                    <option name="small" value="Magmodules_WebwinkelKeur::widget/small.phtml">
+                    <option name="small" value="WebwinkelKeur_Magento2::widget/small.phtml">
                         <label translate="true">Small Summary Widget</label>
                     </option>
-                    <option name="big" value="Magmodules_WebwinkelKeur::widget/big.phtml">
+                    <option name="big" value="WebwinkelKeur_Magento2::widget/big.phtml">
                         <label translate="true">Big Summary Widget</label>
                     </option>
                 </options>
@@ -40,7 +34,7 @@
 						<label translate="true">German</label>
 					</option>
 				</options>
-			</parameter>			
+			</parameter>
 			<parameter name="rich_snippets" xsi:type="select" source_model="Magento\Config\Model\Config\Source\Yesno" visible="true" sort_order="2" >
 				<label translate="true">Add Rich Snippets</label>
 			</parameter>

@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Helper;
+namespace WebwinkelKeur\Magento2\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
@@ -18,7 +18,7 @@ use Magento\Framework\App\ProductMetadataInterface;
 class General extends AbstractHelper
 {
 
-    const MODULE_CODE = 'Magmodules_WebwinkelKeur';
+    const MODULE_CODE = 'WebwinkelKeur_Magento2';
     const XPATH_EXTENSION_ENABLED = 'magmodules_webwinkelkeur/general/enabled';
     const XPATH_API_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
     const XPATH_SIDEBAR_ENABLED = 'magmodules_webwinkelkeur/sidebar/enabled';

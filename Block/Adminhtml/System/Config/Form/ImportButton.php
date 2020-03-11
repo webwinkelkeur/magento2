@@ -4,12 +4,12 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Block\Adminhtml\System\Config\Form;
+namespace WebwinkelKeur\Magento2\Block\Adminhtml\System\Config\Form;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magmodules\WebwinkelKeur\Helper\Reviews as ReviewsHelper;
+use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
 
 class ImportButton extends Field
 {
@@ -17,7 +17,7 @@ class ImportButton extends Field
     /**
      * @var string
      */
-    protected $_template = 'Magmodules_WebwinkelKeur::system/config/button/button.phtml';
+    protected $_template = 'WebwinkelKeur_Magento2::system/config/button/button.phtml';
 
     /**
      * @var ReviewsHelper

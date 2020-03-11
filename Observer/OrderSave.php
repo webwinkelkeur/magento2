@@ -4,11 +4,11 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Observer;
+namespace WebwinkelKeur\Magento2\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
-use Magmodules\WebwinkelKeur\Model\Api as ApiModel;
+use WebwinkelKeur\Magento2\Model\Api as ApiModel;
 use Psr\Log\LoggerInterface;
 
 class OrderSave implements ObserverInterface

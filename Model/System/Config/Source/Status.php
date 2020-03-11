@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Model\System\Config\Source;
+namespace WebwinkelKeur\Magento2\Model\System\Config\Source;
 
 use Magento\Framework\Option\ArrayInterface;
 use Magento\Sales\Model\Order\Config;

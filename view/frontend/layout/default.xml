@@ -1,16 +1,10 @@
 <?xml version="1.0"?>
-<!--
-/**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
    <head>
-        <css src="Magmodules_WebwinkelKeur::css/widget.css" />
+        <css src="WebwinkelKeur_Magento2::css/widget.css" />
    </head>
    <referenceContainer name="before.body.end">
-        <block class="Magmodules\WebwinkelKeur\Block\Sidebar" template="Magmodules_WebwinkelKeur::sidebar.phtml" name="module_js"/>
+        <block class="WebwinkelKeur\Magento2\Block\Sidebar" template="WebwinkelKeur_Magento2::sidebar.phtml" name="module_js"/>
     </referenceContainer>
 </page>
 

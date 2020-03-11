@@ -1,10 +1,4 @@
 <?xml version="1.0" ?>
-<!--
-/**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
     <acl>
         <resources>
@@ -12,7 +6,7 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="Magmodules_WebwinkelKeur::config" title="WebwinkelKeur" sortOrder="80" />
+                            <resource id="WebwinkelKeur_Magento2::config" title="WebwinkelKeur" sortOrder="80" />
                         </resource>
                     </resource>
                 </resource>

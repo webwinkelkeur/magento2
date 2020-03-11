@@ -6,6 +6,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Magmodules_WebwinkelKeur',
+    'WebwinkelKeur_Magento2',
     __DIR__
 );

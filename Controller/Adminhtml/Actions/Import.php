@@ -4,14 +4,14 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magmodules\WebwinkelKeur\Controller\Adminhtml\Actions;
+namespace WebwinkelKeur\Magento2\Controller\Adminhtml\Actions;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\App\Cache\TypeListInterface;
-use Magmodules\WebwinkelKeur\Helper\Reviews as ReviewsHelper;
-use Magmodules\WebwinkelKeur\Model\Api as ApiModel;
+use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
+use WebwinkelKeur\Magento2\Model\Api as ApiModel;
 
 class Import extends Action
 {
@@ -124,6 +124,6 @@ class Import extends Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magmodules_WebwinkelKeur::config');
+        return $this->_authorization->isAllowed('WebwinkelKeur_Magento2::config');
     }
 }

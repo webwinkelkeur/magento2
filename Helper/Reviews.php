@@ -17,11 +17,11 @@ use Magento\Framework\App\Cache\TypeListInterface;
 class Reviews extends AbstractHelper
 {
 
-    const XPATH_REVIEWS_ENABLED = 'magmodules_webwinkelkeur/reviews/enabled';
-    const XPATH_REVIEWS_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
-    const XPATH_REVIEWS_API_KEY = 'magmodules_webwinkelkeur/api/api_key';
-    const XPATH_REVIEWS_RESULT = 'magmodules_webwinkelkeur/reviews/result';
-    const XPATH_REVIEWS_LAST_IMPORT = 'magmodules_webwinkelkeur/reviews/last_import';
+    const XPATH_REVIEWS_ENABLED = 'webwinkelkeur_magento2/reviews/enabled';
+    const XPATH_REVIEWS_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
+    const XPATH_REVIEWS_API_KEY = 'webwinkelkeur_magento2/api/api_key';
+    const XPATH_REVIEWS_RESULT = 'webwinkelkeur_magento2/reviews/result';
+    const XPATH_REVIEWS_LAST_IMPORT = 'webwinkelkeur_magento2/reviews/last_import';
 
     /**
      * @var DateTime

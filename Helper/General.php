@@ -19,10 +19,10 @@ class General extends AbstractHelper
 {
 
     const MODULE_CODE = 'WebwinkelKeur_Magento2';
-    const XPATH_EXTENSION_ENABLED = 'magmodules_webwinkelkeur/general/enabled';
-    const XPATH_API_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
-    const XPATH_SIDEBAR_ENABLED = 'magmodules_webwinkelkeur/sidebar/enabled';
-    const XPATH_SIDEBAR_LANGUAGE = 'magmodules_webwinkelkeur/sidebar/language';
+    const XPATH_EXTENSION_ENABLED = 'webwinkelkeur_magento2/general/enabled';
+    const XPATH_API_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
+    const XPATH_SIDEBAR_ENABLED = 'webwinkelkeur_magento2/sidebar/enabled';
+    const XPATH_SIDEBAR_LANGUAGE = 'webwinkelkeur_magento2/sidebar/language';
 
     /**
      * @var ModuleListInterface

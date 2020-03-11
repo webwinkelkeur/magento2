@@ -16,15 +16,15 @@ use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
 class Invitation extends AbstractHelper
 {
 
-    const XPATH_INVITATION_ENABLED = 'magmodules_webwinkelkeur/invitation/enabled';
-    const XPATH_API_WEBSHOP_ID = 'magmodules_webwinkelkeur/api/webshop_id';
-    const XPATH_API_API_KEY = 'magmodules_webwinkelkeur/api/api_key';
-    const XPATH_INVITATION_LANGUAGE = 'magmodules_webwinkelkeur/invitation/language';
-    const XPATH_INVITATION_STATUS = 'magmodules_webwinkelkeur/invitation/status';
-    const XPATH_INVITATION_DELAY = 'magmodules_webwinkelkeur/invitation/delay';
-    const XPATH_INVITATION_BACKLOG = 'magmodules_webwinkelkeur/invitation/backlog';
-    const XPATH_RESEND = 'magmodules_webwinkelkeur/invitation/resend_double';
-    const XPATH_INVITATION_DEBUG = 'magmodules_webwinkelkeur/invitation/debug';
+    const XPATH_INVITATION_ENABLED = 'webwinkelkeur_magento2/invitation/enabled';
+    const XPATH_API_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
+    const XPATH_API_API_KEY = 'webwinkelkeur_magento2/api/api_key';
+    const XPATH_INVITATION_LANGUAGE = 'webwinkelkeur_magento2/invitation/language';
+    const XPATH_INVITATION_STATUS = 'webwinkelkeur_magento2/invitation/status';
+    const XPATH_INVITATION_DELAY = 'webwinkelkeur_magento2/invitation/delay';
+    const XPATH_INVITATION_BACKLOG = 'webwinkelkeur_magento2/invitation/backlog';
+    const XPATH_RESEND = 'webwinkelkeur_magento2/invitation/resend_double';
+    const XPATH_INVITATION_DEBUG = 'webwinkelkeur_magento2/invitation/debug';
 
     /**
      * @var ProductRepository

@@ -25,4 +25,4 @@ rm -rf bin
 
 zip -qr9 "$out" *
 
-echo "$relout" >&2
+echo "$relout"

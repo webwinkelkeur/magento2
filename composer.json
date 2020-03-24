@@ -2,7 +2,7 @@
   "name": "webwinkelkeur/magento2",
   "description": "WebwinkelKeur integration for Magento 2",
   "type": "magento2-module",
-  "version": "2.0.0",
+  "version": "$VERSION$",
   "license": [
     "OSL-3.0",
     "AFL-3.0"

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+version="$(git describe --tags --match 'v*')"
+version="${version#v}"
+
+relout="dist/webwinkelkeur-magento2-$version.zip"
+out="$PWD/$relout"
+
+rm -f "$out"
+mkdir -p "$(dirname "$out")"
+
+tmp="$(mktemp -d)"
+cleanup() { rm -rf "$tmp"; }
+trap cleanup EXIT
+
+git archive HEAD . | tar xf - -C "$tmp"
+
+cd "$tmp"
+grep -FlR '$VERSION$' . | xargs -r -d'\n' perl -p -i -e 's/\$VERSION\$/'"$version"'/g'
+
+rm -rf bin
+
+zip -qr9 "$out" *
+
+echo "$relout" >&2

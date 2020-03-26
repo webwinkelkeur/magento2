@@ -8,14 +8,11 @@ namespace WebwinkelKeur\Magento2\Model\System\Config\Source;
 
 use Magento\Framework\Option\ArrayInterface;
 
-class SidebarLanguage implements ArrayInterface
-{
-
+class SidebarLanguage implements ArrayInterface {
     /**
      * @return array
      */
-    public function toOptionArray()
-    {
+    public function toOptionArray() {
         $language = [];
         $language[] = ['value' => '', 'label' => __('Use default')];
         $language[] = ['value' => 'nl', 'label' => __('Dutch')];

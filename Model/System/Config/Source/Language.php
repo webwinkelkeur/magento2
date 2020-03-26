@@ -8,14 +8,11 @@ namespace WebwinkelKeur\Magento2\Model\System\Config\Source;
 
 use Magento\Framework\Option\ArrayInterface;
 
-class Language implements ArrayInterface
-{
-
+class Language implements ArrayInterface {
     /**
      * @return array
      */
-    public function toOptionArray()
-    {
+    public function toOptionArray() {
         $language = [];
         $language[] = ['value' => '', 'label' => __('Use default')];
         $language[] = ['value' => 'cus', 'label' => __('Based on customer country')];

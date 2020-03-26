@@ -7,9 +7,7 @@ namespace WebwinkelKeur\Magento2\Cron;
 
 use WebwinkelKeur\Magento2\Model\Api as ApiModel;
 
-class ImportReviews
-{
-
+class ImportReviews {
     /**
      * @var ApiModel
      */
@@ -20,16 +18,14 @@ class ImportReviews
      *
      * @param ApiModel $apiModel
      */
-    public function __construct(ApiModel $apiModel)
-    {
+    public function __construct(ApiModel $apiModel) {
         $this->apiModel = $apiModel;
     }
 
     /**
      * Execute import of reviews though API model
      */
-    public function execute()
-    {
+    public function execute() {
         $type = 'cron';
         $this->apiModel->getReviews($type);
     }

@@ -11,9 +11,7 @@ use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
 
-class ImportButton extends Field
-{
-
+class ImportButton extends Field {
     /**
      * @var string
      */
@@ -49,8 +47,7 @@ class ImportButton extends Field
      *
      * @return string
      */
-    public function render(AbstractElement $element)
-    {
+    public function render(AbstractElement $element) {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
 
         return parent::render($element);
@@ -61,23 +58,20 @@ class ImportButton extends Field
      *
      * @return string
      */
-    public function _getElementHtml(AbstractElement $element)
-    {
+    public function _getElementHtml(AbstractElement $element) {
         return $this->_toHtml();
     }
 
     /**
      * @return string
      */
-    public function getAjaxUrl()
-    {
+    public function getAjaxUrl() {
         $storeId = $this->request->getParam('store', 0);
         $websiteId = $this->request->getParam('website');
         if (!empty($websiteId)) {
             return $this->getUrl('webwinkelkeur/actions/import/website/' . $websiteId);
-        } else {
-            return $this->getUrl('webwinkelkeur/actions/import/store/' . $storeId);
         }
+        return $this->getUrl('webwinkelkeur/actions/import/store/' . $storeId);
     }
 
     /**
@@ -85,16 +79,14 @@ class ImportButton extends Field
      *
      * @return mixed
      */
-    public function getLastImported()
-    {
+    public function getLastImported() {
         return $this->reviewHelper->getLastImported();
     }
 
     /**
      * @return mixed
      */
-    public function getButtonHtml()
-    {
+    public function getButtonHtml() {
         if (!$this->checkConnectorData()) {
             $buttonData = ['id' => 'import_button', 'label' => __('Manually import summary'), 'class' => 'disabled'];
         } else {
@@ -109,8 +101,7 @@ class ImportButton extends Field
     /**
      * @return bool
      */
-    public function checkConnectorData()
-    {
+    public function checkConnectorData() {
         $storeId = $this->request->getParam('store');
         $websiteId = $this->request->getParam('website');
 

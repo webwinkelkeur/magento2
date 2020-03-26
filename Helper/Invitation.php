@@ -6,24 +6,30 @@
 
 namespace WebwinkelKeur\Magento2\Helper;
 
-use Magento\Framework\App\Helper\Context;
-use Magento\Catalog\Model\ProductRepository;
 use Magento\Catalog\Helper\Image;
+use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\StoreManagerInterface;
 use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
 
-class Invitation extends AbstractHelper
-{
-
+class Invitation extends AbstractHelper {
     const XPATH_INVITATION_ENABLED = 'webwinkelkeur_magento2/invitation/enabled';
+
     const XPATH_API_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
+
     const XPATH_API_API_KEY = 'webwinkelkeur_magento2/api/api_key';
+
     const XPATH_INVITATION_LANGUAGE = 'webwinkelkeur_magento2/invitation/language';
+
     const XPATH_INVITATION_STATUS = 'webwinkelkeur_magento2/invitation/status';
+
     const XPATH_INVITATION_DELAY = 'webwinkelkeur_magento2/invitation/delay';
+
     const XPATH_INVITATION_BACKLOG = 'webwinkelkeur_magento2/invitation/backlog';
+
     const XPATH_RESEND = 'webwinkelkeur_magento2/invitation/resend_double';
+
     const XPATH_INVITATION_DEBUG = 'webwinkelkeur_magento2/invitation/debug';
 
     /**
@@ -76,8 +82,7 @@ class Invitation extends AbstractHelper
      *
      * @return array|bool
      */
-    public function getConfigData($storeId)
-    {
+    public function getConfigData($storeId) {
         if ($this->getEnabledInvitation($storeId)) {
             $config = [];
             $config['webshop_id'] = $this->generalHelper->getStoreValue(self::XPATH_API_WEBSHOP_ID, $storeId);
@@ -111,8 +116,7 @@ class Invitation extends AbstractHelper
      *
      * @return bool|mixed
      */
-    public function getEnabledInvitation($storeId)
-    {
+    public function getEnabledInvitation($storeId) {
         if ($this->getEnabled($storeId)) {
             return $this->generalHelper->getStoreValue(self::XPATH_INVITATION_ENABLED, $storeId);
         }
@@ -127,8 +131,7 @@ class Invitation extends AbstractHelper
      *
      * @return mixed
      */
-    public function getEnabled($storeId)
-    {
+    public function getEnabled($storeId) {
         return $this->generalHelper->getEnabled($storeId);
     }
 
@@ -137,8 +140,7 @@ class Invitation extends AbstractHelper
      *
      * @return mixed
      */
-    public function getCustomerName($order)
-    {
+    public function getCustomerName($order) {
         if ($order->getCustomerId()) {
             return $order->getCustomerName();
         }
@@ -149,8 +151,7 @@ class Invitation extends AbstractHelper
 
         if (!empty($middlename)) {
             return $firstname . ' ' . $middlename . ' ' . $lastname;
-        } else {
-            return $firstname . ' ' . $lastname;
         }
+        return $firstname . ' ' . $lastname;
     }
 }

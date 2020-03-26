@@ -6,22 +6,24 @@
 
 namespace WebwinkelKeur\Magento2\Helper;
 
+use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Config\Model\ResourceModel\Config;
-use Magento\Framework\Module\ModuleListInterface;
-use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
-class General extends AbstractHelper
-{
-
+class General extends AbstractHelper {
     const MODULE_CODE = 'WebwinkelKeur_Magento2';
+
     const XPATH_EXTENSION_ENABLED = 'webwinkelkeur_magento2/general/enabled';
+
     const XPATH_API_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
+
     const XPATH_SIDEBAR_ENABLED = 'webwinkelkeur_magento2/sidebar/enabled';
+
     const XPATH_SIDEBAR_LANGUAGE = 'webwinkelkeur_magento2/sidebar/language';
 
     /**
@@ -75,8 +77,7 @@ class General extends AbstractHelper
         parent::__construct($context);
     }
 
-    public function getEnabledSidebar()
-    {
+    public function getEnabledSidebar() {
         if ($this->getEnabled()) {
             return $this->getStoreValue(self::XPATH_SIDEBAR_ENABLED);
         }
@@ -91,8 +92,7 @@ class General extends AbstractHelper
      *
      * @return mixed
      */
-    public function getEnabled($storeId = null)
-    {
+    public function getEnabled($storeId = null) {
         return $this->getStoreValue(self::XPATH_EXTENSION_ENABLED, $storeId);
     }
 
@@ -105,8 +105,7 @@ class General extends AbstractHelper
      *
      * @return mixed
      */
-    public function getStoreValue($path, $storeId = null, $scope = null)
-    {
+    public function getStoreValue($path, $storeId = null, $scope = null) {
         if (empty($scope)) {
             $scope = ScopeInterface::SCOPE_STORE;
         }
@@ -120,24 +119,21 @@ class General extends AbstractHelper
      *
      * @return mixed
      */
-    public function getWebsiteValue($path, $websiteId)
-    {
+    public function getWebsiteValue($path, $websiteId) {
         return $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_WEBSITE, $websiteId);
     }
 
     /**
      * @return mixed
      */
-    public function getWebshopId()
-    {
+    public function getWebshopId() {
         return $this->getStoreValue(self::XPATH_API_WEBSHOP_ID);
     }
 
     /**
      * @return mixed
      */
-    public function getLanguage()
-    {
+    public function getLanguage() {
         return $this->getStoreValue(self::XPATH_SIDEBAR_LANGUAGE);
     }
 
@@ -148,8 +144,7 @@ class General extends AbstractHelper
      * @param      $key
      * @param null $storeId
      */
-    public function setConfigData($value, $key, $storeId = null)
-    {
+    public function setConfigData($value, $key, $storeId = null) {
         if ($storeId) {
             $this->config->saveConfig($key, $value, 'stores', $storeId);
         } else {
@@ -164,11 +159,8 @@ class General extends AbstractHelper
      *
      * @return array
      */
-    public function createResponseError($msg)
-    {
-        $response = ['status' => 'error', 'msg' => $msg];
-
-        return $response;
+    public function createResponseError($msg) {
+        return ['status' => 'error', 'msg' => $msg];
     }
 
     /**
@@ -176,8 +168,7 @@ class General extends AbstractHelper
      *
      * @return mixed
      */
-    public function getExtensionVersion()
-    {
+    public function getExtensionVersion() {
         $moduleInfo = $this->moduleList->getOne(self::MODULE_CODE);
 
         return $moduleInfo['setup_version'];
@@ -188,8 +179,7 @@ class General extends AbstractHelper
      *
      * @return string
      */
-    public function getMagentoVersion()
-    {
+    public function getMagentoVersion() {
         return $this->metadata->getVersion();
     }
 }

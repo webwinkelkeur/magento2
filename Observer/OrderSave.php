@@ -6,14 +6,12 @@
 
 namespace WebwinkelKeur\Magento2\Observer;
 
-use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
-use WebwinkelKeur\Magento2\Model\Api as ApiModel;
+use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
+use WebwinkelKeur\Magento2\Model\Api as ApiModel;
 
-class OrderSave implements ObserverInterface
-{
-
+class OrderSave implements ObserverInterface {
     /**
      * @var ApiModel
      */
@@ -41,8 +39,7 @@ class OrderSave implements ObserverInterface
     /**
      * @param Observer $observer
      */
-    public function execute(Observer $observer)
-    {
+    public function execute(Observer $observer) {
         try {
             $order = $observer->getEvent()->getOrder();
             $this->apiModel->sendInvitation($order);

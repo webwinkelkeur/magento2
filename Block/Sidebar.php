@@ -6,14 +6,12 @@
 
 namespace WebwinkelKeur\Magento2\Block;
 
+use Magento\Backend\Block\Template\Context;
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
-use Magento\Backend\Block\Template\Context;
 use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
 
-class Sidebar extends Template implements BlockInterface
-{
-
+class Sidebar extends Template implements BlockInterface {
     /**
      * @var GeneralHelper
      */
@@ -42,8 +40,7 @@ class Sidebar extends Template implements BlockInterface
      *
      * @return bool|mixed
      */
-    public function getEnabledSidebar()
-    {
+    public function getEnabledSidebar() {
         return $this->generalHelper->getEnabledSidebar();
     }
 
@@ -52,16 +49,14 @@ class Sidebar extends Template implements BlockInterface
      *
      * @return mixed
      */
-    public function getWebshopId()
-    {
+    public function getWebshopId() {
         return $this->generalHelper->getWebshopId();
     }
 
     /**
      * @return mixed
      */
-    public function getLanguage()
-    {
+    public function getLanguage() {
         return $this->generalHelper->getLanguage();
     }
 }

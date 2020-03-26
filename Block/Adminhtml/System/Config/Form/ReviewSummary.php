@@ -11,9 +11,7 @@ use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
 
-class ReviewSummary extends Field
-{
-
+class ReviewSummary extends Field {
     /**
      * @var string
      */
@@ -49,16 +47,14 @@ class ReviewSummary extends Field
     /**
      * @return null
      */
-    public function getCacheLifetime()
-    {
+    public function getCacheLifetime() {
         return null;
     }
 
     /**
      * @return bool
      */
-    public function getReviewSummary()
-    {
+    public function getReviewSummary() {
         $summaryData = [];
         $storeId = $this->request->getParam('store');
         $websiteId = $this->request->getParam('website');
@@ -79,8 +75,7 @@ class ReviewSummary extends Field
      *
      * @return bool
      */
-    public function render(AbstractElement $element)
-    {
+    public function render(AbstractElement $element) {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
 
         return parent::render($element);
@@ -91,8 +86,7 @@ class ReviewSummary extends Field
      *
      * @return bool
      */
-    protected function _getElementHtml(AbstractElement $element)
-    {
+    protected function _getElementHtml(AbstractElement $element) {
         return $this->_toHtml();
     }
 }

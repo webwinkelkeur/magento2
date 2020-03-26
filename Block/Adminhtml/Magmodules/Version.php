@@ -6,14 +6,12 @@
 
 namespace WebwinkelKeur\Magento2\Block\Adminhtml\Magmodules;
 
+use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
-use Magento\Backend\Block\Template\Context;
 
-class Version extends Field
-{
-
+class Version extends Field {
     /**
      * @var GeneralHelper
      */
@@ -40,8 +38,7 @@ class Version extends Field
      *
      * @return string
      */
-    public function render(AbstractElement $element)
-    {
+    public function render(AbstractElement $element) {
         $html = '<tr id="row_' . $element->getHtmlId() . '">';
         $html .= '  <td class="label">' . $element->getData('label') . '</td>';
         $html .= '  <td class="value">' . $this->generalHelper->getExtensionVersion() . '</td>';

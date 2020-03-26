@@ -6,20 +6,21 @@
 
 namespace WebwinkelKeur\Magento2\Model;
 
-use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
-use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
-use WebwinkelKeur\Magento2\Helper\Invitation as InvitationHelper;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
-use Psr\Log\LoggerInterface;
 use Magento\Sales\Model\Order;
+use Psr\Log\LoggerInterface;
+use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
+use WebwinkelKeur\Magento2\Helper\Invitation as InvitationHelper;
+use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
 
-class Api
-{
-
+class Api {
     const REVIEWS_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/ratings_summary.json?id=%s&code=%s';
+
     const INVITATION_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/invitations.json?id=%s&code=%s';
+
     const WEBSHOP_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/webshop.json?id=%s&code=%s';
+
     const DEFAULT_TIMEOUT = 5;
 
     /**
@@ -85,17 +86,14 @@ class Api
      *
      * @return array
      */
-    public function getReviews($type)
-    {
+    public function getReviews($type) {
         $connectorData = $this->reviewHelper->getUniqueConnectorData();
         $result = [];
         foreach ($connectorData as $key => $data) {
             $result[$key]['ratings_summary'] = $this->updateReviewStats($data);
             $result[$key]['webshop'] = $this->updateWebshopData($data);
         }
-        $result = $this->reviewHelper->saveReviewResult($result, $type);
-
-        return $result;
+        return $this->reviewHelper->saveReviewResult($result, $type);
     }
 
     /**
@@ -105,8 +103,7 @@ class Api
      *
      * @return array|mixed
      */
-    public function updateReviewStats($data)
-    {
+    public function updateReviewStats($data) {
         try {
             $url = sprintf(self::REVIEWS_URL, $data['webshop_id'], $data['api_key']);
             $curl = $this->curl;
@@ -120,14 +117,10 @@ class Api
             if (!empty($result['status'])) {
                 if ($result['status'] == 'error') {
                     return $this->generalHelper->createResponseError($result['message']);
-                } else {
-                    $result = ['status' => 'success', 'ratings_summary' => $result['data']];
-
-                    return $result;
                 }
-            } else {
-                return $this->generalHelper->createResponseError(__('General Error'));
+                return ['status' => 'success', 'ratings_summary' => $result['data']];
             }
+            return $this->generalHelper->createResponseError(__('General Error'));
         } catch (\Exception $e) {
             return $this->generalHelper->createResponseError($e);
         }
@@ -138,8 +131,7 @@ class Api
      *
      * @return array|mixed
      */
-    public function updateWebshopData($data)
-    {
+    public function updateWebshopData($data) {
         try {
             $url = sprintf(self::WEBSHOP_URL, $data['webshop_id'], $data['api_key']);
             $curl = $this->curl;
@@ -152,14 +144,10 @@ class Api
             if (!empty($result['status'])) {
                 if ($result['status'] == 'error') {
                     return $this->generalHelper->createResponseError($result['message']);
-                } else {
-                    $result = ['status' => 'success', 'webshop' => $result['data']];
-
-                    return $result;
                 }
-            } else {
-                return $this->generalHelper->createResponseError(__('General Error'));
+                return ['status' => 'success', 'webshop' => $result['data']];
             }
+            return $this->generalHelper->createResponseError(__('General Error'));
         } catch (\Exception $e) {
             return $this->generalHelper->createResponseError($e);
         }
@@ -172,8 +160,7 @@ class Api
      *
      * @return bool|mixed
      */
-    public function sendInvitation(Order $order)
-    {
+    public function sendInvitation(Order $order) {
         $storeId = $order->getStoreId();
 
         $config = $this->inviationHelper->getConfigData($storeId);
@@ -211,7 +198,6 @@ class Api
         return $this->postInvitation($request, $config);
     }
 
-
     /**
      * Post order data for invitation
      *
@@ -220,8 +206,7 @@ class Api
      *
      * @return bool|mixed
      */
-    public function postInvitation($request, $config)
-    {
+    public function postInvitation($request, $config) {
         $url = sprintf(self::INVITATION_URL, $config['webshop_id'], $config['api_key']);
         try {
             $curl = $this->curl;

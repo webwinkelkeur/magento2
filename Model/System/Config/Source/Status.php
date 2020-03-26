@@ -9,9 +9,7 @@ namespace WebwinkelKeur\Magento2\Model\System\Config\Source;
 use Magento\Framework\Option\ArrayInterface;
 use Magento\Sales\Model\Order\Config;
 
-class Status implements ArrayInterface
-{
-
+class Status implements ArrayInterface {
     /**
      * @var Config
      */
@@ -22,8 +20,7 @@ class Status implements ArrayInterface
      *
      * @param Config $orderConfig
      */
-    public function __construct(Config $orderConfig)
-    {
+    public function __construct(Config $orderConfig) {
         $this->orderConfig = $orderConfig;
     }
 
@@ -32,8 +29,7 @@ class Status implements ArrayInterface
      *
      * @return array
      */
-    public function toOptionArray()
-    {
+    public function toOptionArray() {
         $options = [];
         $statuses = $this->orderConfig->getStatuses();
         $options[] = ['value' => '', 'label' => __('-- Please Select --')];

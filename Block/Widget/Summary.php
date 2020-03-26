@@ -6,14 +6,12 @@
 
 namespace WebwinkelKeur\Magento2\Block\Widget;
 
+use Magento\Backend\Block\Template\Context;
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
-use Magento\Backend\Block\Template\Context;
 use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
 
-class Summary extends Template implements BlockInterface
-{
-
+class Summary extends Template implements BlockInterface {
     /**
      * @var ReviewsHelper
      */
@@ -38,8 +36,7 @@ class Summary extends Template implements BlockInterface
     /**
      * Set template file, see getThemePath
      */
-    public function _construct()
-    {
+    public function _construct() {
         $template = $this->getData('template');
         parent::_construct();
         $this->setTemplate($template);
@@ -49,8 +46,7 @@ class Summary extends Template implements BlockInterface
      * Rich Snippets check from Widget
      * @return mixed
      */
-    public function getRichSnippets()
-    {
+    public function getRichSnippets() {
         return $this->getData('rich_snippets');
     }
 
@@ -58,8 +54,7 @@ class Summary extends Template implements BlockInterface
      * Get summary data from review helper by storeId
      * @return array
      */
-    public function getSummaryData()
-    {
+    public function getSummaryData() {
         $storeId = $this->_storeManager->getStore()->getId();
         $summaryData = $this->reviewHelper->getSummaryData($storeId);
         if ($summaryData) {

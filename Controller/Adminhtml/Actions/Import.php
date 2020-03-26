@@ -8,14 +8,12 @@ namespace WebwinkelKeur\Magento2\Controller\Adminhtml\Actions;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\Controller\Result\JsonFactory;
 use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
 use WebwinkelKeur\Magento2\Model\Api as ApiModel;
 
-class Import extends Action
-{
-
+class Import extends Action {
     /**
      * @var JsonFactory
      */
@@ -68,8 +66,7 @@ class Import extends Action
     /**
      * @return $this
      */
-    public function execute()
-    {
+    public function execute() {
         $msg = [];
         $imports = $this->apiModel->getReviews('manual');
 
@@ -122,8 +119,7 @@ class Import extends Action
     /**
      * @return bool
      */
-    protected function _isAllowed()
-    {
+    protected function _isAllowed() {
         return $this->_authorization->isAllowed('WebwinkelKeur_Magento2::config');
     }
 }

@@ -6,21 +6,23 @@
 
 namespace WebwinkelKeur\Magento2\Helper;
 
-use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
-use Magento\Framework\App\Helper\Context;
+use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
 
-class Reviews extends AbstractHelper
-{
-
+class Reviews extends AbstractHelper {
     const XPATH_REVIEWS_ENABLED = 'webwinkelkeur_magento2/reviews/enabled';
+
     const XPATH_REVIEWS_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
+
     const XPATH_REVIEWS_API_KEY = 'webwinkelkeur_magento2/api/api_key';
+
     const XPATH_REVIEWS_RESULT = 'webwinkelkeur_magento2/reviews/result';
+
     const XPATH_REVIEWS_LAST_IMPORT = 'webwinkelkeur_magento2/reviews/last_import';
 
     /**
@@ -77,8 +79,7 @@ class Reviews extends AbstractHelper
      * Get array of unique connectors
      * @return array
      */
-    public function getUniqueConnectorData()
-    {
+    public function getUniqueConnectorData() {
         $stores = $this->storeManager->getStores();
         $connectorData = [];
         foreach ($stores as $store) {
@@ -95,8 +96,7 @@ class Reviews extends AbstractHelper
      * @param null $websiteId
      * @return array
      */
-    public function getConnectorData($storeId = 0, $websiteId = null)
-    {
+    public function getConnectorData($storeId = 0, $websiteId = null) {
         $connectorData = [];
 
         if ($websiteId) {
@@ -113,7 +113,7 @@ class Reviews extends AbstractHelper
             $connectorData = [
                 'store_id' => $storeId,
                 'webshop_id' => $webshopId,
-                'api_key' => $apiKey
+                'api_key' => $apiKey,
             ];
         }
 
@@ -126,8 +126,7 @@ class Reviews extends AbstractHelper
      * @param string $type
      * @return array
      */
-    public function saveReviewResult($result, $type = 'cron')
-    {
+    public function saveReviewResult($result, $type = 'cron') {
         $summaryData = [];
         foreach ($result as $key => $row) {
             $error = '';
@@ -154,7 +153,7 @@ class Reviews extends AbstractHelper
                     }
                 }
                 $summaryData[$key]['total_reviews'] = $rating['amount'];
-                $summaryData[$key]['score'] = number_format((float)$rating['rating_average'], 1, '.', '');
+                $summaryData[$key]['score'] = number_format((float) $rating['rating_average'], 1, '.', '');
                 $summaryData[$key]['score_max'] = '10';
                 $summaryData[$key]['percentage'] = round($rating['rating_average'] * 10) . '%';
             } else {
@@ -174,8 +173,7 @@ class Reviews extends AbstractHelper
      * @param int $storeId
      * @return mixed
      */
-    public function getSummaryData($storeId)
-    {
+    public function getSummaryData($storeId) {
         $webshopId = $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_WEBSHOP_ID, $storeId);
         $data = json_decode($this->generalHelper->getStoreValue(self::XPATH_REVIEWS_RESULT, $storeId), true);
         if (!empty($data[$webshopId]['status'])) {
@@ -191,8 +189,7 @@ class Reviews extends AbstractHelper
      * Array of all stored summay data
      * @return mixed
      */
-    public function getAllSummaryData()
-    {
+    public function getAllSummaryData() {
         return json_decode($this->generalHelper->getStoreValue(self::XPATH_REVIEWS_RESULT), true);
     }
 
@@ -200,10 +197,7 @@ class Reviews extends AbstractHelper
      * Last imported date
      * @return mixed
      */
-    public function getLastImported()
-    {
-        $lastImported = $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_LAST_IMPORT);
-
-        return $lastImported;
+    public function getLastImported() {
+        return $this->generalHelper->getStoreValue(self::XPATH_REVIEWS_LAST_IMPORT);
     }
 }

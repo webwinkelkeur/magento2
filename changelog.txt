@@ -1,3 +1,6 @@
+1.0.5
+* Update sidebar script
+
 1.0.3
 * Fixes for Magento v2.2
 

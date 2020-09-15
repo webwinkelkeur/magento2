@@ -8,17 +8,6 @@
 ?>
 <?php if ($block->getEnabledSidebar()) { ?>
     <script>
-        require(['jquery'], function ($) {
-            (function () {
-                _webwinkelkeur_id = <?php echo (int)$block->getWebshopId(); ?>;
-                _webwinkelkeur_language = '<?php echo $block->escapeHtml($block->getLanguage()); ?>';
-                var js = document.createElement('script');
-                js.type = 'text/javascript';
-                js.async = true;
-                js.src = '//dashboard.webwinkelkeur.nl/webshops/sidebar.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(js, s);
-            })();
-        });
+        (function(url,id){var script=document.createElement('script');script.async=true;script.src=url+'/sidebar.js?id='+id+'&c='+cachebuster(10,id);var ref=document.getElementsByTagName('script')[0];ref.parentNode.insertBefore(script,ref);function cachebuster(refreshMinutes,id){var now=Date.now();var interval=refreshMinutes*60e3;var shift=(Math.sin(id)||0)*interval;return Math.floor((now+shift)/interval);}})('https://dashboard.webwinkelkeur.nl',<?= (int)$block->getWebshopId(); ?>);
     </script>
 <?php } ?>

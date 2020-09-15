@@ -1,6 +1,6 @@
 = Changelog =
 
-== 2.1.0 ==
+== 2.1.0 - 2020-09-15 ==
 * Update sidebar script to make only one HTTP request.
 
 == 2.0.1 ==

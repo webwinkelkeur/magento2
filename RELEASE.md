@@ -1,6 +1,6 @@
-= Release instructions =
+# Release instructions
 
-== GitHub ==
+## GitHub
 
 * Update `CHANGELOG.md`.
 * Tag the master branch:
@@ -24,7 +24,7 @@ git tag v1.2.3
 
 * Edit the release on GitHub to match `CHANGELOG.md`.
 
-== Magento Marketplace ==
+## Magento Marketplace
 
 * Navigate to the extension on [Magento
   Marketplace](https://developer.magento.com/extensions/versions/webwinkelkeur-magento2).

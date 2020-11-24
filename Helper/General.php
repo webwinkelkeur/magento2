@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace WebwinkelKeur\Magento2\Helper;
+namespace Valued\Magento2\Helper;
 
 use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\Helper\AbstractHelper;

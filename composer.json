@@ -15,7 +15,7 @@
       "registration.php"
     ],
     "psr-4": {
-      "WebwinkelKeur\\Magento2\\": ""
+      "Valued\\Magento2\\": ""
     }
   }
 }

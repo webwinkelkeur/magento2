@@ -4,12 +4,12 @@
  * See COPYING.txt for license details.
  */
 
-namespace WebwinkelKeur\Magento2\Block\Adminhtml\Magmodules;
+namespace Valued\Magento2\Block\Adminhtml\Magmodules;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
+use Valued\Magento2\Helper\General as GeneralHelper;
 
 class Version extends Field {
     /**

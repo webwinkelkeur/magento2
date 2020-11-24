@@ -4,12 +4,12 @@
  * See COPYING.txt for license details.
  */
 
-namespace WebwinkelKeur\Magento2\Block\Widget;
+namespace Valued\Magento2\Block\Widget;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
-use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
+use Valued\Magento2\Helper\Reviews as ReviewsHelper;
 
 class Summary extends Template implements BlockInterface {
     /**

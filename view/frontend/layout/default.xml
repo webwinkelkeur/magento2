@@ -4,7 +4,7 @@
         <css src="WebwinkelKeur_Magento2::css/widget.css" />
    </head>
    <referenceContainer name="before.body.end">
-        <block class="WebwinkelKeur\Magento2\Block\Sidebar" template="WebwinkelKeur_Magento2::sidebar.phtml" name="module_js"/>
+        <block class="Valued\Magento2\Block\Sidebar" template="WebwinkelKeur_Magento2::sidebar.phtml" name="module_js"/>
     </referenceContainer>
 </page>
 

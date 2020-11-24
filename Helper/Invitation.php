@@ -4,14 +4,14 @@
  * See COPYING.txt for license details.
  */
 
-namespace WebwinkelKeur\Magento2\Helper;
+namespace Valued\Magento2\Helper;
 
 use Magento\Catalog\Helper\Image;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\StoreManagerInterface;
-use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
+use Valued\Magento2\Helper\General as GeneralHelper;
 
 class Invitation extends AbstractHelper {
     const XPATH_INVITATION_ENABLED = 'webwinkelkeur_magento2/invitation/enabled';

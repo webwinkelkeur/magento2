@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace WebwinkelKeur\Magento2\Helper;
+namespace Valued\Magento2\Helper;
 
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -12,7 +12,7 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
+use Valued\Magento2\Helper\General as GeneralHelper;
 
 class Reviews extends AbstractHelper {
     const XPATH_REVIEWS_ENABLED = 'webwinkelkeur_magento2/reviews/enabled';

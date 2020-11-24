@@ -4,15 +4,15 @@
  * See COPYING.txt for license details.
  */
 
-namespace WebwinkelKeur\Magento2\Model;
+namespace Valued\Magento2\Model;
 
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
 use Psr\Log\LoggerInterface;
-use WebwinkelKeur\Magento2\Helper\General as GeneralHelper;
-use WebwinkelKeur\Magento2\Helper\Invitation as InvitationHelper;
-use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
+use Valued\Magento2\Helper\General as GeneralHelper;
+use Valued\Magento2\Helper\Invitation as InvitationHelper;
+use Valued\Magento2\Helper\Reviews as ReviewsHelper;
 
 class Api {
     const REVIEWS_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/ratings_summary.json?id=%s&code=%s';

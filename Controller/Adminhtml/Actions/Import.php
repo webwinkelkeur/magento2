@@ -4,14 +4,14 @@
  * See COPYING.txt for license details.
  */
 
-namespace WebwinkelKeur\Magento2\Controller\Adminhtml\Actions;
+namespace Valued\Magento2\Controller\Adminhtml\Actions;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
-use WebwinkelKeur\Magento2\Helper\Reviews as ReviewsHelper;
-use WebwinkelKeur\Magento2\Model\Api as ApiModel;
+use Valued\Magento2\Helper\Reviews as ReviewsHelper;
+use Valued\Magento2\Model\Api as ApiModel;
 
 class Import extends Action {
     /**

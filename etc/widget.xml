@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
-    <widget id="webwinkelkeur_summay_widget" class="WebwinkelKeur\Magento2\Block\Widget\Summary" placeholder_image="WebwinkelKeur::images/summary_widget.png">
+    <widget id="webwinkelkeur_summay_widget" class="Valued\Magento2\Block\Widget\Summary" placeholder_image="WebwinkelKeur::images/summary_widget.png">
 		<label translate="true">WebwinkelKeur - Summary Widget</label>
 		<description>Add WebwinkelKeur summary widget</description>
         <parameters>

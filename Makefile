@@ -6,4 +6,4 @@ xmls:
 package: xmls
 	version=`git describe --tags --match "v*"`; \
 	package_name=`echo $(platform) | tr A-Z a-z`; \
-	tar --exclude='*.xml.php' -zchvf  dist/$$pal-$$version.tgz `echo $(platform) | tr A-Z a-z`/
+	zip -r -D -X dist/$$package_name-magento2-$$version.zip $$package_name/* -x '*.xml.php' \

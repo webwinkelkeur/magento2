@@ -1,0 +1,21 @@
+{
+  "name": "webwinkelkeur/magento2",
+  "description": "WebwinkelKeur integration for Magento 2",
+  "type": "magento2-module",
+  "version": "$VERSION$",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "replace": {
+    "magmodules/m2-magento": "^0"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Valued\\Magento2\\": ""
+    }
+  }
+}

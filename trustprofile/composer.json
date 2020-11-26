@@ -1,6 +1,6 @@
 {
-  "name": "$PLUGIN$/magento2",
-  "description": "$PLUGIN_NAME$ integration for Magento 2",
+  "name": "trustprofile/magento2",
+  "description": "TrustProfile integration for Magento 2",
   "type": "magento2-module",
   "version": "$VERSION$",
   "license": [

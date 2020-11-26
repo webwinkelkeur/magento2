@@ -10,7 +10,7 @@ xmls:
 	done
 
 package:
-	cd $(package_name) && zip -rq -X "../dist/$(package_name)-magento2-$(version).zip" . -x "*.xml.php"; \
+	cd $(package_name) && zip -rq -X "../dist/$(package_name)-magento2-$(version).zip" . -x "*.xml.php";
 	git clean -f; \
 
 composer:

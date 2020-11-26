@@ -120,6 +120,7 @@ class Import extends Action {
      * @return bool
      */
     protected function _isAllowed() {
+        //TODO make generic
         return $this->_authorization->isAllowed('WebwinkelKeur_Magento2::config');
     }
 }

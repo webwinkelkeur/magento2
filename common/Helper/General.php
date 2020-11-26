@@ -16,14 +16,15 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class General extends AbstractHelper {
+    //TODO make generic
     const MODULE_CODE = 'WebwinkelKeur_Magento2';
-
+    //TODO make generic
     const XPATH_EXTENSION_ENABLED = 'webwinkelkeur_magento2/general/enabled';
-
+    //TODO make generic
     const XPATH_API_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
-
+    //TODO make generic
     const XPATH_SIDEBAR_ENABLED = 'webwinkelkeur_magento2/sidebar/enabled';
-
+    //TODO make generic
     const XPATH_SIDEBAR_LANGUAGE = 'webwinkelkeur_magento2/sidebar/language';
 
     /**

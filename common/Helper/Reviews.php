@@ -15,14 +15,15 @@ use Magento\Store\Model\StoreManagerInterface;
 use Valued\Magento2\Helper\General as GeneralHelper;
 
 class Reviews extends AbstractHelper {
+    //TODO make generic
     const XPATH_REVIEWS_ENABLED = 'webwinkelkeur_magento2/reviews/enabled';
-
+    //TODO make generic
     const XPATH_REVIEWS_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
-
+    //TODO make generic
     const XPATH_REVIEWS_API_KEY = 'webwinkelkeur_magento2/api/api_key';
-
+    //TODO make generic
     const XPATH_REVIEWS_RESULT = 'webwinkelkeur_magento2/reviews/result';
-
+    //TODO make generic
     const XPATH_REVIEWS_LAST_IMPORT = 'webwinkelkeur_magento2/reviews/last_import';
 
     /**

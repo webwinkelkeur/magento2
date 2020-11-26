@@ -15,10 +15,11 @@ use Valued\Magento2\Helper\Invitation as InvitationHelper;
 use Valued\Magento2\Helper\Reviews as ReviewsHelper;
 
 class Api {
+    //TODO make generic
     const REVIEWS_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/ratings_summary.json?id=%s&code=%s';
-
+    //TODO make generic
     const INVITATION_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/invitations.json?id=%s&code=%s';
-
+    //TODO make generic
     const WEBSHOP_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/webshop.json?id=%s&code=%s';
 
     const DEFAULT_TIMEOUT = 5;
@@ -227,6 +228,7 @@ class Api {
                 $message = 'unknown error';
             }
             if (!empty($config['debug'])) {
+                //TODO make generic
                 $debugMsg = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
                 $debugMsg .= '(Status: ' . $status . ', Msg: ' . $message . ', ';
                 $debugMsg .= 'Url: ' . $url . ', Data: ' . json_encode($request) . ')';
@@ -237,6 +239,7 @@ class Api {
             }
         } catch (\Exception $e) {
             if (!empty($config['debug'])) {
+                //TODO make generic
                 $debugMsg = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
                 $debugMsg .= '(Error: ' . $e . ', Request: ' . $url . ' Data: ' . json_encode($request) . ')';
                 $this->logger->debug($debugMsg);

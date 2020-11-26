@@ -15,6 +15,7 @@ class ReviewSummary extends Field {
     /**
      * @var string
      */
+    //TODO make generic
     protected $_template = 'WebwinkelKeur_Magento2::system/config/fieldset/summary.phtml';
 
     /**

@@ -14,22 +14,23 @@ use Magento\Store\Model\StoreManagerInterface;
 use Valued\Magento2\Helper\General as GeneralHelper;
 
 class Invitation extends AbstractHelper {
+    //TODO make generic
     const XPATH_INVITATION_ENABLED = 'webwinkelkeur_magento2/invitation/enabled';
-
+    //TODO make generic
     const XPATH_API_WEBSHOP_ID = 'webwinkelkeur_magento2/api/webshop_id';
-
+    //TODO make generic
     const XPATH_API_API_KEY = 'webwinkelkeur_magento2/api/api_key';
-
+    //TODO make generic
     const XPATH_INVITATION_LANGUAGE = 'webwinkelkeur_magento2/invitation/language';
-
+    //TODO make generic
     const XPATH_INVITATION_STATUS = 'webwinkelkeur_magento2/invitation/status';
-
+    //TODO make generic
     const XPATH_INVITATION_DELAY = 'webwinkelkeur_magento2/invitation/delay';
-
+    //TODO make generic
     const XPATH_INVITATION_BACKLOG = 'webwinkelkeur_magento2/invitation/backlog';
-
+    //TODO make generic
     const XPATH_RESEND = 'webwinkelkeur_magento2/invitation/resend_double';
-
+    //TODO make generic
     const XPATH_INVITATION_DEBUG = 'webwinkelkeur_magento2/invitation/debug';
 
     /**

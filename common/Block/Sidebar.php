@@ -44,6 +44,11 @@ class Sidebar extends Template implements BlockInterface {
         return $this->generalHelper->getEnabledSidebar();
     }
 
+    public function getSidebarDomain() {
+        // TODO make generic
+        return 'dashboard.webwinkelkeur.nl';
+    }
+
     /**
      * Returns WebshopId for _webwinkelkeur_id JS
      *

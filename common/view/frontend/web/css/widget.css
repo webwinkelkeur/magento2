@@ -22,6 +22,7 @@
         margin-left: 25px;
 }
 
+ /*TODO make generic */
 .webwinkelkeur-big-score.default, .webwinkelkeur-big-score.nl {
         background-image: url(../images/webwinkelkeur_brand.png);
 }

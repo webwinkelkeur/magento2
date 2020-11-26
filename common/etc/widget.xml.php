@@ -1,6 +1,8 @@
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <!--        TODO image for TP-->
     <widget id="<?php echo strtolower($argv[1]) ;?>_summay_widget" class="Valued\Magento2\Block\Widget\Summary" placeholder_image="<?php echo $argv[1] ;?>::images/summary_widget.png">
+
 		<label translate="true"><?php echo $argv[1] ;?> - Summary Widget</label>
 		<description>Add <?php echo $argv[1] ;?> summary widget</description>
         <parameters>

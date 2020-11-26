@@ -25,6 +25,7 @@ abstract class ExtensionBase {
     }
 
     public function init() {
+        //
     }
 
 

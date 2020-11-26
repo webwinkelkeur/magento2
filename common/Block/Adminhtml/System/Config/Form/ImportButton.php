@@ -15,6 +15,7 @@ class ImportButton extends Field {
     /**
      * @var string
      */
+    //TODO make generic
     protected $_template = 'WebwinkelKeur_Magento2::system/config/button/button.phtml';
 
     /**
@@ -69,8 +70,10 @@ class ImportButton extends Field {
         $storeId = $this->request->getParam('store', 0);
         $websiteId = $this->request->getParam('website');
         if (!empty($websiteId)) {
+            //TODO make generic
             return $this->getUrl('webwinkelkeur/actions/import/website/' . $websiteId);
         }
+        //TODO make generic
         return $this->getUrl('webwinkelkeur/actions/import/store/' . $storeId);
     }
 

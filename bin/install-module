@@ -37,7 +37,13 @@ fi
 mkdir -p "www/app/code/Valued"
 mkdir -p "www/app/code/$project"
 
+rm -rf www/app/code/Valued/Magento2
+for p in "${projects[@]}"; do
+	rm -rf "www/app/code/$p/Magento2"
+done
+
 ln -sfn ../../../../common www/app/code/Valued/Magento2
 ln -sfn "../../../../$project" "www/app/code/$project/Magento2"
 
-./bin/magento module:enable WebwinkelKeur_Magento2
+./bin/magento module:enable "${project}_Magento2"
+./bin/magento setup:upgrade

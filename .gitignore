@@ -1,6 +1,8 @@
 !/common/etc
+!/common/view
 /dist
 /*/etc
 /.php_cs.cache
 /*/vendor
+/*/view
 /www

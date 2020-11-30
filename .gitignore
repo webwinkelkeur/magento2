@@ -1,4 +1,6 @@
 /dist
 /.php_cs.cache
+/trustprofile/etc/
 /*/vendor
+/webwinkelkeur/etc/
 /www

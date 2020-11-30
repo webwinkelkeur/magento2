@@ -1,13 +1,9 @@
 <?php
+namespace TrustProfile\Magento2\Setup;
 
-
-namespace TrustProfile\Magento2\trustprofile\setup;
-
-
-use Valued\Magento2\common\setup\ExtensionBase;
+use Valued\Magento2\Setup\ExtensionBase;
 
 class Extension extends ExtensionBase {
-
     public function getSlug() {
         return 'trustprofile';
     }
@@ -27,5 +23,4 @@ class Extension extends ExtensionBase {
     public function getDashboardDomain() {
         return 'dashboard.trustprofile.io';
     }
-
 }

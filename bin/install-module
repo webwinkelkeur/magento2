@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+projects=()
+for p in $(git ls-files '*/composer.json'); do
+	projects+=("${p%/*}")
+done
+
+err_usage() {
+	echo "Usage: $0 { $(printf '%s | ' "${projects[@]}" | sed 's/ | $//') }" >&2
+	exit 1
+}
+
+in_list() {
+	local needle="$1"
+	shift
+	while [[ $# -gt 0 ]]; do
+		if [[ $1 = $needle ]]; then
+			return 0
+		fi
+		shift
+	done
+	return 1
+}
+
+if [[ $# -ne 1 ]]; then
+	err_usage
+fi
+
+project="$1"
+if ! in_list "$project" "${projects[@]}"; then
+	err_usage
+fi
+
+root_namespace="$(
+	grep '^namespace\>' "$project/Setup/Extension.php" |
+	awk '{print $2}' |
+	awk -F'\' '{print $1}'
+)"
+
+mkdir -p "www/app/code/Valued"
+mkdir -p "www/app/code/$root_namespace"
+
+ln -sfn ../../../../common www/app/code/Valued/Magento2
+ln -sfn "../../../../$project" "www/app/code/$root_namespace/Magento2"
+
+./bin/magento module:enable WebwinkelKeur_Magento2

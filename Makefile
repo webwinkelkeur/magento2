@@ -21,7 +21,8 @@ autoloaders : $(patsubst %,%/vendor/autoload.php,$(PROJECTS))
 define PROJECT_RULES
 $(1)/etc/%.xml : common/etc/%.xml.php
 	mkdir -p $$(dir $$@)
-	php common/etc/$$*.xml.php $(1) > $$@
+	php common/etc/$$*.xml.php $(1) > $$@~
+	mv $$@~ $$@
 $(1)/etc/%.xml : common/etc/%.xml
 	mkdir -p $$(dir $$@)
 	cp common/etc/$$*.xml $$@

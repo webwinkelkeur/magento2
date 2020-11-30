@@ -1,10 +1,10 @@
-<?= '<?xml version="1.0"?>'; ?>
+<?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
    <head>
-        <css src="<?= $argv[1]; ?>::css/widget.css" />
+        <css src="{{ PROJECT }}::css/widget.css" />
    </head>
    <referenceContainer name="before.body.end">
-        <block class="Valued\Magento2\Block\Sidebar" template="<?= $argv[1]; ?>_Magento2::sidebar.phtml" name="module_js"/>
+        <block class="Valued\Magento2\Block\Sidebar" template="{{ PROJECT }}_Magento2::sidebar.phtml" name="module_js"/>
     </referenceContainer>
 </page>
 

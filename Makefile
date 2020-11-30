@@ -19,13 +19,10 @@ autoloaders : $(patsubst %,%/vendor/autoload.php,$(PROJECTS))
 	cd $* && composer dump-autoload
 
 define PROJECT_RULES
-$(1)/%.xml : common/%.xml.php
-	mkdir -p $$(dir $$@)
-	php common/$$*.xml.php $(1) > $$@~
-	mv $$@~ $$@
 $(1)/%.xml : common/%.xml
 	mkdir -p $$(dir $$@)
-	cp common/$$*.xml $$@
+	bin/templated-xml $(1) common/$$*.xml > $$@~
+	mv $$@~ $$@
 endef
 
 $(foreach project,$(PROJECTS),$(eval $(call PROJECT_RULES,$(project))))

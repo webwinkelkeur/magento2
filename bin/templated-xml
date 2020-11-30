@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+if (sizeof($argv) !== 3) {
+    fprintf(STDERR, "Usage: %s <project> <template>\n", $argv[0]);
+    exit(1);
+}
+
+$project = $argv[1];
+$template = $argv[2];
+
+require __DIR__ . '/../common/Setup/ExtensionBase.php';
+require __DIR__ . '/../' . $project . '/Setup/Extension.php';
+
+$extensionClass = new ReflectionClass("{$project}\\Magento2\\Setup\\Extension");
+$extension = $extensionClass->newInstance();
+
+$input = file_get_contents($template);
+if ($input === false) {
+    throw new RuntimeException("Could not read template file: {$template}");
+}
+
+$result = preg_replace_callback('~{{\s*(\w+)?\s*}}~', function ($match) use ($project, $extension) {
+    switch ($match[1]) {
+    case 'PROJECT':
+        return $project;
+    case 'LOWERCASE_PROJECT':
+        return strtolower($project);
+    case 'DASHBOARD_DOMAIN':
+        return $extension->getDashboardDomain();
+    default:
+        throw new RuntimeException("Unknown template variable: {$match[1]}");
+    }
+}, $input);
+
+$dom = new DOMDocument();
+if (!$dom->loadXML($result)) {
+    throw new RuntimeException("Compiled template did not result in valid XML: {$template}");
+}
+
+echo $result;

@@ -1,8 +1,5 @@
 <?php
-
-
-namespace Valued\Magento2\common\setup;
-
+namespace Valued\Magento2\Setup;
 
 abstract class ExtensionBase {
     protected static $instances = [];
@@ -27,6 +24,4 @@ abstract class ExtensionBase {
     public function init() {
         //
     }
-
-
 }

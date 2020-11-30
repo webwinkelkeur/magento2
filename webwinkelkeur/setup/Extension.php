@@ -1,13 +1,9 @@
 <?php
+namespace WebwinkelKeur\Magento2\Setup;
 
-
-namespace WebwinkelKeur\Magento2\webwinkelkeur\setup;
-
-
-use Valued\Magento2\common\setup\ExtensionBase;
+use Valued\Magento2\Setup\ExtensionBase;
 
 class Extension extends ExtensionBase {
-
     public function getSlug() {
         return 'webwinkelkeur';
     }

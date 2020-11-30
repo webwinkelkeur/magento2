@@ -38,5 +38,9 @@ Finally, install the module itself:
 
     bin/install-module WebwinkelKeur
 
+Or:
+
+    bin/install-module TrustProfile
+
 You should now be able to access Magento on http://localhost:26065/admin and log
 in with username `admin` and password `admin123`.

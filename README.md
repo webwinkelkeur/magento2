@@ -28,4 +28,4 @@ Now install Magento using the included script:
 
 Finally, install the module itself:
 
-    bin/install-module webwinkelkeur
+    bin/install-module WebwinkelKeur

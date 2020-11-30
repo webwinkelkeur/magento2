@@ -1,10 +1,8 @@
 SHELL = bash
 
 PROJECTS := $(patsubst %/composer.json,%,$(shell git ls-files '*/composer.json'))
-XML_TEMPLATES := $(patsubst common/%,%,$(shell git ls-files 'common/**.xml.php'))
-XML_PLAIN := $(patsubst common/%,%,$(shell git ls-files 'common/**.xml'))
-XML_TARGET_NAMES := $(XML_PLAIN) $(patsubst %.php,%,$(XML_TEMPLATES))
-XML_TARGETS := $(foreach project,$(PROJECTS),$(patsubst %,$(project)/%,$(XML_TARGET_NAMES)))
+XML_TEMPLATES := $(patsubst common/%,%,$(shell git ls-files 'common/**.xml'))
+XML_TARGETS := $(foreach project,$(PROJECTS),$(patsubst %,$(project)/%,$(XML_TEMPLATES)))
 
 all : xmls autoloaders
 .PHONY : all

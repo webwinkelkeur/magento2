@@ -1,8 +1,8 @@
 SHELL = bash
 
 PROJECTS := $(patsubst %/composer.json,%,$(shell git ls-files '*/composer.json'))
-XML_TEMPLATES := $(patsubst common/%,%,$(shell git ls-files 'common/etc/**.xml.php'))
-XML_PLAIN := $(patsubst common/%,%,$(shell git ls-files 'common/etc/**.xml'))
+XML_TEMPLATES := $(patsubst common/%,%,$(shell git ls-files 'common/**.xml.php'))
+XML_PLAIN := $(patsubst common/%,%,$(shell git ls-files 'common/**.xml'))
 XML_TARGET_NAMES := $(XML_PLAIN) $(patsubst %.php,%,$(XML_TEMPLATES))
 XML_TARGETS := $(foreach project,$(PROJECTS),$(patsubst %,$(project)/%,$(XML_TARGET_NAMES)))
 
@@ -19,13 +19,13 @@ autoloaders : $(patsubst %,%/vendor/autoload.php,$(PROJECTS))
 	cd $* && composer dump-autoload
 
 define PROJECT_RULES
-$(1)/etc/%.xml : common/etc/%.xml.php
+$(1)/%.xml : common/%.xml.php
 	mkdir -p $$(dir $$@)
-	php common/etc/$$*.xml.php $(1) > $$@~
+	php common/$$*.xml.php $(1) > $$@~
 	mv $$@~ $$@
-$(1)/etc/%.xml : common/etc/%.xml
+$(1)/%.xml : common/%.xml
 	mkdir -p $$(dir $$@)
-	cp common/etc/$$*.xml $$@
+	cp common/$$*.xml $$@
 endef
 
 $(foreach project,$(PROJECTS),$(eval $(call PROJECT_RULES,$(project))))

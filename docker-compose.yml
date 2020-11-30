@@ -8,6 +8,8 @@ services:
       - .:/data
       - ./docker/apache2.conf:/etc/apache2/conf.d/local.conf
       - ./docker/php.ini:/etc/php7/conf.d/99_docker.ini
+    environment:
+      VALUED_DEVELOPMENT: 'yes'
     links:
       - mariadb
     ports:

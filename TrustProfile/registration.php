@@ -1,11 +1,9 @@
 <?php
-/**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- */
+use Magento\Framework\Component\ComponentRegistrar;
 
-\Magento\Framework\Component\ComponentRegistrar::register(
-    \Magento\Framework\Component\ComponentRegistrar::MODULE,
+ComponentRegistrar::register(
+    ComponentRegistrar::MODULE,
     'TrustProfile_Magento2',
-    __DIR__
+    isset($file) && realpath($file) == __FILE__ && getenv('VALUED_DEVELOPMENT') == 'yes'
+        ? dirname($file) : __DIR__
 );

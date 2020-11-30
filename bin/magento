@@ -11,4 +11,5 @@ fi
 exec docker exec "${opts[@]}" \
 	valuedmagento2_web_1 \
 	sudo -u apache \
+	env VALUED_DEVELOPMENT=yes \
 	php -d memory_limit=-1 /data/www/bin/magento "$@"

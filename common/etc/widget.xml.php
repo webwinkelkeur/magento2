@@ -1,24 +1,24 @@
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<?= '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
     <!--        TODO image for TP-->
-    <widget id="<?php echo strtolower($argv[1]) ;?>_summay_widget" class="Valued\Magento2\Block\Widget\Summary" placeholder_image="<?php echo $argv[1] ;?>::images/summary_widget.png">
+    <widget id="<?= strtolower($argv[1]); ?>_summay_widget" class="Valued\Magento2\Block\Widget\Summary" placeholder_image="<?= $argv[1]; ?>::images/summary_widget.png">
 
-		<label translate="true"><?php echo $argv[1] ;?> - Summary Widget</label>
-		<description>Add <?php echo $argv[1] ;?> summary widget</description>
+		<label translate="true"><?= $argv[1]; ?> - Summary Widget</label>
+		<description>Add <?= $argv[1]; ?> summary widget</description>
         <parameters>
 			<parameter name="template" xsi:type="select" visible="true">
 				<label translate="true">Template</label>
                 <options>
-                    <option name="small" value="<?php echo $argv[1] ;?>_Magento2::widget/small.phtml">
+                    <option name="small" value="<?= $argv[1]; ?>_Magento2::widget/small.phtml">
                         <label translate="true">Small Summary Widget</label>
                     </option>
-                    <option name="big" value="<?php echo $argv[1] ;?>_Magento2::widget/big.phtml">
+                    <option name="big" value="<?= $argv[1]; ?>_Magento2::widget/big.phtml">
                         <label translate="true">Big Summary Widget</label>
                     </option>
                 </options>
 			</parameter>
 			<parameter name="webwinkel_url" xsi:type="select" visible="true">
-				<label translate="true"><?php echo $argv[1] ;?> Language Url</label>
+				<label translate="true"><?= $argv[1]; ?> Language Url</label>
 				<options>
 					<option name="default" value="default" selected="true">
 						<label translate="true">Default</label>

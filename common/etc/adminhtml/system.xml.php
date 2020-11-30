@@ -1,14 +1,14 @@
 <?php $dashboard_domain = ($argv[1] == 'WebwinkelKeur') ?  'webwinkelkeur.nl' : 'trustprofile.io';?>
-<?php echo '<?xml version="1.0"?>';?>
+<?= '<?xml version="1.0"?>'; ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <tab id="<?php echo strtolower($argv[1]) ;?>" translate="label" sortOrder="500">
-            <label><?php echo $argv[1] ;?></label>
+        <tab id="<?= strtolower($argv[1]); ?>" translate="label" sortOrder="500">
+            <label><?= $argv[1]; ?></label>
         </tab>
-        <section id="<?php echo strtolower($argv[1]) ;?>_magento2" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label><?php echo $argv[1] ;?></label>
-            <tab><?php echo strtolower($argv[1]) ;?></tab>
-            <resource><?php echo $argv[1] ;?>_Magento2::config</resource>
+        <section id="<?= strtolower($argv[1]); ?>_magento2" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label><?= $argv[1]; ?></label>
+            <tab><?= strtolower($argv[1]); ?></tab>
+            <resource><?= $argv[1]; ?>_Magento2::config</resource>
             <group id="general" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -22,7 +22,7 @@
             </group>
             <group id="api" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>API Details</label>
-                <comment>You can find the necessary information by logging in at https://dashboard.<?php echo $dashboard_domain ;?>. Navigate to Installation > Wizard and follow the installation instructions. As addition next to the activation of this extension we also recommend you to follow the installation wizard and install the <?php echo $argv[1] ;?> widget and banners.</comment>
+                <comment>You can find the necessary information by logging in at https://dashboard.<?= $dashboard_domain; ?>. Navigate to Installation > Wizard and follow the installation instructions. As addition next to the activation of this extension we also recommend you to follow the installation wizard and install the <?= $argv[1]; ?> widget and banners.</comment>
                 <field id="webshop_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Webshop ID</label>
                 </field>
@@ -36,7 +36,7 @@
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Select if you wish to enable the <?php echo $argv[1] ;?> connector in this Store View.</comment>
+                    <comment>Select if you wish to enable the <?= $argv[1]; ?> connector in this Store View.</comment>
                 </field>
                 <field id="cron" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Use Cron</label>
@@ -56,11 +56,11 @@
             </group>
             <group id="invitation" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Invitation to write review</label>
-                <comment><![CDATA[<?php echo $argv[1] ;?> can invite your customers to write customer reviews. It’s also possible to activate an extra reminder using the settings at https://dashboard.<?php echo $dashboard_domain ;?> . <strong>Note:</strong> this feature is only available to PLUS & EU members.]]></comment>
+                <comment><![CDATA[<?= $argv[1]; ?> can invite your customers to write customer reviews. It’s also possible to activate an extra reminder using the settings at https://dashboard.<?= $dashboard_domain; ?> . <strong>Note:</strong> this feature is only available to PLUS & EU members.]]></comment>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Send customers automatically receive an invitation to share a customer experience. This feature is only available for <?php echo $argv[1] ;?> PLUS members.</comment>
+                    <comment>Send customers automatically receive an invitation to share a customer experience. This feature is only available for <?= $argv[1]; ?> PLUS members.</comment>
                 </field>
                 <field id="language" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Language</label>
@@ -80,7 +80,7 @@
                 </field>
                 <field id="backlog" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Maximum processing time order</label>
-                    <comment>Number of days to complete order may last, if it takes longer then no invitation will be sent. Read more about this feature on <?php echo $argv[1] ;?>.nl.</comment>
+                    <comment>Number of days to complete order may last, if it takes longer then no invitation will be sent. Read more about this feature on <?= $argv[1]; ?>.nl.</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
                 <field id="resend_double" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -97,8 +97,8 @@
                 </field>
             </group>
             <group id="sidebar" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label><?php echo $argv[1] ;?> Javascript integration</label>
-                <comment><![CDATA[The <?php echo $argv[1] ;?> javascript integration ensures that your <?php echo $argv[1] ;?> to load page on your own web store. Now customers don't have to leave your store anymore to read the reviews. This effectively increases your conversion. The display of the javascript integration can be personalized via https://dashboard.<?php echo $dashboard_domain ;?>. In your dashboard you will find under the option the personalization options such as how the sidebar is displayed and if it is activated on the mobile.]]></comment>
+                <label><?= $argv[1]; ?> Javascript integration</label>
+                <comment><![CDATA[The <?= $argv[1]; ?> javascript integration ensures that your <?= $argv[1]; ?> to load page on your own web store. Now customers don't have to leave your store anymore to read the reviews. This effectively increases your conversion. The display of the javascript integration can be personalized via https://dashboard.<?= $dashboard_domain; ?>. In your dashboard you will find under the option the personalization options such as how the sidebar is displayed and if it is activated on the mobile.]]></comment>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Javascript Integration</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

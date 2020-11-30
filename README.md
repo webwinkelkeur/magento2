@@ -25,3 +25,7 @@ Start by bringing up a web and database container using Docker Compose:
 Now install Magento using the included script:
 
     bin/install-magento
+
+Finally, install the module itself:
+
+    bin/install-module webwinkelkeur

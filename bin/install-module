@@ -34,16 +34,10 @@ if ! in_list "$project" "${projects[@]}"; then
 	err_usage
 fi
 
-root_namespace="$(
-	grep '^namespace\>' "$project/Setup/Extension.php" |
-	awk '{print $2}' |
-	awk -F'\' '{print $1}'
-)"
-
 mkdir -p "www/app/code/Valued"
-mkdir -p "www/app/code/$root_namespace"
+mkdir -p "www/app/code/$project"
 
 ln -sfn ../../../../common www/app/code/Valued/Magento2
-ln -sfn "../../../../$project" "www/app/code/$root_namespace/Magento2"
+ln -sfn "../../../../$project" "www/app/code/$project/Magento2"
 
 ./bin/magento module:enable WebwinkelKeur_Magento2

@@ -1,6 +1,6 @@
+!/common/etc
 /dist
+/*/etc
 /.php_cs.cache
-/trustprofile/etc/
 /*/vendor
-/webwinkelkeur/etc/
 /www

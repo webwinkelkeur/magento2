@@ -1,8 +1,8 @@
-!/common/etc
-!/common/view
 /dist
-/*/etc
 /.php_cs.cache
+/TrustProfile/etc
+/TrustProfile/view
 /*/vendor
-/*/view
+/WebwinkelKeur/etc
+/WebwinkelKeur/view
 /www

@@ -9,6 +9,10 @@ COPY_TARGETS := $(foreach project,$(PROJECTS),$(patsubst %,$(project)/%,$(COPY_S
 all : xmls copies autoloaders
 .PHONY : all
 
+clean :
+	git clean -dfX $(PROJECTS)
+.PHONY : clean
+
 xmls : $(XML_TARGETS)
 .PHONY : xmls
 

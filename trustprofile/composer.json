@@ -2,7 +2,6 @@
   "name": "trustprofile/magento2",
   "description": "TrustProfile integration for Magento 2",
   "type": "magento2-module",
-  "version": "$VERSION$",
   "license": [
     "OSL-3.0",
     "AFL-3.0"
@@ -15,7 +14,8 @@
       "registration.php"
     ],
     "psr-4": {
-      "Valued\\Magento2\\": ""
+      "Valued\\Magento2\\": "common",
+      "TrustProfile\\Magento2\\": ""
     }
   }
 }

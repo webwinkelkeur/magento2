@@ -12,8 +12,11 @@ use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Valued\Magento2\Helper\Reviews as ReviewsHelper;
 use Valued\Magento2\Model\Api as ApiModel;
+use Valued\Magento2\Setup\ExtensionBase;
 
 class Import extends Action {
+    private $extension;
+
     /**
      * @var JsonFactory
      */
@@ -47,19 +50,22 @@ class Import extends Action {
      * @param JsonFactory       $resultJsonFactory
      * @param ReviewsHelper     $reviewHelper
      * @param TypeListInterface $cacheTypeList
+     * @param ExtensionBase     $extension
      */
     public function __construct(
         Context $context,
         ApiModel $apiModel,
         JsonFactory $resultJsonFactory,
         ReviewsHelper $reviewHelper,
-        TypeListInterface $cacheTypeList
+        TypeListInterface $cacheTypeList,
+        ExtensionBase $extension
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->apiModel = $apiModel;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->request = $context->getRequest();
         $this->cacheTypeList = $cacheTypeList;
+        $this->extension = $extension;
         parent::__construct($context);
     }
 
@@ -120,7 +126,6 @@ class Import extends Action {
      * @return bool
      */
     protected function _isAllowed() {
-        //TODO make generic
-        return $this->_authorization->isAllowed('WebwinkelKeur_Magento2::config');
+        return $this->_authorization->isAllowed($this->extension->getModuleCode() . '::config');
     }
 }

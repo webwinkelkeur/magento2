@@ -10,14 +10,15 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Valued\Magento2\Helper\Reviews as ReviewsHelper;
+use Valued\Magento2\Setup\ExtensionBase;
 
 class ImportButton extends Field {
     /**
      * @var string
      */
-    //TODO make generic
-    protected $_template = 'WebwinkelKeur_Magento2::system/config/button/button.phtml';
+    protected $_template = '%s::system/config/button/button.phtml';
 
+    private $extension;
     /**
      * @var ReviewsHelper
      */
@@ -31,15 +32,19 @@ class ImportButton extends Field {
     /**
      * @param Context       $context
      * @param ReviewsHelper $reviewHelper
+     * @param ExtensionBase $extension
      * @param array         $data
      */
     public function __construct(
         Context $context,
         ReviewsHelper $reviewHelper,
+        ExtensionBase $extension,
         array $data = []
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->request = $context->getRequest();
+        $this->extension = $extension;
+        $this->_template = sprintf($this->_template, $this->extension->getModuleCode());
         parent::__construct($context, $data);
     }
 
@@ -70,11 +75,9 @@ class ImportButton extends Field {
         $storeId = $this->request->getParam('store', 0);
         $websiteId = $this->request->getParam('website');
         if (!empty($websiteId)) {
-            //TODO make generic
-            return $this->getUrl('webwinkelkeur/actions/import/website/' . $websiteId);
+            return $this->getUrl($this->extension->getSlug() . '/actions/import/website/' . $websiteId);
         }
-        //TODO make generic
-        return $this->getUrl('webwinkelkeur/actions/import/store/' . $storeId);
+        return $this->getUrl($this->extension->getSlug() . '/actions/import/store/' . $storeId);
     }
 
     /**

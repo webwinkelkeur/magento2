@@ -13,16 +13,16 @@ use Psr\Log\LoggerInterface;
 use Valued\Magento2\Helper\General as GeneralHelper;
 use Valued\Magento2\Helper\Invitation as InvitationHelper;
 use Valued\Magento2\Helper\Reviews as ReviewsHelper;
+use Valued\Magento2\Setup\ExtensionBase;
 
 class Api {
-    //TODO make generic
-    const REVIEWS_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/ratings_summary.json?id=%s&code=%s';
-    //TODO make generic
-    const INVITATION_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/invitations.json?id=%s&code=%s';
-    //TODO make generic
-    const WEBSHOP_URL = 'https://dashboard.webwinkelkeur.nl/api/1.0/webshop.json?id=%s&code=%s';
+    const REVIEWS_URL = 'https://%s/api/1.0/ratings_summary.json?id=%s&code=%s';
+    const INVITATION_URL = 'https://%s/api/1.0/invitations.json?id=%s&code=%s';
+    const WEBSHOP_URL = 'https://%s/api/1.0/webshop.json?id=%s&code=%s';
 
     const DEFAULT_TIMEOUT = 5;
+
+    private $extension;
 
     /**
      * @var InvitationHelper
@@ -63,6 +63,7 @@ class Api {
      * @param Curl             $curl
      * @param DateTime         $dateTime
      * @param LoggerInterface  $logger
+     * @param ExtensionBase    $extension
      */
     public function __construct(
         ReviewsHelper $reviewHelper,
@@ -70,7 +71,8 @@ class Api {
         InvitationHelper $inviationHelper,
         Curl $curl,
         DateTime $dateTime,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ExtensionBase $extension
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
@@ -78,6 +80,7 @@ class Api {
         $this->curl = $curl;
         $this->date = $dateTime;
         $this->logger = $logger;
+        $this->extension = $extension;
     }
 
     /**
@@ -106,7 +109,10 @@ class Api {
      */
     public function updateReviewStats($data) {
         try {
-            $url = sprintf(self::REVIEWS_URL, $data['webshop_id'], $data['api_key']);
+            $url = sprintf(
+                sprintf(self::REVIEWS_URL, $this->extension->getDashboardDomain()),
+                $data['webshop_id'], $data['api_key']
+            );
             $curl = $this->curl;
             $curl->addOption(CURLOPT_URL, $url);
             $curl->addOption(CURLOPT_RETURNTRANSFER, 1);
@@ -134,7 +140,11 @@ class Api {
      */
     public function updateWebshopData($data) {
         try {
-            $url = sprintf(self::WEBSHOP_URL, $data['webshop_id'], $data['api_key']);
+            $url = sprintf(
+                sprintf(self::WEBSHOP_URL, $this->extension->getDashboardDomain()),
+                $data['webshop_id'],
+                $data['api_key']
+            );
             $curl = $this->curl;
             $curl->addOption(CURLOPT_URL, $url);
             $curl->addOption(CURLOPT_RETURNTRANSFER, 1);
@@ -208,7 +218,11 @@ class Api {
      * @return bool|mixed
      */
     public function postInvitation($request, $config) {
-        $url = sprintf(self::INVITATION_URL, $config['webshop_id'], $config['api_key']);
+        $url = sprintf(
+            sprintf(self::INVITATION_URL, $this->extension->getDashboardDomain()),
+            $config['webshop_id'],
+            $config['api_key']
+        );
         try {
             $curl = $this->curl;
             $curl->addOption(CURLOPT_RETURNTRANSFER, true);
@@ -228,8 +242,7 @@ class Api {
                 $message = 'unknown error';
             }
             if (!empty($config['debug'])) {
-                //TODO make generic
-                $debugMsg = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
+                $debugMsg = $this->extension->getName() . ' - Invitation #' . $request['order'] . ' ';
                 $debugMsg .= '(Status: ' . $status . ', Msg: ' . $message . ', ';
                 $debugMsg .= 'Url: ' . $url . ', Data: ' . json_encode($request) . ')';
                 $this->logger->debug($debugMsg);
@@ -239,8 +252,7 @@ class Api {
             }
         } catch (\Exception $e) {
             if (!empty($config['debug'])) {
-                //TODO make generic
-                $debugMsg = 'WebwinkelKeur - Invitation #' . $request['order'] . ' ';
+                $debugMsg = $this->extension->getName() . ' - Invitation #' . $request['order'] . ' ';
                 $debugMsg .= '(Error: ' . $e . ', Request: ' . $url . ' Data: ' . json_encode($request) . ')';
                 $this->logger->debug($debugMsg);
             }

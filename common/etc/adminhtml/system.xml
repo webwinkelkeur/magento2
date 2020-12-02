@@ -97,7 +97,7 @@
             </group>
             <group id="sidebar" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>{{ PROJECT }} Javascript integration</label>
-                <comment><![CDATA[The {{ PROJECT }} javascript integration ensures that your {{ PROJECT }} to load page on your own web store. Now customers don't have to leave your store anymore to read the reviews. This effectively increases your conversion. The display of the javascript integration can be personalized via https://dashboard.{{ DASHBOARD_DOMAIN }}. In your dashboard you will find under the option the personalization options such as how the sidebar is displayed and if it is activated on the mobile.]]></comment>
+                <comment><![CDATA[The {{ PROJECT }} javascript integration ensures that your {{ PROJECT }} to load page on your own web store. Now customers don't have to leave your store anymore to read the reviews. This effectively increases your conversion. The display of the javascript integration can be personalized via https://{{ DASHBOARD_DOMAIN }}. In your dashboard you will find under the option the personalization options such as how the sidebar is displayed and if it is activated on the mobile.]]></comment>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Javascript Integration</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

@@ -110,8 +110,10 @@ class Api {
     public function updateReviewStats($data) {
         try {
             $url = sprintf(
-                sprintf(self::REVIEWS_URL, $this->extension->getDashboardDomain()),
-                $data['webshop_id'], $data['api_key']
+                self::REVIEWS_URL,
+                $this->extension->getDashboardDomain(),
+                $data['webshop_id'],
+                $data['api_key']
             );
             $curl = $this->curl;
             $curl->addOption(CURLOPT_URL, $url);
@@ -141,7 +143,8 @@ class Api {
     public function updateWebshopData($data) {
         try {
             $url = sprintf(
-                sprintf(self::WEBSHOP_URL, $this->extension->getDashboardDomain()),
+                self::WEBSHOP_URL,
+                $this->extension->getDashboardDomain(),
                 $data['webshop_id'],
                 $data['api_key']
             );
@@ -219,7 +222,7 @@ class Api {
      */
     public function postInvitation($request, $config) {
         $url = sprintf(
-            sprintf(self::INVITATION_URL, $this->extension->getDashboardDomain()),
+            self::INVITATION_URL, $this->extension->getDashboardDomain(),
             $config['webshop_id'],
             $config['api_key']
         );

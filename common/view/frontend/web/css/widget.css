@@ -57,3 +57,56 @@
         font-size: 13px;
         margin-top: 8px;
 }
+
+
+.trustprofile-small-score .rating-summary {
+        float: left;
+        margin-right: 10px;
+}
+
+.trustprofile-small-score .brandicon {
+        background: url(../images/trustprofile_brand_icon.png) no-repeat;
+        background-size: 20px;
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        margin: -3px 0 0 -24px;
+}
+
+.trustprofile-small-score p {
+        display: block;
+        padding: 4px;
+        margin-bottom: 0;
+}
+
+.trustprofile-small-score a {
+        margin-left: 25px;
+}
+
+.trustprofile-big-score {
+        background-image: url(../images/trustprofile_brand.png);
+        padding: 20px;
+        width: 250px;
+        background: #f8f8f8 no-repeat 60px 20px;
+        background-size: 150px;
+        image-rendering: auto;
+}
+
+.trustprofile-big-score p {
+        display: block;
+        margin-top: 120px;
+        margin-bottom: 5px;
+}
+
+.trustprofile-big-score .score {
+        font-weight: 700;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(126,128,126,0.08);
+        display: block;
+}
+
+.trustprofile-big-score .text {
+        display: block;
+        font-size: 13px;
+        margin-top: 8px;
+}

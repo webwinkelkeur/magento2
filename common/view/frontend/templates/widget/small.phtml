@@ -5,11 +5,12 @@
  * @var $block \Valued\Magento2\Block\Widget\Summary
  */
 ?>
-<div class="webwinkelkeur-small-widget">
+<?php echo $block->getSlug(); ?>
+<div class="<?= $block->getSlug(); ?>-small-widget">
     <?php if ($summary = $block->getSummaryData()) { ?>
         <?php if ($block->getRichSnippets()) { ?>
             <div itemscope itemtype="http://schema.org/WebPage">
-                <div class="webwinkelkeur-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
+                <div class="<?= $block->getSlug(); ?>-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
                     <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                         <div class="rating-summary">
                             <div class="rating-result">
@@ -23,7 +24,7 @@
                 </div>
             </div>
         <?php } else { ?>
-            <div class="webwinkelkeur-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
+            <div class="<?= $block->getSlug(); ?>-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
                 <div class="rating-summary">
                     <div class="rating-result">
                   		<span style="width: <?php echo (int)$summary['percentage']; ?>%;"></span>

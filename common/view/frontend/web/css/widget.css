@@ -85,9 +85,9 @@
 
 .trustprofile-big-score {
         background-image: url(../images/trustprofile_brand.png);
+        background-repeat: no-repeat;
         padding: 20px;
         width: 250px;
-        background: #f8f8f8 no-repeat 60px 20px;
         background-size: 150px;
         image-rendering: auto;
 }

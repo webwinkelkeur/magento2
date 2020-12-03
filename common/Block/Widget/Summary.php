@@ -10,8 +10,10 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
 use Valued\Magento2\Helper\Reviews as ReviewsHelper;
+use Valued\Magento2\Setup\ExtensionBase;
 
 class Summary extends Template implements BlockInterface {
+    private $extension;
     /**
      * @var ReviewsHelper
      */
@@ -27,9 +29,11 @@ class Summary extends Template implements BlockInterface {
     public function __construct(
         Context $context,
         ReviewsHelper $reviewHelper,
+        ExtensionBase $extension,
         array $data = []
     ) {
         $this->reviewHelper = $reviewHelper;
+        $this->extension = $extension;
         parent::__construct($context, $data);
     }
 
@@ -75,5 +79,9 @@ class Summary extends Template implements BlockInterface {
         }
 
         return $summaryData;
+    }
+
+    public function getSlug() {
+        return $this->extension->getSlug();
     }
 }

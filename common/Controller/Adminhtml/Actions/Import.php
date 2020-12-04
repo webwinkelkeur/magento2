@@ -58,16 +58,16 @@ class Import extends Action {
                         $data['score_max'],
                         $data['total_reviews']
                     );
-                    $msg[$key] = '<span class="webwinkelkeur-success-import">' . $returnMsg . '</span>';
+                    $msg[$key] = '<span class="valued-success-import">' . $returnMsg . '</span>';
                 }
                 if ($data['status'] == 'error') {
                     $returnMsg = __('Webshop ID: %1<br> %2', $key, $data['msg']);
-                    $msg[$key] = '<span class="webwinkelkeur-error-import">' . $returnMsg . '</span>';
+                    $msg[$key] = '<span class="valued-error-import">' . $returnMsg . '</span>';
                 }
             }
         } else {
             $returnMsg = __('Empty result');
-            $msg[] = '<span class="webwinkelkeur-error-import">' . $returnMsg . '</span>';
+            $msg[] = '<span class="valued-error-import">' . $returnMsg . '</span>';
         }
 
         $storeId = $this->request->getParam('store');

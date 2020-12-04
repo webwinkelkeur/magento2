@@ -80,7 +80,7 @@
         float: left;
 }
 
-.webwinkelkeur-success-import {
+.valued-success-import {
         background-color: #f8f8f8;
         color: #514943;
         padding: 4px 0 5px 20px;
@@ -92,12 +92,12 @@
         margin-bottom: 5px;
 }
 
-.webwinkelkeur-success-import:before {
+.valued-success-import:before {
         content: " ✓ Success : ";
         color: green;
 }
 
-.webwinkelkeur-error-import {
+.valued-error-import {
         background-color: #f8f8f8;
         color: #514943;
         padding: 4px 0 5px 20px;
@@ -109,12 +109,12 @@
         margin-bottom: 5px;
 }
 
-.webwinkelkeur-error-import:before {
+.valued-error-import:before {
         content: " ! ";
         color: orange;
 }
 
-.webwinkelkeur-review-message {
+.valued-review-message {
         background-color: #f8f8f8;
         color: #514943;
         padding: 4px 0 5px 20px;
@@ -127,7 +127,7 @@
         margin-top: 10px;
 }
 
-.webwinkelkeur-review-message:before {
+.valued-review-message:before {
         content: " ✖ Error : ";
         color: red;
 }

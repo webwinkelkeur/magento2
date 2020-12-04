@@ -10,7 +10,7 @@
         <?php
         if ($summaryData = $block->getReviewSummary()) {
             foreach ($summaryData as $key => $summary) {
-                echo '<span class="webwinkelkeur-review-summary">';
+                echo '<span class="valued-review-summary">';
                 if ($summary['status'] == 'success') {
                     echo '<div class="field-summary-rating">';
                     echo '	<div class="rating-box">';
@@ -19,7 +19,7 @@
                     echo '</div>';
                     echo __('%1 <br>Rated %2 with <a href="%3" target="_blank">%4 reviews</a>', $block->escapeHtml($summary['name']), $block->escapeHtml($summary['score']) . '/' . (int)$summary['score_max'], $block->escapeUrl($summary['link']['default']), (int)$summary['total_reviews']);
                 } else {
-                    echo '<span class="webwinkelkeur-review-message">';
+                    echo '<span class="valued-review-message">';
                     echo 'Website ID: ' . $key . '<br/>Error: ' . $summary['msg'];
                     echo '</div>';
                 }

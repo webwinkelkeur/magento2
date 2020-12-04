@@ -13,28 +13,14 @@ use Valued\Magento2\Helper\Reviews as ReviewsHelper;
 use Valued\Magento2\Setup\ExtensionBase;
 
 class ImportButton extends Field {
-    /**
-     * @var string
-     */
     protected $_template = '%s::system/config/button/button.phtml';
 
     private $extension;
-    /**
-     * @var ReviewsHelper
-     */
+
     private $reviewHelper;
 
-    /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
     private $request;
 
-    /**
-     * @param Context       $context
-     * @param ReviewsHelper $reviewHelper
-     * @param ExtensionBase $extension
-     * @param array         $data
-     */
     public function __construct(
         Context $context,
         ReviewsHelper $reviewHelper,
@@ -48,29 +34,16 @@ class ImportButton extends Field {
         parent::__construct($context, $data);
     }
 
-    /**
-     * @param AbstractElement $element
-     *
-     * @return string
-     */
     public function render(AbstractElement $element) {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
 
         return parent::render($element);
     }
 
-    /**
-     * @param AbstractElement $element
-     *
-     * @return string
-     */
     public function _getElementHtml(AbstractElement $element) {
         return $this->_toHtml();
     }
 
-    /**
-     * @return string
-     */
     public function getAjaxUrl() {
         $storeId = $this->request->getParam('store', 0);
         $websiteId = $this->request->getParam('website');
@@ -80,18 +53,10 @@ class ImportButton extends Field {
         return $this->getUrl($this->extension->getSlug() . '/actions/import/store/' . $storeId);
     }
 
-    /**
-     * Get's last imported date to display as comment msg under button
-     *
-     * @return mixed
-     */
     public function getLastImported() {
         return $this->reviewHelper->getLastImported();
     }
 
-    /**
-     * @return mixed
-     */
     public function getButtonHtml() {
         if (!$this->checkConnectorData()) {
             $buttonData = ['id' => 'import_button', 'label' => __('Manually import summary'), 'class' => 'disabled'];
@@ -104,9 +69,6 @@ class ImportButton extends Field {
         return $button->toHtml();
     }
 
-    /**
-     * @return bool
-     */
     public function checkConnectorData() {
         $storeId = $this->request->getParam('store');
         $websiteId = $this->request->getParam('website');

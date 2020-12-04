@@ -24,41 +24,16 @@ class Reviews extends AbstractHelper {
 
     private $extension;
 
-    /**
-     * @var DateTime
-     */
     private $datetime;
 
-    /**
-     * @var TimezoneInterface
-     */
     private $timezone;
 
-    /**
-     * @var StoreManagerInterface
-     */
     private $storeManager;
 
-    /**
-     * @var General
-     */
     private $generalHelper;
 
-    /**
-     * @var TypeListInterface
-     */
     private $cacheTypeList;
 
-    /**
-     * Reviews constructor.
-     * @param Context $context
-     * @param StoreManagerInterface $storeManager
-     * @param DateTime $datetime
-     * @param TimezoneInterface $timezone
-     * @param General $generalHelper
-     * @param TypeListInterface $cacheTypeList
-     * @param ExtensionBase $extension
-     */
     public function __construct(
         Context $context,
         StoreManagerInterface $storeManager,
@@ -77,10 +52,6 @@ class Reviews extends AbstractHelper {
         parent::__construct($context);
     }
 
-    /**
-     * Get array of unique connectors
-     * @return array
-     */
     public function getUniqueConnectorData() {
         $stores = $this->storeManager->getStores();
         $connectorData = [];
@@ -93,11 +64,6 @@ class Reviews extends AbstractHelper {
         return $connectorData;
     }
 
-    /**
-     * @param int $storeId
-     * @param null $websiteId
-     * @return array
-     */
     public function getConnectorData($storeId = 0, $websiteId = null) {
         $connectorData = [];
 
@@ -140,12 +106,6 @@ class Reviews extends AbstractHelper {
         return $connectorData;
     }
 
-    /**
-     * Save results to config
-     * @param $result
-     * @param string $type
-     * @return array
-     */
     public function saveReviewResult($result, $type = 'cron') {
         $summaryData = [];
         foreach ($result as $key => $row) {
@@ -194,11 +154,6 @@ class Reviews extends AbstractHelper {
         return $summaryData;
     }
 
-    /**
-     * Summay data getter for block usage
-     * @param int $storeId
-     * @return mixed
-     */
     public function getSummaryData($storeId) {
         $webshopId = $this->generalHelper->getStoreValue(
             $this->extension->getSlug() . self::XPATH_REVIEWS_WEBSHOP_ID,
@@ -217,10 +172,6 @@ class Reviews extends AbstractHelper {
         return false;
     }
 
-    /**
-     * Array of all stored summay data
-     * @return mixed
-     */
     public function getAllSummaryData() {
         return json_decode($this->generalHelper->getStoreValue(
             $this->extension->getSlug() . self::XPATH_REVIEWS_RESULT),
@@ -228,10 +179,6 @@ class Reviews extends AbstractHelper {
         );
     }
 
-    /**
-     * Last imported date
-     * @return mixed
-     */
     public function getLastImported() {
         return $this->generalHelper->getStoreValue($this->extension->getSlug() .  self::XPATH_REVIEWS_LAST_IMPORT);
     }

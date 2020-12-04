@@ -27,36 +27,14 @@ class Invitation extends AbstractHelper {
 
     private $extension;
 
-    /**
-     * @var ProductRepository
-     */
     private $productRepository;
 
-    /**
-     * @var Image
-     */
     private $imgHelper;
 
-    /**
-     * @var General
-     */
     private $generalHelper;
 
-    /**
-     * @var StoreManagerInterface
-     */
     private $storeManager;
 
-    /**
-     * Invitation constructor.
-     *
-     * @param Context               $context
-     * @param ProductRepository     $productRepository
-     * @param StoreManagerInterface $storeManager
-     * @param Image                 $imgHelper
-     * @param General               $generalHelper
-     * @param ExtensionBase         $extension
-     */
     public function __construct(
         Context $context,
         ProductRepository $productRepository,
@@ -73,13 +51,6 @@ class Invitation extends AbstractHelper {
         parent::__construct($context);
     }
 
-    /**
-     * Create array of invitation config data
-     *
-     * @param $storeId
-     *
-     * @return array|bool
-     */
     public function getConfigData($storeId) {
         if ($this->getEnabledInvitation($storeId)) {
             $config = [];
@@ -134,13 +105,6 @@ class Invitation extends AbstractHelper {
         return false;
     }
 
-    /**
-     * Check if Invitation is enabled
-     *
-     * @param $storeId
-     *
-     * @return bool|mixed
-     */
     public function getEnabledInvitation($storeId) {
         if ($this->getEnabled($storeId)) {
             return $this->generalHelper->getStoreValue(
@@ -152,22 +116,10 @@ class Invitation extends AbstractHelper {
         return true;
     }
 
-    /**
-     * Check if extension is enabled
-     *
-     * @param $storeId
-     *
-     * @return mixed
-     */
     public function getEnabled($storeId) {
         return $this->generalHelper->getEnabled($storeId);
     }
-
-    /**
-     * @param \Magento\Sales\Model\Order $order
-     *
-     * @return mixed
-     */
+    
     public function getCustomerName($order) {
         if ($order->getCustomerId()) {
             return $order->getCustomerName();

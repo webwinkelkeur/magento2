@@ -17,41 +17,16 @@ use Valued\Magento2\Setup\ExtensionBase;
 class Import extends Action {
     private $extension;
 
-    /**
-     * @var JsonFactory
-     */
     private $resultJsonFactory;
 
-    /**
-     * @var ApiModel
-     */
     private $apiModel;
 
-    /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
     private $request;
 
-    /**
-     * @var ReviewsHelper
-     */
     private $reviewHelper;
 
-    /**
-     * @var TypeListInterface
-     */
     private $cacheTypeList;
 
-    /**
-     * Import constructor.
-     *
-     * @param Context           $context
-     * @param ApiModel          $apiModel
-     * @param JsonFactory       $resultJsonFactory
-     * @param ReviewsHelper     $reviewHelper
-     * @param TypeListInterface $cacheTypeList
-     * @param ExtensionBase     $extension
-     */
     public function __construct(
         Context $context,
         ApiModel $apiModel,
@@ -69,9 +44,6 @@ class Import extends Action {
         parent::__construct($context);
     }
 
-    /**
-     * @return $this
-     */
     public function execute() {
         $msg = [];
         $imports = $this->apiModel->getReviews('manual');
@@ -122,9 +94,6 @@ class Import extends Action {
         return $result->setData(['success' => true, 'msg' => $displayMsg]);
     }
 
-    /**
-     * @return bool
-     */
     protected function _isAllowed() {
         return $this->_authorization->isAllowed($this->extension->getModuleCode() . '::config');
     }

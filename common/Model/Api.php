@@ -24,47 +24,18 @@ class Api {
 
     private $extension;
 
-    /**
-     * @var InvitationHelper
-     */
     private $inviationHelper;
 
-    /**
-     * @var ReviewsHelper
-     */
     private $reviewHelper;
 
-    /**
-     * @var Curl
-     */
     private $curl;
 
-    /**
-     * @var LoggerInterface
-     */
     private $logger;
 
-    /**
-     * @var GeneralHelper
-     */
     private $generalHelper;
 
-    /**
-     * @var DateTime
-     */
     private $date;
 
-    /**
-     * Api constructor.
-     *
-     * @param ReviewsHelper    $reviewHelper
-     * @param GeneralHelper    $generalHelper
-     * @param InvitationHelper $inviationHelper
-     * @param Curl             $curl
-     * @param DateTime         $dateTime
-     * @param LoggerInterface  $logger
-     * @param ExtensionBase    $extension
-     */
     public function __construct(
         ReviewsHelper $reviewHelper,
         GeneralHelper $generalHelper,
@@ -83,13 +54,6 @@ class Api {
         $this->extension = $extension;
     }
 
-    /**
-     * Get Reviews by looping unique connector data
-     *
-     * @param $type
-     *
-     * @return array
-     */
     public function getReviews($type) {
         $connectorData = $this->reviewHelper->getUniqueConnectorData();
         $result = [];
@@ -100,13 +64,6 @@ class Api {
         return $this->reviewHelper->saveReviewResult($result, $type);
     }
 
-    /**
-     * Get summary data from WebwinkelKeur API
-     *
-     * @param $data
-     *
-     * @return array|mixed
-     */
     public function updateReviewStats($data) {
         try {
             $url = sprintf(
@@ -135,11 +92,6 @@ class Api {
         }
     }
 
-    /**
-     * @param $data
-     *
-     * @return array|mixed
-     */
     public function updateWebshopData($data) {
         try {
             $url = sprintf(
@@ -167,13 +119,6 @@ class Api {
         }
     }
 
-    /**
-     * SendInviation function for Orders
-     *
-     * @param Order $order
-     *
-     * @return bool|mixed
-     */
     public function sendInvitation(Order $order) {
         $storeId = $order->getStoreId();
 
@@ -212,14 +157,6 @@ class Api {
         return $this->postInvitation($request, $config);
     }
 
-    /**
-     * Post order data for invitation
-     *
-     * @param $request
-     * @param $config
-     *
-     * @return bool|mixed
-     */
     public function postInvitation($request, $config) {
         $url = sprintf(
             self::INVITATION_URL, $this->extension->getDashboardDomain(),

@@ -25,42 +25,16 @@ class General extends AbstractHelper {
 
     private $extension;
 
-    /**
-     * @var ModuleListInterface
-     */
     private $moduleList;
 
-    /**
-     * @var ProductMetadataInterface
-     */
     private $metadata;
 
-    /**
-     * @var StoreManagerInterface
-     */
     private $storeManager;
 
-    /**
-     * @var ObjectManagerInterface
-     */
     private $objectManager;
 
-    /**
-     * @var Config
-     */
     private $config;
 
-    /**
-     * General constructor.
-     *
-     * @param Context                  $context
-     * @param ObjectManagerInterface   $objectManager
-     * @param StoreManagerInterface    $storeManager
-     * @param ModuleListInterface      $moduleList
-     * @param ProductMetadataInterface $metadata
-     * @param Config                   $config
-     * @param ExtensionBase            $extension
-     */
     public function __construct(
         Context $context,
         ObjectManagerInterface $objectManager,
@@ -87,26 +61,10 @@ class General extends AbstractHelper {
         return false;
     }
 
-    /**
-     * General check if Extension is enabled
-     *
-     * @param null $storeId
-     *
-     * @return mixed
-     */
     public function getEnabled($storeId = null) {
         return $this->getStoreValue($this->extension->getSlug() . self::XPATH_EXTENSION_ENABLED, $storeId);
     }
 
-    /**
-     * Get Configuration data
-     *
-     * @param      $path
-     * @param      $scope
-     * @param null $storeId
-     *
-     * @return mixed
-     */
     public function getStoreValue($path, $storeId = null, $scope = null) {
         if (empty($scope)) {
             $scope = ScopeInterface::SCOPE_STORE;
@@ -115,37 +73,18 @@ class General extends AbstractHelper {
         return $this->scopeConfig->getValue($path, $scope, $storeId);
     }
 
-    /**
-     * @param $path
-     * @param $websiteId
-     *
-     * @return mixed
-     */
     public function getWebsiteValue($path, $websiteId) {
         return $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_WEBSITE, $websiteId);
     }
 
-    /**
-     * @return mixed
-     */
     public function getWebshopId() {
         return $this->getStoreValue($this->extension->getSlug() . self::XPATH_API_WEBSHOP_ID);
     }
 
-    /**
-     * @return mixed
-     */
     public function getLanguage() {
         return $this->getStoreValue($this->extension->getSlug() . self::XPATH_SIDEBAR_LANGUAGE);
     }
 
-    /**
-     * Set configuration data function
-     *
-     * @param      $value
-     * @param      $key
-     * @param null $storeId
-     */
     public function setConfigData($value, $key, $storeId = null) {
         if ($storeId) {
             $this->config->saveConfig($key, $value, 'stores', $storeId);
@@ -154,33 +93,16 @@ class General extends AbstractHelper {
         }
     }
 
-    /**
-     * Create error response array for usage in config (manual import)
-     *
-     * @param $msg
-     *
-     * @return array
-     */
     public function createResponseError($msg) {
         return ['status' => 'error', 'msg' => $msg];
     }
 
-    /**
-     * Returns current version of the extension
-     *
-     * @return mixed
-     */
     public function getExtensionVersion() {
         $moduleInfo = $this->moduleList->getOne($this->extension->getModuleCode());
 
         return $moduleInfo['setup_version'];
     }
 
-    /**
-     * Returns current version of Magento
-     *
-     * @return string
-     */
     public function getMagentoVersion() {
         return $this->metadata->getVersion();
     }

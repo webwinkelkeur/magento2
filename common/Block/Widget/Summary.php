@@ -14,18 +14,9 @@ use Valued\Magento2\Setup\ExtensionBase;
 
 class Summary extends Template implements BlockInterface {
     private $extension;
-    /**
-     * @var ReviewsHelper
-     */
+
     private $reviewHelper;
 
-    /**
-     * Summary constructor.
-     *
-     * @param Context       $context
-     * @param ReviewsHelper $reviewHelper
-     * @param array         $data
-     */
     public function __construct(
         Context $context,
         ReviewsHelper $reviewHelper,
@@ -37,27 +28,16 @@ class Summary extends Template implements BlockInterface {
         parent::__construct($context, $data);
     }
 
-    /**
-     * Set template file, see getThemePath
-     */
     public function _construct() {
         $template = $this->getData('template');
         parent::_construct();
         $this->setTemplate($template);
     }
 
-    /**
-     * Rich Snippets check from Widget
-     * @return mixed
-     */
     public function getRichSnippets() {
         return $this->getData('rich_snippets');
     }
 
-    /**
-     * Get summary data from review helper by storeId
-     * @return array
-     */
     public function getSummaryData() {
         $storeId = $this->_storeManager->getStore()->getId();
         $summaryData = $this->reviewHelper->getSummaryData($storeId);

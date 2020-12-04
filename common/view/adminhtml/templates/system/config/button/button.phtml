@@ -24,7 +24,7 @@
                 onCreate: function() {
                     resultSpan.find('.connecting').show();
                     jQuery('#stats_result').text('');
-                    jQuery('#button-webwinkelkeur-note').text('');
+                    jQuery('#button-<? $block->getSlug() ;?>>-note').text('');
                 },
                 onSuccess: function(response) {
                     console.log(response);
@@ -46,6 +46,6 @@
     });
 </script>
 <?php echo $block->getButtonHtml() ?>
-<p class="note" id="button-webwinkelkeur-note">
+<p class="note" id="button-<?= $block->getSlug(); ?>>-note">
     <span><?php echo __('Last import: ') . $block->getLastImported() ?></span>
 </p>

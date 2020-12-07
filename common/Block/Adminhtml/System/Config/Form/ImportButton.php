@@ -79,8 +79,4 @@ class ImportButton extends Field {
 
         return false;
     }
-
-    public function getSlug() {
-        return $this->extension->getSlug();
-    }
 }

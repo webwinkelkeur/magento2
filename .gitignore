@@ -1,8 +1,10 @@
 /dist
 /.php_cs.cache
+/TrustProfile/Controller
 /TrustProfile/etc
 /TrustProfile/view
 /*/vendor
+/WebwinkelKeur/Controller
 /WebwinkelKeur/etc
 /WebwinkelKeur/view
 /www

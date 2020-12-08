@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+if (sizeof($argv) !== 3) {
+    fprintf(STDERR, "Usage: %s ROOT_NAMESPACE FILE\n", $argv[0]);
+    exit(1);
+}
+
+list (, $root_namespace, $file) = $argv;
+
+if (!preg_match('~^common/(.+)\.php$~', $file, $match)) {
+    fprintf(STDERR, "Invalid source file: %s\n", $file);
+    exit(2);
+}
+
+$cls = 'Valued\\Magento2\\' . str_replace('/', '\\', $match[1]);
+$cls_parts = explode('\\', $cls);
+
+$target_namespace = implode('\\', [$root_namespace, ...array_slice($cls_parts, 1, -1)]);
+$target_name = $cls_parts[sizeof($cls_parts) - 1];
+
+printf(
+    "<?php\nnamespace %s;\nclass %s extends \\%s {}\n",
+    $target_namespace,
+    $target_name,
+    $cls
+);

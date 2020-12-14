@@ -23,11 +23,11 @@
 }
 
 .webwinkelkeur-big-score.default, .webwinkelkeur-big-score.nl {
-        background-image: url(../images/webwinkelkeur_brand.png);
+        background-image: url(../images/webwinkelkeur_brand.svg);
 }
 
 .webwinkelkeur-big-score.de,.webwinkelkeur-big-score.en,.webwinkelkeur-big-score.es,.webwinkelkeur-big-score.fr {
-        background-image: url(../images/valuedshops_brand.png);
+        background-image: url(../images/valuedshops_brand.svg);
 }
 
 .webwinkelkeur-big-score {
@@ -83,7 +83,7 @@
 
 .trustprofile-big-score {
         background-color: #f8f8f8;
-        background-image: url(../images/trustprofile_brand.png);
+        background-image: url(../images/trustprofile_brand.svg);
         background-repeat: no-repeat;
         padding: 20px;
         width: 250px;

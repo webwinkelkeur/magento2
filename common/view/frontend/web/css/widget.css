@@ -85,9 +85,9 @@
         background-color: #f8f8f8;
         background-image: url(../images/trustprofile_brand.svg);
         background-repeat: no-repeat;
-        padding: 20px;
-        width: 250px;
+        background-position: 50% 30%;
         background-size: 250px;
+        width: 250px;
         image-rendering: auto;
 }
 

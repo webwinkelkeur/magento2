@@ -87,6 +87,7 @@
         background-repeat: no-repeat;
         background-position: 50% 30%;
         background-size: 250px;
+        padding: 20px;
         width: 250px;
         image-rendering: auto;
 }

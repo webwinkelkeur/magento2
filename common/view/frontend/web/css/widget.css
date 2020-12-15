@@ -24,17 +24,19 @@
 
 .webwinkelkeur-big-score.default, .webwinkelkeur-big-score.nl {
         background-image: url(../images/webwinkelkeur_brand.svg);
+        background-position: 50% 20%;
 }
 
 .webwinkelkeur-big-score.de,.webwinkelkeur-big-score.en,.webwinkelkeur-big-score.es,.webwinkelkeur-big-score.fr {
         background-image: url(../images/valuedshops_brand.svg);
+        background-position: 50% 30%;
 }
 
 .webwinkelkeur-big-score {
         padding: 20px;
         width: 250px;
         background: #f8f8f8 no-repeat 60px 20px;
-        background-size: 150px;
+        background-size: 250px;
         image-rendering: auto;
 }
 

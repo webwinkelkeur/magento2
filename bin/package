@@ -6,23 +6,47 @@ cd "$(dirname "$0")/.."
 version="$(git describe --tags --match 'v*')"
 version="${version#v}"
 
-relout="dist/webwinkelkeur-magento2-$version.zip"
-out="$PWD/$relout"
+projects=()
+for p in $(git ls-files '*/composer.json'); do
+	projects+=("${p%/*}")
+done
 
-rm -f "$out"
-mkdir -p "$(dirname "$out")"
+err_usage() {
+	echo "Usage: $0 { $(printf '%s | ' "${projects[@]}" | sed 's/ | $//') }" >&2
+	exit 1
+}
 
-tmp="$(mktemp -d)"
-cleanup() { rm -rf "$tmp"; }
-trap cleanup EXIT
+in_list() {
+	local needle="$1"
+	shift
+	while [[ $# -gt 0 ]]; do
+		if [[ $1 = $needle ]]; then
+			return 0
+		fi
+		shift
+	done
+	return 1
+}
 
-git archive HEAD . | tar xf - -C "$tmp"
+if [[ $# -ne 1 ]]; then
+	err_usage
+fi
 
-cd "$tmp"
-grep -FlR '$VERSION$' . | xargs -r -d'\n' perl -p -i -e 's/\$VERSION\$/'"$version"'/g'
+project="$1"
+if ! in_list "$project" "${projects[@]}"; then
+	err_usage
+fi
 
-rm -rf bin
 
-zip -qr9 "$out" *
+rm -rf tmp
+mkdir tmp
+cd "tmp"
+mkdir -p "$project/Magento2"
+mkdir -p Valued/Magento2
+cp -R ../"$project"/ "$project"/Magento2/
+cp -R ../common/ Valued/Magento2/
 
-echo "$relout"
+relout="dist/$(echo "$project" | tr '[:upper:]' '[:lower:]')-magento2-"$version".zip"
+zip -r -q -X ../"$relout" "$project"/Magento2/ Valued/Magento2/
+
+rm -rf tmp

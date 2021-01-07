@@ -24,12 +24,14 @@ COMPOSER_MEMORY_LIMIT=-1 composer create-project \
 
 docker-compose up -d
 
-while ! mysql -h 127.0.0.1 -P 26066 </dev/null; do
+mysql_opts=( -h 127.0.0.1 -P 26066 -u root --skip-password )
+
+while ! mysql "${mysql_opts[@]}" </dev/null; do
 	echo "Waiting for MariaDB to come online..." >&2
 	sleep 0.5
 done
 
-mysql -h 127.0.0.1 -P 26066 <<-EOF
+mysql "${mysql_opts[@]}" <<-EOF
 	DROP DATABASE IF EXISTS magento;
 	CREATE DATABASE magento;
 EOF

@@ -1,11 +1,11 @@
 SHELL = bash
 
-PROJECTS := $(patsubst %/composer.json,%,$(shell git ls-files '*/composer.json'))
-XML_TEMPLATES := $(shell git ls-files 'common/**.xml')
+PROJECTS := TrustProfile WebwinkelKeur
+XML_TEMPLATES := $(shell find common -type f -name '*.xml')
 XML_TARGETS := $(foreach project,$(PROJECTS),$(patsubst common/%,$(project)/%,$(XML_TEMPLATES)))
-COPY_SOURCES := $(shell git ls-files 'common/view')
+COPY_SOURCES := $(shell find common/view -type f)
 COPY_TARGETS := $(foreach project,$(PROJECTS),$(patsubst common/%,$(project)/%,$(COPY_SOURCES)))
-CLASS_BASES := $(shell git ls-files 'common/Controller/**.php')
+CLASS_BASES := $(shell find common/Controller -type f -name '*.php')
 CLASS_TARGETS := $(foreach project,$(PROJECTS),$(patsubst common/%,$(project)/%,$(CLASS_BASES)))
 AUTOLOADERS := $(patsubst %,%/vendor/autoload.php,$(PROJECTS))
 

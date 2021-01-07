@@ -3,50 +3,38 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-version="$(git describe --tags --match 'v*')"
-version="${version#v}"
-
-projects=()
-for p in $(git ls-files '*/composer.json'); do
-	projects+=("${p%/*}")
-done
-
-err_usage() {
-	echo "Usage: $0 { $(printf '%s | ' "${projects[@]}" | sed 's/ | $//') }" >&2
-	exit 1
-}
-
-in_list() {
-	local needle="$1"
-	shift
-	while [[ $# -gt 0 ]]; do
-		if [[ $1 = $needle ]]; then
-			return 0
-		fi
-		shift
-	done
-	return 1
-}
-
 if [[ $# -ne 1 ]]; then
-	err_usage
+	echo "Usage: $0 <PROJECT>" >&2
+	exit 1
 fi
 
 project="$1"
-if ! in_list "$project" "${projects[@]}"; then
-	err_usage
-fi
 
+version="$(git describe --tags --match 'v*')"
+version="${version#v}"
 
-rm -rf tmp
-mkdir tmp
-cd "tmp"
-mkdir -p "$project/Magento2"
-mkdir -p Valued/Magento2
-cp -R ../"$project"/ "$project"/Magento2/
-cp -R ../common/ Valued/Magento2/
+dist="$PWD/dist"
+out="$dist/$project-magento2-$version.zip"
+mkdir -p "$dist"
 
-relout="dist/$(echo "$project" | tr '[:upper:]' '[:lower:]')-magento2-"$version".zip"
-zip -r -q -X ../"$relout" "$project"/Magento2/ Valued/Magento2/
+tmp="$(mktemp -d)"
+cleanup() { rm -rf "$tmp"; }
+trap cleanup EXIT
 
-rm -rf tmp
+git archive HEAD | tar xf - -C "$tmp"
+
+cd "$tmp"
+
+make PROJECTS="$project" >&2
+
+find common -type f -not -name '*.php' -delete
+find common -type d -delete
+mv common "$project"
+
+jq '.version = $v' --arg v "$version" < "$project/composer.json" > "$project/composer.json~"
+mv "$project/composer.json"{~,}
+
+zip -r9 package.zip "$project" >&2
+mv package.zip "$out"
+
+echo "$out"

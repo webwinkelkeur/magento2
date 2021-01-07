@@ -13,7 +13,7 @@ all : $(XML_TARGETS) $(COPY_TARGETS) $(CLASS_TARGETS) $(AUTOLOADERS)
 .PHONY : all
 
 clean :
-	git clean -dfX $(PROJECTS)
+	git clean -df $(PROJECTS)
 .PHONY : clean
 
 %/vendor/autoload.php : %/composer.json

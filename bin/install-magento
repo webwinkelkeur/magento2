@@ -16,6 +16,19 @@ docker-compose stop web
 
 rm -rf www
 
+export COMPOSER_HOME="$(mktemp -d)"
+cleanup() { rm -rf "$COMPOSER_HOME"; }
+trap cleanup EXIT
+
+if [[ ! -f ~/.composer/auth.json ]]; then
+	mkdir -p ~/.composer
+	echo '{}' > ~/.composer/auth.json
+fi
+ln -sfn ~/.composer/auth.json "$COMPOSER_HOME"
+mkdir -p ~/.composer/cache
+ln -sfn ~/.composer/cache "$COMPOSER_HOME"
+echo '{"config": {"platform": {"php": "7.4"}}}' > "$COMPOSER_HOME/config.json"
+
 COMPOSER_MEMORY_LIMIT=-1 composer create-project \
 	--ignore-platform-reqs \
 	--repository-url=https://repo.magento.com/ \

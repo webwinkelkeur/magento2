@@ -10,7 +10,7 @@ fi
 
 project="$1"
 
-version="$(git describe --tags --match 'v*')"
+version="$(git describe --tags --match 'v*' | sed 's/-.*$/-BETA/')"
 version="${version#v}"
 
 dist="$PWD/dist"

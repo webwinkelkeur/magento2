@@ -7,17 +7,13 @@ COPY_SOURCES := $(shell find common/view -type f)
 COPY_TARGETS := $(foreach project,$(PROJECTS),$(patsubst common/%,$(project)/%,$(COPY_SOURCES)))
 CLASS_BASES := $(shell find common/Controller -type f -name '*.php')
 CLASS_TARGETS := $(foreach project,$(PROJECTS),$(patsubst common/%,$(project)/%,$(CLASS_BASES)))
-AUTOLOADERS := $(patsubst %,%/vendor/autoload.php,$(PROJECTS))
 
-all : $(XML_TARGETS) $(COPY_TARGETS) $(CLASS_TARGETS) $(AUTOLOADERS)
+all : $(XML_TARGETS) $(COPY_TARGETS) $(CLASS_TARGETS)
 .PHONY : all
 
 clean :
 	git clean -df $(PROJECTS)
 .PHONY : clean
-
-%/vendor/autoload.php : %/composer.json
-	cd $* && composer dump-autoload
 
 define PROJECT_RULES
 $(1)/%.xml : common/%.xml

@@ -28,7 +28,7 @@ cd "$tmp"
 make PROJECTS="$project" >&2
 
 find common -type f -not -name '*.php' -delete
-find common -type d -delete
+find common -type d -empty -delete
 mv common "$project"
 
 jq '.version = $v' --arg v "$version" < "$project/composer.json" > "$project/composer.json~"

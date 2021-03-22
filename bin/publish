@@ -8,6 +8,6 @@ git pull origin master --tags
 version="$(git describe --tags --match 'v*' --exact-match)"
 version="${version#v}"
 
-package="$(bin/package)"
+package="$(bin/package WebwinkelKeur)"
 
 hub release create -o -a "$package" -m "WebwinkelKeur for Magento 2 v$version" "v$version"

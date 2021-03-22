@@ -34,6 +34,8 @@ mv common "$project"
 jq '.version = $v' --arg v "$version" < "$project/composer.json" > "$project/composer.json~"
 mv "$project/composer.json"{~,}
 
+rm -r "$project/doc"
+
 zip -r9 package.zip "$project" >&2
 mv package.zip "$out"
 

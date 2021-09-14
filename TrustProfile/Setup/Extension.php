@@ -17,10 +17,10 @@ class Extension extends ExtensionBase {
     }
 
     public function getMainDomain() {
-        return 'www.trustprofile.io';
+        return 'www.trustprofile.com';
     }
 
     public function getDashboardDomain() {
-        return 'dashboard.trustprofile.io';
+        return 'dashboard.trustprofile.com';
     }
 }

@@ -49,8 +49,13 @@ mysql "${mysql_opts[@]}" <<-EOF
 	CREATE DATABASE magento;
 EOF
 
+base_url="http://localhost:26065"
+if [[ -n ${GITPOD_WORKSPACE_ID:-} ]]; then
+	base_url="$(gp url 26065)"
+fi
+
 bin/magento setup:install \
-	--base-url=http://localhost:26065 \
+	--base-url="$base_url" \
 	--db-host=mariadb \
 	--db-name=magento \
 	--db-user=root \

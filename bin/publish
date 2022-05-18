@@ -9,5 +9,11 @@ version="$(git describe --tags --match 'v*' --exact-match)"
 version="${version#v}"
 
 package="$(bin/package WebwinkelKeur)"
+package2="$(bin/prepare-manual-install-package "$package")"
 
-hub release create -o -a "$package" -m "WebwinkelKeur for Magento 2 v$version" "v$version"
+hub release create \
+    --draft \
+    -a "$package" \
+    -a "$package2" \
+    -m "WebwinkelKeur for Magento 2 v$version" \
+    "v$version"

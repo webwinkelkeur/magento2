@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+err_usage() {
+	echo "Usage: $0 PACKAGE" >&2
+	exit 1
+}
+
+if [[ $# -ne 1 ]]; then
+	err_usage
+fi
+
+package="$1"
+outfile="${package%.zip}-manual-install.zip"
+
+tmp="$(mktemp -d)"
+cleanup() { rm -rf "$tmp"; }
+trap cleanup EXIT
+
+bsdtar xf "$package" -C "$tmp"
+
+(
+	cd "$tmp"
+	mkdir -p app/code/Valued
+	mv WebwinkelKeur/common app/code/Valued/Magento2
+	mkdir -p app/code/WebwinkelKeur
+	mv WebwinkelKeur app/code/WebwinkelKeur/Magento2
+)
+
+bsdtar cf "$outfile" -C "$tmp" app
+
+echo "$outfile"

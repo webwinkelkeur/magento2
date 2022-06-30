@@ -3,7 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-magento_version='2.3.6'
+magento_version='2.4.4'
 
 if [[ $# -eq 1 ]]; then
 	magento_version="$1"
@@ -68,7 +68,8 @@ bin/magento setup:install \
 	--currency=EUR \
 	--timezone=Europe/Amsterdam \
 	--use-rewrites=1 \
-	--backend-frontname=admin
+	--backend-frontname=admin \
+	--elasticsearch-host='es1'
 
 bin/magento config:set dev/template/allow_symlink 1
 

@@ -69,7 +69,7 @@ bin/magento setup:install \
 	--timezone=Europe/Amsterdam \
 	--use-rewrites=1 \
 	--backend-frontname=admin \
-	--elasticsearch-host='es1'
+	--elasticsearch-host=elasticsearch
 
 bin/magento config:set dev/template/allow_symlink 1
 

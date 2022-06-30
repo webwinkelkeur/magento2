@@ -176,8 +176,7 @@ class Reviews extends AbstractHelper {
     }
 
     public function getAllSummaryData() {
-        $reviews_result = $this->generalHelper->getStoreValue($this->extension->getSlug() . self::XPATH_REVIEWS_RESULT);
-        if (!$reviews_result) {
+        if (!$reviews_result = $this->generalHelper->getStoreValue($this->extension->getSlug() . self::XPATH_REVIEWS_RESULT)) {
             return [];
         }
         return json_decode($reviews_result, true);

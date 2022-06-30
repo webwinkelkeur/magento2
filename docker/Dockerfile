@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.16
 
 RUN apk add --no-cache \
     bash \
@@ -8,36 +8,36 @@ RUN apk add --no-cache \
     musl-dev \
     shadow \
     sudo \
-    php7-apache2 \
-    php7-bcmath \
-    php7-cli \
-    php7-ctype \
-    php7-curl \
-    php7-dev \
-    php7-dom \
-    php7-fileinfo \
-    php7-gd \
-    php7-iconv \
-    php7-intl \
-    php7-json \
-    php7-mbstring \
-    php7-opcache \
-    php7-openssl \
-    php7-pdo_mysql \
-    php7-pear \
-    php7-phar \
-    php7-session \
-    php7-simplexml \
-    php7-soap \
-    php7-sockets \
-    php7-tokenizer \
-    php7-xml \
-    php7-xmlwriter \
-    php7-xsl \
-    php7-zip
+    php8-apache2 \
+    php8-bcmath \
+    php8-cli \
+    php8-ctype \
+    php8-curl \
+    php8-dev \
+    php8-dom \
+    php8-fileinfo \
+    php8-gd \
+    php8-iconv \
+    php8-intl \
+    php8-json \
+    php8-mbstring \
+    php8-opcache \
+    php8-openssl \
+    php8-pdo_mysql \
+    php8-pear \
+    php8-phar \
+    php8-session \
+    php8-simplexml \
+    php8-soap \
+    php8-sockets \
+    php8-tokenizer \
+    php8-xml \
+    php8-xmlwriter \
+    php8-xsl \
+    php8-zip
 
 RUN pecl install libsodium
-RUN echo 'extension=sodium.so' > /etc/php7/conf.d/00_sodium.ini
+RUN echo 'extension=sodium.so' > /etc/php8/conf.d/00_sodium.ini
 
 RUN rm -rf /var/www/localhost/htdocs && ln -sfn ../../../data/www/pub /var/www/localhost/htdocs
 

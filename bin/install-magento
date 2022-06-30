@@ -27,7 +27,7 @@ fi
 ln -sfn ~/.composer/auth.json "$COMPOSER_HOME"
 mkdir -p ~/.composer/cache
 ln -sfn ~/.composer/cache "$COMPOSER_HOME"
-echo '{"config": {"platform": {"php": "7.4"}}}' > "$COMPOSER_HOME/config.json"
+echo '{"config": {"platform": {"php": "8.1"}}}' > "$COMPOSER_HOME/config.json"
 
 COMPOSER_MEMORY_LIMIT=-1 composer create-project \
 	--ignore-platform-reqs \

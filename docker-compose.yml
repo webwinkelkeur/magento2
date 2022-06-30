@@ -17,7 +17,7 @@ services:
       - 26065:80
 
   mariadb:
-    image: mariadb:10.1.45
+    image: mariadb:10.2.44
     volumes:
       - mariadb:/var/lib/mysql
     environment:

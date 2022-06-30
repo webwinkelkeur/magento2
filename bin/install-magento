@@ -12,7 +12,7 @@ elif [[ $# -gt 1 ]]; then
 	exit 1
 fi
 
-docker-compose stop web
+docker-compose stop php7 php8
 
 rm -rf www
 

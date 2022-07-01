@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   php7:
-    container_name: web
+    container_name: magento2_web
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -23,7 +23,7 @@ services:
     profiles: ['php7']
 
   php8:
-    container_name: web
+    container_name: magento2_web
     build:
       context: .
       dockerfile: docker/Dockerfile

@@ -12,7 +12,7 @@ elif [[ $# -gt 1 ]]; then
 	exit 1
 fi
 
-docker stop web &> /dev/null
+docker stop magento2_web &> /dev/null
 
 rm -rf www
 
@@ -35,7 +35,7 @@ COMPOSER_MEMORY_LIMIT=-1 composer create-project \
 	"magento/project-community-edition=$magento_version" \
 	www
 
-docker start web
+docker start magento2_web
 
 mysql_opts=( -h 127.0.0.1 -P 26066 -u root --skip-password )
 

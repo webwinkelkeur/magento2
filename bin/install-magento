@@ -3,7 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-magento_version='2.3.6'
+magento_version='2.4.4'
 
 if [[ $# -eq 1 ]]; then
 	magento_version="$1"
@@ -12,7 +12,7 @@ elif [[ $# -gt 1 ]]; then
 	exit 1
 fi
 
-docker-compose stop web
+docker stop magento2_web &> /dev/null
 
 rm -rf www
 
@@ -27,7 +27,7 @@ fi
 ln -sfn ~/.composer/auth.json "$COMPOSER_HOME"
 mkdir -p ~/.composer/cache
 ln -sfn ~/.composer/cache "$COMPOSER_HOME"
-echo '{"config": {"platform": {"php": "7.4"}}}' > "$COMPOSER_HOME/config.json"
+echo '{"config": {"platform": {"php": "8.1"}}}' > "$COMPOSER_HOME/config.json"
 
 COMPOSER_MEMORY_LIMIT=-1 composer create-project \
 	--ignore-platform-reqs \
@@ -35,7 +35,7 @@ COMPOSER_MEMORY_LIMIT=-1 composer create-project \
 	"magento/project-community-edition=$magento_version" \
 	www
 
-docker-compose up -d
+docker start magento2_web
 
 mysql_opts=( -h 127.0.0.1 -P 26066 -u root --skip-password )
 
@@ -68,7 +68,8 @@ bin/magento setup:install \
 	--currency=EUR \
 	--timezone=Europe/Amsterdam \
 	--use-rewrites=1 \
-	--backend-frontname=admin
+	--backend-frontname=admin \
+	--elasticsearch-host=elasticsearch
 
 bin/magento config:set dev/template/allow_symlink 1
 

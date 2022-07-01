@@ -2,8 +2,14 @@ version: '3.7'
 
 services:
 
-  web:
-    build: docker/
+  php7:
+    container_name: magento2_web
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        - ALPINE_VERSION=3.12
+        - PHP_VERSION=php7
     volumes:
       - .:/data
       - ./docker/apache2.conf:/etc/apache2/conf.d/local.conf
@@ -13,10 +19,31 @@ services:
     links:
       - mariadb
     ports:
+      - 26064:80
+    profiles: ['php7']
+
+  php8:
+    container_name: magento2_web
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        - ALPINE_VERSION=3.16
+        - PHP_VERSION=php8
+    volumes:
+      - .:/data
+      - ./docker/apache2.conf:/etc/apache2/conf.d/local.conf
+      - ./docker/php.ini:/etc/php8/conf.d/99_docker.ini
+    environment:
+      VALUED_DEVELOPMENT: 'yes'
+    links:
+      - mariadb
+    ports:
       - 26065:80
+    profiles: ["php8"]
 
   mariadb:
-    image: mariadb:10.1.45
+    image: mariadb:10.2.44
     volumes:
       - mariadb:/var/lib/mysql
     environment:
@@ -25,6 +52,11 @@ services:
     ports:
       - 26066:3306
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.0
+    environment:
+        - discovery.type=single-node
+        - xpack.security.enabled=false
 
 volumes:
   mariadb:

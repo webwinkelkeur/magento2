@@ -159,10 +159,13 @@ class Reviews extends AbstractHelper {
             $this->extension->getSlug() . self::XPATH_REVIEWS_WEBSHOP_ID,
             $storeId
         );
-        $data = json_decode($this->generalHelper->getStoreValue(
-            $this->extension->getSlug() . self::XPATH_REVIEWS_RESULT,
-            $storeId), true
-        );
+
+        if (!$reviews_result = $this->generalHelper->getStoreValue($this->extension->getSlug() . self::XPATH_REVIEWS_RESULT, $storeId)) {
+            return false;
+        }
+
+        $data = json_decode($reviews_result, true);
+
         if (!empty($data[$webshopId]['status'])) {
             if ($data[$webshopId]['status'] == 'success') {
                 return $data[$webshopId];
@@ -173,10 +176,10 @@ class Reviews extends AbstractHelper {
     }
 
     public function getAllSummaryData() {
-        return json_decode($this->generalHelper->getStoreValue(
-            $this->extension->getSlug() . self::XPATH_REVIEWS_RESULT),
-            true
-        );
+        if (!$reviews_result = $this->generalHelper->getStoreValue($this->extension->getSlug() . self::XPATH_REVIEWS_RESULT)) {
+            return [];
+        }
+        return json_decode($reviews_result, true);
     }
 
     public function getLastImported() {

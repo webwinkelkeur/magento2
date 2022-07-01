@@ -1,5 +1,7 @@
-FROM alpine:3.12
+ARG ALPINE_VERSION
+FROM alpine:${ALPINE_VERSION}
 
+ARG PHP_VERSION
 RUN apk add --no-cache \
     bash \
     gcc \
@@ -8,40 +10,40 @@ RUN apk add --no-cache \
     musl-dev \
     shadow \
     sudo \
-    php7-apache2 \
-    php7-bcmath \
-    php7-cli \
-    php7-ctype \
-    php7-curl \
-    php7-dev \
-    php7-dom \
-    php7-fileinfo \
-    php7-gd \
-    php7-iconv \
-    php7-intl \
-    php7-json \
-    php7-mbstring \
-    php7-opcache \
-    php7-openssl \
-    php7-pdo_mysql \
-    php7-pear \
-    php7-phar \
-    php7-session \
-    php7-simplexml \
-    php7-soap \
-    php7-sockets \
-    php7-tokenizer \
-    php7-xml \
-    php7-xmlwriter \
-    php7-xsl \
-    php7-zip
+    ${PHP_VERSION}-apache2 \
+    ${PHP_VERSION}-bcmath \
+    ${PHP_VERSION}-cli \
+    ${PHP_VERSION}-ctype \
+    ${PHP_VERSION}-curl \
+    ${PHP_VERSION}-dev \
+    ${PHP_VERSION}-dom \
+    ${PHP_VERSION}-fileinfo \
+    ${PHP_VERSION}-gd \
+    ${PHP_VERSION}-iconv \
+    ${PHP_VERSION}-intl \
+    ${PHP_VERSION}-json \
+    ${PHP_VERSION}-mbstring \
+    ${PHP_VERSION}-opcache \
+    ${PHP_VERSION}-openssl \
+    ${PHP_VERSION}-pdo_mysql \
+    ${PHP_VERSION}-pear \
+    ${PHP_VERSION}-phar \
+    ${PHP_VERSION}-session \
+    ${PHP_VERSION}-simplexml \
+    ${PHP_VERSION}-soap \
+    ${PHP_VERSION}-sockets \
+    ${PHP_VERSION}-tokenizer \
+    ${PHP_VERSION}-xml \
+    ${PHP_VERSION}-xmlwriter \
+    ${PHP_VERSION}-xsl \
+    ${PHP_VERSION}-zip
 
 RUN pecl install libsodium
-RUN echo 'extension=sodium.so' > /etc/php7/conf.d/00_sodium.ini
+RUN echo 'extension=sodium.so' > /etc/${PHP_VERSION}/conf.d/00_sodium.ini
 
 RUN rm -rf /var/www/localhost/htdocs && ln -sfn ../../../data/www/pub /var/www/localhost/htdocs
 
-COPY entrypoint.sh /entrypoint.sh
+COPY docker/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 

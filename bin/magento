@@ -8,8 +8,7 @@ if [[ -t 1 ]]; then
 	opts+=( -t )
 fi
 
-exec docker exec "${opts[@]}" \
-	"$(docker-compose ps -q web)" \
+exec docker exec "${opts[@]}" magento2_web \
 	sudo -u apache \
 	env VALUED_DEVELOPMENT=yes \
 	php -d memory_limit=-1 /data/www/bin/magento "$@"

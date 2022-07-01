@@ -3,6 +3,7 @@ version: '3.7'
 services:
 
   php7:
+    container_name: web
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -19,8 +20,10 @@ services:
       - mariadb
     ports:
       - 26064:80
+    profiles: ['php7']
 
   php8:
+    container_name: web
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -37,6 +40,7 @@ services:
       - mariadb
     ports:
       - 26065:80
+    profiles: ["php8"]
 
   mariadb:
     image: mariadb:10.2.44

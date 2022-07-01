@@ -28,7 +28,7 @@ Configuration for a Magento development environment is included.
 
 Start by bringing up a web and database container using Docker Compose:
 
-    docker-compose up -d
+    docker-compose --profile php8 up -d
 
 Now install Magento using the included script:
 

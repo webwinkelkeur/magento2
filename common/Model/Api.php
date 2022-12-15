@@ -6,6 +6,7 @@
 
 namespace Valued\Magento2\Model;
 
+use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
@@ -19,6 +20,7 @@ class Api {
     const REVIEWS_URL = 'https://%s/api/1.0/ratings_summary.json?id=%s&code=%s';
     const INVITATION_URL = 'https://%s/api/1.0/invitations.json?id=%s&code=%s';
     const WEBSHOP_URL = 'https://%s/api/1.0/webshop.json?id=%s&code=%s';
+    const GTIN_KEY = 'gtin_key';
 
     const DEFAULT_TIMEOUT = 5;
 
@@ -36,6 +38,8 @@ class Api {
 
     private $date;
 
+    private $_productRepository;
+
     public function __construct(
         ReviewsHelper $reviewHelper,
         GeneralHelper $generalHelper,
@@ -43,7 +47,8 @@ class Api {
         Curl $curl,
         DateTime $dateTime,
         LoggerInterface $logger,
-        ExtensionBase $extension
+        ExtensionBase $extension,
+        ProductRepository $productRepository
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
@@ -52,6 +57,7 @@ class Api {
         $this->date = $dateTime;
         $this->logger = $logger;
         $this->extension = $extension;
+        $this->_productRepository = $productRepository;
     }
 
     public function getReviews($type) {
@@ -142,6 +148,11 @@ class Api {
         $request['customer_name'] = $this->inviationHelper->getCustomerName($order);
         $request['client'] = 'magento2';
         $request['noremail'] = $config['noremail'];
+        $orderItems = $order->getItems();
+        $orderData = [
+            'products' => $this->getProducts($orderItems, $config)
+        ];
+        $request['order_data'] = json_encode($orderData);
 
         if (!empty($config['language'])) {
             $request['language'] = $config['language'];
@@ -155,6 +166,45 @@ class Api {
             }
         }
         return $this->postInvitation($request, $config);
+    }
+
+    private function getProducts($orderItems, $config) {
+        if (empty($config['product_reviews'])) {
+            return [];
+        }
+
+        $products = [];
+        foreach ($orderItems as $item) {
+            $id = $item->getProductId();
+            $product = $this->_productRepository->getById($id);
+            $products[] = [
+                'id' => $id,
+                'name' => $product->getName(),
+                'url' => $product->getUrlModel()->getUrl($product),
+                'image_url' => $this->getProductImageUrl($product),
+                'sku' => $product->getSku(),
+                'gtin' => $this->getProductGtinValue($product, $config)
+            ];
+        }
+
+        return $products;
+    }
+
+    private function getProductImageUrl($product) {
+        return $product->getResource()->getAttribute('image')->getFrontend()->getUrl($product);
+    }
+
+    private function getProductGtinValue($product, $config) {
+        if (empty($config[self::GTIN_KEY])) {
+            return null;
+        }
+
+        $value = $product->getData($config[self::GTIN_KEY]);
+        if (!is_numeric($value)) {
+            return null;
+        }
+
+        return $value;
     }
 
     public function postInvitation($request, $config) {

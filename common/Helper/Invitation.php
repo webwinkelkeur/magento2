@@ -24,6 +24,8 @@ class Invitation extends AbstractHelper {
     const XPATH_INVITATION_BACKLOG = '_magento2/invitation/backlog';
     const XPATH_RESEND = '_magento2/invitation/resend_double';
     const XPATH_INVITATION_DEBUG = '_magento2/invitation/debug';
+    const XPATH_PRODUCT_REVIEWS = '_magento2/invitation/product_reviews';
+    const XPATH_GTIN_KEY = '_magento2/invitation/gtin_key';
 
     private $extension;
 
@@ -88,6 +90,16 @@ class Invitation extends AbstractHelper {
             ) ? 0 : 1;
             $config['debug'] = $this->generalHelper->getStoreValue(
                 $this->extension->getSlug() . self::XPATH_INVITATION_DEBUG,
+                $storeId
+            );
+
+            $config['product_reviews'] = $this->generalHelper->getStoreValue(
+                $this->extension->getSlug() . self::XPATH_PRODUCT_REVIEWS,
+                $storeId
+            );
+
+            $config['gtin_key'] = $this->generalHelper->getStoreValue(
+                $this->extension->getSlug() . self::XPATH_GTIN_KEY,
                 $storeId
             );
 

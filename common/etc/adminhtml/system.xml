@@ -88,7 +88,26 @@
                     <comment>If set to "Yes", customers will get new review reminders for every new order.</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
-                <field id="debug" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="product_reviews" translate="label" type="select" sortOrder="7" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Product reviews</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable product review sync</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="gtin_key" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>GTIN/EAN</label>
+                    <source_model>Valued\Magento2\Model\System\Config\Source\ProductAttribute</source_model>
+                    <comment>Specify your GTIN/EAN attribute</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="debug" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
                     <label>Debug</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Debug invitation calls, once enabled the output can be found in var/debug.log</comment>

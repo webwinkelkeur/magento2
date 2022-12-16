@@ -20,6 +20,7 @@ class Api {
     const REVIEWS_URL = 'https://%s/api/1.0/ratings_summary.json?id=%s&code=%s';
     const INVITATION_URL = 'https://%s/api/1.0/invitations.json?id=%s&code=%s';
     const WEBSHOP_URL = 'https://%s/api/1.0/webshop.json?id=%s&code=%s';
+    const SYNC_URL = 'https://%s/webshops/magento_sync_url';
     const GTIN_KEY = 'gtin_key';
 
     const DEFAULT_TIMEOUT = 5;
@@ -249,5 +250,42 @@ class Api {
         }
 
         return false;
+    }
+
+    public function sendSyncUrl($syncUrl, $storeId) {
+        $config = $this->inviationHelper->getConfigData($storeId);
+        if (empty($config['product_reviews'])) {
+            return;
+        }
+
+        $url = sprintf(self::SYNC_URL, $this->extension->getDashboardDomain());
+        $data = [
+            'webshop_id' => $config['webshop_id'],
+            'api_key' => $config['api_key'],
+            'url' => $syncUrl,
+
+        ];
+
+        try {
+            $this->doSendSyncUrl($url, $data);
+        } catch (\Exception $e) {
+            $this->logger->debug(sprintf('(Error: "%s" URL: %s)', $e->getMessage(), $url));
+        }
+    }
+
+    private function doSendSyncUrl($url, $data) {
+        $curl = $this->curl;
+        $curl->addOption(CURLOPT_RETURNTRANSFER, true);
+        $curl->addOption(CURLOPT_FOLLOWLOCATION, true);
+        $curl->addOption(CURLOPT_POST, true);
+        $curl->addOption(CURLOPT_POSTFIELDS, json_encode($data));
+        $curl->addOption(CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        $curl->addOption(CURLOPT_FAILONERROR, true);
+        $curl->addOption(CURLOPT_URL, $url);
+        $curl->connect($url);
+        $curl->read();
+        if ($curl->getErrno()) {
+            throw new \Exception($curl->getError());
+        }
     }
 }

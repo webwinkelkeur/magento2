@@ -3,4 +3,7 @@
 	<event name="sales_order_save_after">
 		<observer name="{{ LOWERCASE_PROJECT }}_review_invitation" instance="Valued\Magento2\Observer\OrderSave" />
 	</event>
+	<event name="admin_system_config_changed_section_{{ LOWERCASE_PROJECT }}_magento2">
+		<observer name="{{ LOWERCASE_PROJECT }}_admin_system_config_changed_section" instance="Valued\Magento2\Observer\ConfigChange" />
+	</event>
 </config>

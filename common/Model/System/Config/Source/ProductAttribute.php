@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- */
 
 namespace Valued\Magento2\Model\System\Config\Source;
 

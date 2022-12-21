@@ -97,6 +97,16 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
+                <field id="rating_options" translate="label" type="multiselect" sortOrder="8" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Rating options</label>
+                    <source_model>Valued\Magento2\Model\System\Config\Source\RatingOption</source_model>
+                    <comment>Specify rating options to sync product rating to</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <validate>required-entry validate-data</validate>
+                </field>
                 <field id="gtin_key" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>GTIN/EAN</label>

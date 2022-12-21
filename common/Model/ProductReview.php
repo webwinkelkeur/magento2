@@ -36,15 +36,15 @@ class ProductReview {
     private $ratingVoteCollection;
 
     public function __construct(
-        InvitationHelper            $inviationHelper,
-        LoggerInterface             $logger,
-        ProductRepository           $productRepository,
-        ReviewFactory               $reviewFactory,
-        RatingFactory                      $ratingFactory,
+        InvitationHelper $inviationHelper,
+        LoggerInterface $logger,
+        ProductRepository $productRepository,
+        ReviewFactory $reviewFactory,
+        RatingFactory $ratingFactory,
         CustomerRepositoryInterface $customerInterface,
-        Registry                    $registry,
-        RatingCollection            $ratingCollection,
-        RatingVoteCollection        $ratingVoteCollection,
+        Registry $registry,
+        RatingCollection $ratingCollection,
+        RatingVoteCollection $ratingVoteCollection
     ) {
         $this->inviationHelper = $inviationHelper;
         $this->logger = $logger;
@@ -81,7 +81,6 @@ class ProductReview {
             ->setCustomerId($this->getCustomerId($productReview['reviewer']['email']))
             ->setNickname($productReview['reviewer']['name'])
             ->save();
-
 
         $this->saveReviewRatings($review, $productReview, $config);
 
@@ -135,7 +134,10 @@ class ProductReview {
         $ratings = [];
         $ratingOptions = explode(',', $config['rating_options']);
         foreach ($ratingOptions as $ratingOption) {
-            $ratings[$ratingOption] = ($ratingOption * 5) - (5 - $rating_value);
+            if (!$this->ratingFactory->create()->load($ratingOption)->toArray()) {
+                continue;
+            }
+            $ratings[$ratingOption] = $ratingOption * 5 - (5 - $rating_value);
         }
 
         if (!$ratings) {

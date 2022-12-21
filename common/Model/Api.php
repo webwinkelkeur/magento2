@@ -39,7 +39,7 @@ class Api {
 
     private $date;
 
-    private $_productRepository;
+    private $productRepository;
 
     public function __construct(
         ReviewsHelper $reviewHelper,
@@ -49,7 +49,7 @@ class Api {
         DateTime $dateTime,
         LoggerInterface $logger,
         ExtensionBase $extension,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
@@ -58,7 +58,7 @@ class Api {
         $this->date = $dateTime;
         $this->logger = $logger;
         $this->extension = $extension;
-        $this->_productRepository = $productRepository;
+        $this->productRepository = $productRepository;
     }
 
     public function getReviews($type) {
@@ -177,7 +177,7 @@ class Api {
         $products = [];
         foreach ($orderItems as $item) {
             $id = $item->getProductId();
-            $product = $this->_productRepository->getById($id);
+            $product = $this->productRepository->getById($id);
             $products[] = [
                 'id' => $id,
                 'name' => $product->getName(),

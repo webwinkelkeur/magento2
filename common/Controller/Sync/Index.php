@@ -38,6 +38,10 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
     }
 
     public function syncProductReview(): ?int {
+        if (!$this->getRequest()->isPost()) {
+            throw new MethodNotAllowed();
+        }
+
         $input = trim(file_get_contents('php://input'));
         if (!$input) {
             throw new BadRequestSyncException('Empty request data');
@@ -102,5 +106,11 @@ class UnauthorizedException extends ProductReviewSyncException {
 class ForbidenException extends ProductReviewSyncException {
     public function getHttpResponseCode(): int {
         return 403;
+    }
+}
+
+class MethodNotAllowed extends ProductReviewSyncException {
+    public function getHttpResponseCode(): int {
+        return 405;
     }
 }

@@ -12,7 +12,7 @@ use Magento\Framework\HTTP\PhpEnvironment\Response;
 use Valued\Magento2\Model\ProductReview as ProductReviewModel;
 
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface, CsrfAwareActionInterface {
-    private $productReviewModel;
+    private ProductReviewModel $productReviewModel;
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -37,7 +37,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         return $response;
     }
 
-    public function syncProductReview() {
+    public function syncProductReview(): ?int {
         $input = trim(file_get_contents('php://input'));
         if (!$input) {
             throw new BadRequestSyncException('Empty request data');

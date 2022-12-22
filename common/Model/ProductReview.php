@@ -19,21 +19,21 @@ use Valued\Magento2\Helper\Invitation as InvitationHelper;
 
 class ProductReview {
 
-    private $invitationHelper;
+    private InvitationHelper $invitationHelper;
 
-    private $logger;
+    private LoggerInterface $logger;
 
-    private $productRepository;
+    private ProductRepository $productRepository;
 
-    private $reviewFactory;
+    private ReviewFactory $reviewFactory;
 
-    private $ratingFactory;
+    private RatingFactory $ratingFactory;
 
-    private $customerInterface;
+    private CustomerRepositoryInterface $customerInterface;
 
-    private $registry;
+    private Registry $registry;
 
-    private $ratingVoteCollection;
+    private RatingVoteCollection $ratingVoteCollection;
 
     public function __construct(
         InvitationHelper $invitationHelper,
@@ -55,7 +55,7 @@ class ProductReview {
         $this->ratingVoteCollection = $ratingVoteCollection;
     }
 
-    public function sync(array $requestData) {
+    public function sync(array $requestData): ?int {
         $productReview = $requestData['product_review'];
 
         try {
@@ -98,7 +98,7 @@ class ProductReview {
         return $review->getId();
     }
 
-    private function isAuthorized($config, $webshop_id, $api_key) {
+    private function isAuthorized(array $config, int $webshop_id, string $api_key): void {
         if ($config['webshop_id'] == $webshop_id && $config['api_key'] == $api_key) {
             return;
         }
@@ -112,7 +112,7 @@ class ProductReview {
         return $customer->getId();
     }
 
-    private function saveReviewRatings(Review $review, array $productReview, array $config) {
+    private function saveReviewRatings(Review $review, array $productReview, array $config): void {
         $arrRatingId = $this->getRatings($productReview['rating'], $config);
         $votes = $this->ratingVoteCollection
             ->setReviewFilter($review->getId())

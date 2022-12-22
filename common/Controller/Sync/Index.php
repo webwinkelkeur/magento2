@@ -47,7 +47,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
             throw new BadRequestSyncException('Invalid JSON data provided');
         }
 
-        if (empty($input['webshop_id']) || empty($input['api_key'])) {
+        if (!$this->hasCredentialFields($input) || $this->credentialsEmpty($input)) {
             throw new UnauthorizedException('Missing credential fields');
         }
 
@@ -62,6 +62,15 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         return true;
     }
 
+    private function hasCredentialFields(array $input): bool {
+        return isset($input['webshop_id']) && isset($input['api_key']);
+    }
+
+    private function credentialsEmpty(array $input): bool {
+        $webshop_id = trim($input['webshop_id']);
+        $api_key = trim($input['api_key']);
+        return !$webshop_id || !$api_key;
+    }
 }
 
 class ProductReviewSyncException extends \Exception {

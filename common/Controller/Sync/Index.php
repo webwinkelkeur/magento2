@@ -74,8 +74,20 @@ class BadRequestSyncException extends ProductReviewSyncException {
     }
 }
 
+class NotFoundException extends ProductReviewSyncException {
+    public function getHttpResponseCode(): int {
+        return 404;
+    }
+}
+
+class UnconfiguredAppException extends ProductReviewSyncException {
+    public function getHttpResponseCode(): int {
+        return 501;
+    }
+}
+
 class UnauthorizedException extends ProductReviewSyncException {
     public function getHttpResponseCode(): int {
-        return 403;
+        return 401;
     }
 }

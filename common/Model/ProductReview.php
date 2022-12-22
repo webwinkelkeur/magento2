@@ -61,7 +61,7 @@ class ProductReview {
         try {
             $product = $this->productRepository->getById($productReview['product_id']);
         }catch (NoSuchEntityException $e) {
-            throw new NotFoundException(sprintf('Could not find product with ID (%s)', $productReview['product_id']));
+            throw new NotFoundException(sprintf('Could not find product with ID (%d)', $productReview['product_id']));
         }
 
         $storeId = $product->getStoreId();

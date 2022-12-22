@@ -67,7 +67,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
     }
 
     private function credentialsEmpty(array $input): bool {
-        return !trim($input['webshop_id']) || ! trim($input['api_key']);
+        return !trim($input['webshop_id']) || !trim($input['api_key']);
     }
 }
 

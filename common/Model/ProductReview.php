@@ -105,11 +105,12 @@ class ProductReview {
         throw new UnauthorizedException('Incorrect credentials');
     }
 
-    private function getCustomerId($email) {
-        if (!$customer = $this->customerInterface->get($email, null)) {
-            return null;
+    private function getCustomerId(string $email): ?int {
+        try {
+            return $this->customerInterface->get($email, null)->getId();
+        } catch (NoSuchEntityException $e) {
         }
-        return $customer->getId();
+        return null;
     }
 
     private function saveReviewRatings(Review $review, array $productReview, array $config): void {

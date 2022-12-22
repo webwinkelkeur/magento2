@@ -12,6 +12,7 @@ use Magento\Review\Model\ResourceModel\Rating\Collection as RatingCollection;
 use Magento\Review\Model\ResourceModel\Rating\Option\Vote\Collection as RatingVoteCollection;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Psr\Log\LoggerInterface;
+use Valued\Magento2\Controller\Sync\ForbidenException;
 use Valued\Magento2\Controller\Sync\NotFoundException;
 use Valued\Magento2\Controller\Sync\UnconfiguredAppException;
 use Valued\Magento2\Controller\Sync\UnauthorizedException;
@@ -71,6 +72,10 @@ class ProductReview {
         $storeId = $product->getStoreId();
         $config = $this->inviationHelper->getConfigData($storeId);
         $this->isAuthorized($config, $requestData['webshop_id'], $requestData['api_key']);
+
+        if (!$config['product_reviews']) {
+            throw new ForbidenException('Product review sync is disabled');
+        }
 
         if ($productReview['deleted']) {
             $this->registry->register('isSecureArea', true);

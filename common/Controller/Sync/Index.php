@@ -91,3 +91,9 @@ class UnauthorizedException extends ProductReviewSyncException {
         return 401;
     }
 }
+
+class ForbidenException extends ProductReviewSyncException {
+    public function getHttpResponseCode(): int {
+        return 403;
+    }
+}

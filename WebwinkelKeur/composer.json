@@ -9,6 +9,9 @@
   "replace": {
     "magmodules/m2-magento": "^0"
   },
+  "require": {
+    "php": ">=7.4"
+  },
   "autoload": {
     "files": [
       "registration.php"

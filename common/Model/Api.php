@@ -27,7 +27,7 @@ class Api {
 
     private $extension;
 
-    private $inviationHelper;
+    private $invitationHelper;
 
     private $reviewHelper;
 
@@ -44,7 +44,7 @@ class Api {
     public function __construct(
         ReviewsHelper $reviewHelper,
         GeneralHelper $generalHelper,
-        InvitationHelper $inviationHelper,
+        InvitationHelper $invitationHelper,
         Curl $curl,
         DateTime $dateTime,
         LoggerInterface $logger,
@@ -53,7 +53,7 @@ class Api {
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
-        $this->inviationHelper = $inviationHelper;
+        $this->invitationHelper = $invitationHelper;
         $this->curl = $curl;
         $this->date = $dateTime;
         $this->logger = $logger;
@@ -129,7 +129,7 @@ class Api {
     public function sendInvitation(Order $order) {
         $storeId = $order->getStoreId();
 
-        $config = $this->inviationHelper->getConfigData($storeId);
+        $config = $this->invitationHelper->getConfigData($storeId);
         if (empty($config)) {
             return false;
         }
@@ -146,7 +146,7 @@ class Api {
         $request['email'] = $order->getCustomerEmail();
         $request['order'] = $order->getIncrementId();
         $request['delay'] = $config['delay'];
-        $request['customer_name'] = $this->inviationHelper->getCustomerName($order);
+        $request['customer_name'] = $this->invitationHelper->getCustomerName($order);
         $request['client'] = 'magento2';
         $request['noremail'] = $config['noremail'];
         $orderItems = $order->getItems();
@@ -253,7 +253,7 @@ class Api {
     }
 
     public function sendSyncUrl($syncUrl, $storeId) {
-        $config = $this->inviationHelper->getConfigData($storeId);
+        $config = $this->invitationHelper->getConfigData($storeId);
         if (empty($config['product_reviews'])) {
             return;
         }

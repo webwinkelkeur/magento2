@@ -19,7 +19,7 @@ use Valued\Magento2\Helper\Invitation as InvitationHelper;
 
 class ProductReview {
 
-    private $inviationHelper;
+    private $invitationHelper;
 
     private $logger;
 
@@ -36,7 +36,7 @@ class ProductReview {
     private $ratingVoteCollection;
 
     public function __construct(
-        InvitationHelper $inviationHelper,
+        InvitationHelper $invitationHelper,
         LoggerInterface $logger,
         ProductRepository $productRepository,
         ReviewFactory $reviewFactory,
@@ -45,7 +45,7 @@ class ProductReview {
         Registry $registry,
         RatingVoteCollection $ratingVoteCollection
     ) {
-        $this->inviationHelper = $inviationHelper;
+        $this->invitationHelper = $invitationHelper;
         $this->logger = $logger;
         $this->productRepository = $productRepository;
         $this->reviewFactory = $reviewFactory;
@@ -65,7 +65,7 @@ class ProductReview {
         }
 
         $storeId = $product->getStoreId();
-        $config = $this->inviationHelper->getConfigData($storeId);
+        $config = $this->invitationHelper->getConfigData($storeId);
         $this->isAuthorized($config, $requestData['webshop_id'], $requestData['api_key']);
 
         if (!$config['product_reviews']) {

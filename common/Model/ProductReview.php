@@ -8,7 +8,6 @@ use Magento\Framework\Registry;
 use Magento\Review\Model\Review;
 use Magento\Review\Model\ReviewFactory;
 use Magento\Review\Model\RatingFactory;
-use Magento\Review\Model\ResourceModel\Rating\Collection as RatingCollection;
 use Magento\Review\Model\ResourceModel\Rating\Option\Vote\Collection as RatingVoteCollection;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Psr\Log\LoggerInterface;
@@ -34,8 +33,6 @@ class ProductReview {
 
     private $registry;
 
-    private $ratingCollection;
-
     private $ratingVoteCollection;
 
     public function __construct(
@@ -46,7 +43,6 @@ class ProductReview {
         RatingFactory $ratingFactory,
         CustomerRepositoryInterface $customerInterface,
         Registry $registry,
-        RatingCollection $ratingCollection,
         RatingVoteCollection $ratingVoteCollection
     ) {
         $this->inviationHelper = $inviationHelper;
@@ -56,11 +52,10 @@ class ProductReview {
         $this->ratingFactory = $ratingFactory;
         $this->customerInterface = $customerInterface;
         $this->registry = $registry;
-        $this->ratingCollection = $ratingCollection;
         $this->ratingVoteCollection = $ratingVoteCollection;
     }
 
-    public function sync($requestData) {
+    public function sync(array $requestData) {
         $productReview = $requestData['product_review'];
 
         try {
@@ -117,7 +112,7 @@ class ProductReview {
         return $customer->getId();
     }
 
-    private function saveReviewRatings($review, $productReview, $config) {
+    private function saveReviewRatings(Review $review, array $productReview, array $config) {
         $arrRatingId = $this->getRatings($productReview['rating'], $config);
         $votes = $this->ratingVoteCollection
             ->setReviewFilter($review->getId())
@@ -139,7 +134,7 @@ class ProductReview {
         }
     }
 
-    private function getRatings($rating_value, $config) {
+    private function getRatings(int $rating_value, array $config): array {
         if (!isset($config['rating_options'])) {
             throw new UnconfiguredAppException('Rating options not selected');
         }

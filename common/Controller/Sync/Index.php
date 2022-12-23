@@ -19,7 +19,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         ProductReviewModel $productReviewModel
     ) {
         $this->productReviewModel = $productReviewModel;
-        return parent::__construct($context);
+        parent::__construct($context);
     }
 
     public function execute(): Response {

@@ -28,7 +28,9 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         try {
             $reviewId = $this->syncProductReview();
         } catch (ProductReviewSyncException $e) {
-            $response->setBody($e->getMessage())->setStatusCode($e->getHttpResponseCode());
+            $response->setBody($e->getMessage())
+                ->setStatusCode($e->getHttpResponseCode())
+                ->setHeader('Content-Type', 'text/plain');
             return $response;
         }
 
@@ -62,7 +64,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         return null;
     }
 
-    public function validateForCsrf(RequestInterface $request): ?bool {
+    public function validateForCsrf(RequestInterface $request): bool {
         return true;
     }
 

@@ -1,11 +1,10 @@
 <?php
-/**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- */
 
 namespace Valued\Magento2\Model;
 
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ProductRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
@@ -19,39 +18,45 @@ class Api {
     const REVIEWS_URL = 'https://%s/api/1.0/ratings_summary.json?id=%s&code=%s';
     const INVITATION_URL = 'https://%s/api/1.0/invitations.json?id=%s&code=%s';
     const WEBSHOP_URL = 'https://%s/api/1.0/webshop.json?id=%s&code=%s';
+    const SYNC_URL = 'https://%s/webshops/magento_sync_url';
+    const GTIN_KEY = 'gtin_key';
 
     const DEFAULT_TIMEOUT = 5;
 
-    private $extension;
+    private ExtensionBase $extension;
 
-    private $inviationHelper;
+    private InvitationHelper $invitationHelper;
 
-    private $reviewHelper;
+    private ReviewsHelper $reviewHelper;
 
-    private $curl;
+    private Curl $curl;
 
-    private $logger;
+    private LoggerInterface $logger;
 
-    private $generalHelper;
+    private GeneralHelper $generalHelper;
 
-    private $date;
+    private DateTime $date;
+
+    private ProductRepository $productRepository;
 
     public function __construct(
         ReviewsHelper $reviewHelper,
         GeneralHelper $generalHelper,
-        InvitationHelper $inviationHelper,
+        InvitationHelper $invitationHelper,
         Curl $curl,
         DateTime $dateTime,
         LoggerInterface $logger,
-        ExtensionBase $extension
+        ExtensionBase $extension,
+        ProductRepository $productRepository
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
-        $this->inviationHelper = $inviationHelper;
+        $this->invitationHelper = $invitationHelper;
         $this->curl = $curl;
         $this->date = $dateTime;
         $this->logger = $logger;
         $this->extension = $extension;
+        $this->productRepository = $productRepository;
     }
 
     public function getReviews($type) {
@@ -122,7 +127,7 @@ class Api {
     public function sendInvitation(Order $order) {
         $storeId = $order->getStoreId();
 
-        $config = $this->inviationHelper->getConfigData($storeId);
+        $config = $this->invitationHelper->getConfigData($storeId);
         if (empty($config)) {
             return false;
         }
@@ -139,9 +144,14 @@ class Api {
         $request['email'] = $order->getCustomerEmail();
         $request['order'] = $order->getIncrementId();
         $request['delay'] = $config['delay'];
-        $request['customer_name'] = $this->inviationHelper->getCustomerName($order);
+        $request['customer_name'] = $this->invitationHelper->getCustomerName($order);
         $request['client'] = 'magento2';
         $request['noremail'] = $config['noremail'];
+        $orderItems = $order->getItems();
+        $orderData = [
+            'products' => $this->getProducts($orderItems, $config)
+        ];
+        $request['order_data'] = json_encode($orderData);
 
         if (!empty($config['language'])) {
             $request['language'] = $config['language'];
@@ -155,6 +165,53 @@ class Api {
             }
         }
         return $this->postInvitation($request, $config);
+    }
+
+    private function getProducts(array $orderItems, array $config): array {
+        if (empty($config['product_reviews'])) {
+            return [];
+        }
+
+        $products = [];
+        foreach ($orderItems as $item) {
+            $id = $item->getProductId();
+            try {
+                $product = $this->productRepository->getById($id);
+            } catch (NoSuchEntityException $e) {
+                $this->logger->debug(sprintf('Could not find product with ID (%d)', $id));
+                continue;
+            }
+            $products[] = [
+                'id' => $id,
+                'name' => $product->getName(),
+                'url' => $product->getUrlModel()->getUrl($product),
+                'image_url' => $this->getProductImageUrl($product),
+                'sku' => $product->getSku(),
+                'gtin' => $this->getProductGtinValue($product, $config)
+            ];
+        }
+
+        return $products;
+    }
+
+    private function getProductImageUrl(Product $product): ?string {
+        if (!$imageAttribute = $product->getResource()->getAttribute('image')) {
+            return null;
+        }
+        return $imageAttribute->getFrontend()->getUrl($product);
+    }
+
+    private function getProductGtinValue(Product $product, array $config): ?string {
+        if (empty($config[self::GTIN_KEY])) {
+            return null;
+        }
+
+        $value = $product->getData($config[self::GTIN_KEY]);
+        if (!is_numeric($value)) {
+            return null;
+        }
+
+        return $value;
     }
 
     public function postInvitation($request, $config) {
@@ -199,5 +256,53 @@ class Api {
         }
 
         return false;
+    }
+
+    public function sendSyncUrl(string $syncUrl, ?int $storeId): void {
+        $config = $this->invitationHelper->getConfigData($storeId);
+        if (empty($config['product_reviews'])) {
+            return;
+        }
+
+        $url = sprintf(self::SYNC_URL, $this->extension->getDashboardDomain());
+        $data = [
+            'webshop_id' => $config['webshop_id'],
+            'api_key' => $config['api_key'],
+            'url' => $syncUrl,
+
+        ];
+
+        try {
+            $this->doSendSyncUrl($url, $data);
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf('Sending sync URL to Dashboard failed with error %s', $e->getMessage()));
+        }
+    }
+
+    private function doSendSyncUrl(string $url, array $data): void {
+        $curl = curl_init();
+
+        $options = [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FAILONERROR => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => ['Content-Type:application/json'],
+            CURLOPT_URL => $url,
+            CURLOPT_TIMEOUT => 10,
+        ];
+        if (!curl_setopt_array($curl, $options)) {
+            throw new \Exception('Could not set cURL options');
+        }
+
+        $response = curl_exec($curl);
+        if ($response === false) {
+            throw new \Exception(
+                sprintf('(%s) %s', curl_errno($curl), curl_error($curl)),
+            );
+        }
+
+        curl_close($curl);
     }
 }

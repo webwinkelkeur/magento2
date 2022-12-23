@@ -1,0 +1,13 @@
+{
+    "config": {
+        "platform": {
+            "php": "7.4.0",
+            "ext-xsl": "1"
+        },
+        "allow-plugins": false
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.9",
+        "magento/community-edition": "^2.4"
+    }
+}

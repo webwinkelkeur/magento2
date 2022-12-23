@@ -249,7 +249,7 @@ class Api {
         return false;
     }
 
-    public function sendSyncUrl(string $syncUrl, int $storeId): void {
+    public function sendSyncUrl(string $syncUrl, ?int $storeId): void {
         $config = $this->invitationHelper->getConfigData($storeId);
         if (empty($config['product_reviews'])) {
             return;

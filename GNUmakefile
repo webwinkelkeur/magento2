@@ -8,6 +8,8 @@ COPY_TARGETS := $(foreach project,$(PROJECTS),$(patsubst common/%,$(project)/%,$
 CLASS_BASES := $(shell find common/Controller -type f -name '*.php')
 CLASS_TARGETS := $(foreach project,$(PROJECTS),$(patsubst common/%,$(project)/%,$(CLASS_BASES)))
 
+PHPSTAN_LEVEL := 2
+
 all : $(XML_TARGETS) $(COPY_TARGETS) $(CLASS_TARGETS)
 .PHONY : all
 
@@ -34,7 +36,7 @@ endef
 $(foreach project,$(PROJECTS),$(eval $(call PROJECT_RULES,$(project))))
 
 phpstan : tools/phpstan/vendor/.updated
-	tools/phpstan/vendor/bin/phpstan analyse common $(PROJECTS)
+	tools/phpstan/vendor/bin/phpstan analyse -l $(PHPSTAN_LEVEL) common $(PROJECTS)
 .PHONY : phpstan
 
 tools/phpstan/vendor/.updated :

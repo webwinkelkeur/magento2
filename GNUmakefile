@@ -32,3 +32,11 @@ $(1)/% : common/%
 endef
 
 $(foreach project,$(PROJECTS),$(eval $(call PROJECT_RULES,$(project))))
+
+phpstan : tools/phpstan/vendor/.updated
+	tools/phpstan/vendor/bin/phpstan analyse common $(PROJECTS)
+.PHONY : phpstan
+
+tools/phpstan/vendor/.updated :
+	composer -d tools/phpstan install
+	touch $@

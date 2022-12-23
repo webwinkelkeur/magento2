@@ -4,10 +4,7 @@
             "php": "7.4.0",
             "ext-xsl": "1"
         },
-        "allow-plugins": {
-            "laminas/laminas-dependency-plugin": false,
-            "magento/magento-composer-installer": false
-        }
+        "allow-plugins": false
     },
     "require-dev": {
         "phpstan/phpstan": "^1.9",

@@ -47,7 +47,7 @@ class Api {
         DateTime $dateTime,
         LoggerInterface $logger,
         ExtensionBase $extension,
-        ProductRepository $productRepository,
+        ProductRepository $productRepository
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
@@ -275,23 +275,33 @@ class Api {
         try {
             $this->doSendSyncUrl($url, $data);
         } catch (\Exception $e) {
-            $this->logger->error(sprintf('Magento sync URL failed with error "%s"', $e->getMessage()));
+            $this->logger->error(sprintf('Sending sync URL to Dashboard failed with error %s', $e->getMessage()));
         }
     }
 
     private function doSendSyncUrl(string $url, array $data): void {
-        $curl = $this->curl;
-        $curl->addOption(CURLOPT_RETURNTRANSFER, true);
-        $curl->addOption(CURLOPT_FOLLOWLOCATION, true);
-        $curl->addOption(CURLOPT_POST, true);
-        $curl->addOption(CURLOPT_POSTFIELDS, json_encode($data));
-        $curl->addOption(CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        $curl->addOption(CURLOPT_FAILONERROR, true);
-        $curl->addOption(CURLOPT_URL, $url);
-        $curl->connect($url);
-        $curl->read();
-        if ($curl->getErrno()) {
-            throw new \Exception($curl->getError());
+        $curl = curl_init();
+        $options = [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FAILONERROR => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => ['Content-Type:application/json'],
+            CURLOPT_URL => $url,
+            CURLOPT_TIMEOUT => 10,
+        ];
+
+        if (!curl_setopt_array($curl, $options)) {
+            throw new \Exception('Could not set cURL options');
         }
+
+        $response = curl_exec($curl);
+        if ($response === false) {
+            throw new \Exception(
+                sprintf('(%s) %s', curl_errno($curl), curl_error($curl)),
+            );
+        }
+        curl_close($curl);
     }
 }

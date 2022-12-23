@@ -1,11 +1,8 @@
 <?php
-/**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- */
 
 namespace Valued\Magento2\Model;
 
+use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
@@ -25,21 +22,21 @@ class Api {
 
     const DEFAULT_TIMEOUT = 5;
 
-    private $extension;
+    private ExtensionBase $extension;
 
-    private $invitationHelper;
+    private InvitationHelper $invitationHelper;
 
-    private $reviewHelper;
+    private ReviewsHelper $reviewHelper;
 
-    private $curl;
+    private Curl $curl;
 
-    private $logger;
+    private LoggerInterface $logger;
 
-    private $generalHelper;
+    private GeneralHelper $generalHelper;
 
-    private $date;
+    private DateTime $date;
 
-    private $productRepository;
+    private ProductRepository $productRepository;
 
     public function __construct(
         ReviewsHelper $reviewHelper,
@@ -169,7 +166,7 @@ class Api {
         return $this->postInvitation($request, $config);
     }
 
-    private function getProducts($orderItems, $config) {
+    private function getProducts(array $orderItems, array $config): array {
         if (empty($config['product_reviews'])) {
             return [];
         }
@@ -191,11 +188,11 @@ class Api {
         return $products;
     }
 
-    private function getProductImageUrl($product) {
+    private function getProductImageUrl(Product $product): string {
         return $product->getResource()->getAttribute('image')->getFrontend()->getUrl($product);
     }
 
-    private function getProductGtinValue($product, $config) {
+    private function getProductGtinValue(Product $product, array $config): ?string {
         if (empty($config[self::GTIN_KEY])) {
             return null;
         }
@@ -252,7 +249,7 @@ class Api {
         return false;
     }
 
-    public function sendSyncUrl($syncUrl, $storeId) {
+    public function sendSyncUrl(string $syncUrl, int $storeId): void {
         $config = $this->invitationHelper->getConfigData($storeId);
         if (empty($config['product_reviews'])) {
             return;
@@ -269,11 +266,11 @@ class Api {
         try {
             $this->doSendSyncUrl($url, $data);
         } catch (\Exception $e) {
-            $this->logger->debug(sprintf('(Error: "%s" URL: %s)', $e->getMessage(), $url));
+            $this->logger->error(sprintf('Magento sync URL failed with error "%s"', $e->getMessage()));
         }
     }
 
-    private function doSendSyncUrl($url, $data) {
+    private function doSendSyncUrl(string $url, array $data): void {
         $curl = $this->curl;
         $curl->addOption(CURLOPT_RETURNTRANSFER, true);
         $curl->addOption(CURLOPT_FOLLOWLOCATION, true);

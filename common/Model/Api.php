@@ -281,6 +281,7 @@ class Api {
 
     private function doSendSyncUrl(string $url, array $data): void {
         $curl = curl_init();
+
         $options = [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FAILONERROR => true,
@@ -291,7 +292,6 @@ class Api {
             CURLOPT_URL => $url,
             CURLOPT_TIMEOUT => 10,
         ];
-
         if (!curl_setopt_array($curl, $options)) {
             throw new \Exception('Could not set cURL options');
         }
@@ -302,6 +302,7 @@ class Api {
                 sprintf('(%s) %s', curl_errno($curl), curl_error($curl)),
             );
         }
+
         curl_close($curl);
     }
 }

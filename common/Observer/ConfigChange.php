@@ -25,7 +25,7 @@ class ConfigChange implements ObserverInterface {
         $this->extension = $extension;
     }
 
-    public function execute(Observer $observer) {
+    public function execute(Observer $observer): void {
         $storeId = $observer->getEvent()->getData('store') ?: null;
         $syncUrl = $this->urlBuilder->getUrl(sprintf('%s/sync', $this->extension->getSlug()));
         $this->apiModel->sendSyncUrl($syncUrl, $storeId);

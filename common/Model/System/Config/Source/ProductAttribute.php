@@ -7,14 +7,14 @@ use Magento\Catalog\Model\ResourceModel\Eav\Attribute;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class ProductAttribute implements OptionSourceInterface {
-    private $attributeCollection;
+    private ProductAttributeCollection $attributeCollection;
 
     public function __construct(ProductAttributeCollection $attributeCollection) {
         $this->attributeCollection = $attributeCollection;
     }
 
 
-    public function toOptionArray() {
+    public function toOptionArray(): array {
         $options = [
             [
                 'value' => '',

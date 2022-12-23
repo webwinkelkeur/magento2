@@ -7,14 +7,14 @@ use Magento\Review\Model\ResourceModel\Rating\Collection as RatingCollection;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class RatingOption implements OptionSourceInterface {
-    private $ratingCollection;
+    private RatingCollection $ratingCollection;
 
     public function __construct(RatingCollection $ratingCollection) {
         $this->ratingCollection = $ratingCollection;
     }
 
 
-    public function toOptionArray() {
+    public function toOptionArray(): array {
         $options = [];
         foreach ($this->ratingCollection as $ratingOption) {
             $options[] = [

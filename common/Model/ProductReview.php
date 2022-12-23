@@ -99,7 +99,7 @@ class ProductReview {
     }
 
     private function isAuthorized(array $config, int $webshop_id, string $api_key): void {
-        if ($config['webshop_id'] == $webshop_id && $config['api_key'] == $api_key) {
+        if ($config['webshop_id'] == $webshop_id && hash_equals($config['api_key'], $api_key)) {
             return;
         }
         throw new UnauthorizedException('Incorrect credentials');

@@ -4,6 +4,7 @@ namespace Valued\Magento2\Model;
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
@@ -174,7 +175,12 @@ class Api {
         $products = [];
         foreach ($orderItems as $item) {
             $id = $item->getProductId();
-            $product = $this->productRepository->getById($id);
+            try {
+                $product = $this->productRepository->getById($id);
+            } catch (NoSuchEntityException $e) {
+                $this->logger->debug(sprintf('Could not find product with ID (%d)', $id));
+                continue;
+            }
             $products[] = [
                 'id' => $id,
                 'name' => $product->getName(),
@@ -188,8 +194,11 @@ class Api {
         return $products;
     }
 
-    private function getProductImageUrl(Product $product): string {
-        return $product->getResource()->getAttribute('image')->getFrontend()->getUrl($product);
+    private function getProductImageUrl(Product $product): ?string {
+        if (!$imageAttribute = $product->getResource()->getAttribute('image')) {
+            return null;
+        }
+        return $imageAttribute->getFrontend()->getUrl($product);
     }
 
     private function getProductGtinValue(Product $product, array $config): ?string {

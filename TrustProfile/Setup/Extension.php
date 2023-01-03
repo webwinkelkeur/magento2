@@ -21,6 +21,6 @@ class Extension extends ExtensionBase {
     }
 
     public function getDashboardDomain() {
-        return 'webwinkelkeur:0MxbXJ8C4WUEHcHZurJJ@staging.trustprofile.io';
+        return 'dashboard.trustprofile.com';
     }
 }

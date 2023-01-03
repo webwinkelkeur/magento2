@@ -11,10 +11,10 @@ use Magento\Review\Model\RatingFactory;
 use Magento\Review\Model\ResourceModel\Rating\Option\Vote\Collection as RatingVoteCollection;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Psr\Log\LoggerInterface;
-use Valued\Magento2\Controller\Sync\ForbidenException;
-use Valued\Magento2\Controller\Sync\NotFoundException;
-use Valued\Magento2\Controller\Sync\UnconfiguredAppException;
-use Valued\Magento2\Controller\Sync\UnauthorizedException;
+use Valued\Magento2\Exceptions\ForbidenException;
+use Valued\Magento2\Exceptions\NotFoundException;
+use Valued\Magento2\Exceptions\UnauthorizedException;
+use Valued\Magento2\Exceptions\UnconfiguredAppException;
 use Valued\Magento2\Helper\Invitation as InvitationHelper;
 
 class ProductReview {

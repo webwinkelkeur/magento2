@@ -9,6 +9,10 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\HTTP\PhpEnvironment\Response;
+use Valued\Magento2\Exceptions\BadRequestSyncException;
+use Valued\Magento2\Exceptions\MethodNotAllowed;
+use Valued\Magento2\Exceptions\ProductReviewSyncException;
+use Valued\Magento2\Exceptions\UnauthorizedException;
 use Valued\Magento2\Model\ProductReview as ProductReviewModel;
 
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface, CsrfAwareActionInterface {
@@ -74,45 +78,5 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
 
     private function credentialsEmpty(array $input): bool {
         return !trim($input['webshop_id']) || !trim($input['api_key']);
-    }
-}
-
-class ProductReviewSyncException extends \Exception {
-
-}
-
-class BadRequestSyncException extends ProductReviewSyncException {
-    public function getHttpResponseCode(): int {
-        return 400;
-    }
-}
-
-class NotFoundException extends ProductReviewSyncException {
-    public function getHttpResponseCode(): int {
-        return 404;
-    }
-}
-
-class UnconfiguredAppException extends ProductReviewSyncException {
-    public function getHttpResponseCode(): int {
-        return 501;
-    }
-}
-
-class UnauthorizedException extends ProductReviewSyncException {
-    public function getHttpResponseCode(): int {
-        return 401;
-    }
-}
-
-class ForbidenException extends ProductReviewSyncException {
-    public function getHttpResponseCode(): int {
-        return 403;
-    }
-}
-
-class MethodNotAllowed extends ProductReviewSyncException {
-    public function getHttpResponseCode(): int {
-        return 405;
     }
 }

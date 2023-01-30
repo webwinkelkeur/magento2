@@ -64,8 +64,7 @@ class ProductReview {
             throw new NotFoundException(sprintf('Could not find product with ID (%d)', $productReview['product_id']));
         }
 
-        $storeId = $product->getStoreId();
-        $config = $this->invitationHelper->getConfigData($storeId);
+        $config = $this->invitationHelper->getConfigData($product->getStoreId());
         $this->isAuthorized($config, $requestData['webshop_id'], $requestData['api_key']);
 
         if (!$config['product_reviews']) {
@@ -78,14 +77,14 @@ class ProductReview {
             return null;
         }
 
-        $review = $this->reviewFactory->create()
+        ($review = $this->reviewFactory->create())
             ->setId($productReview['id'])
             ->setEntityPkValue($productReview['product_id'])
             ->setStatusId(Review::STATUS_APPROVED)
             ->setTitle($productReview['title'])
             ->setDetail($productReview['review'])
-            ->setEntityId($storeId)
-            ->setStores($storeId)
+            ->setEntityId($review->getEntityIdByCode(Review::ENTITY_PRODUCT_CODE))
+            ->setStores($product->getStoreIds())
             ->setCustomerId($this->getCustomerId($productReview['reviewer']['email']))
             ->setNickname($productReview['reviewer']['name'])
             ->save();

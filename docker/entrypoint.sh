@@ -3,7 +3,6 @@
 set -euo pipefail
 cd /
 
-usermod -u "$(sudo -u apache stat -c %u /data/www)" apache
+usermod -u "$(sudo -u www-data stat -c %u /data/README.md)" www-data
 
-mkdir -p /run/apache2
-exec httpd -D FOREGROUND -f /etc/apache2/httpd.conf
+exec docker-php-entrypoint apache2-foreground

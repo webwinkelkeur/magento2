@@ -10,7 +10,7 @@
     "magmodules/m2-magento": "^0"
   },
   "require": {
-    "php": ">=7.4"
+    "php": ">=7.2"
   },
   "autoload": {
     "files": [

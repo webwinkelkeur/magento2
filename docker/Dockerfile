@@ -19,6 +19,8 @@ RUN install-php-extensions \
     xsl \
     zip
 
+RUN a2enmod rewrite
+
 COPY --chmod=0755 docker/entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT /entrypoint.sh

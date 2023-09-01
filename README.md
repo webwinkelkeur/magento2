@@ -12,23 +12,25 @@ For PLUS members the extension also allows for automatic invitation of customers
 to add a review on the WebwinkelKeur page. This extension is recommended for
 every WebwinkelKeur member with a Magento® 2 webshop.
 
-
 ## Developed for WebwinkelKeur
 
 WebwinkelKeur is a non-profit quality mark, started due to the discontent with
-existing quality marks.  WebwinkelKeur offers a complete customer review system,
+existing quality marks. WebwinkelKeur offers a complete customer review system,
 where we make sure every review is honest and real.
 
 [Visit WebwinkelKeur](https://www.webwinkelkeur.nl/)
-
 
 ## Development
 
 Configuration for a Magento development environment is included.
 
+Set the COMPOSE_PROFILES environment variable to select the PHP version:
+
+    export COMPOSE_PROFILES=php8
+
 Start by bringing up a web and database container using Docker Compose:
 
-    docker-compose --profile php8 up -d
+    docker compose up -d
 
 Now install Magento using the included script:
 

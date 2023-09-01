@@ -1,7 +1,6 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
   php7:
     container_name: magento2_web
     build:
@@ -15,12 +14,12 @@ services:
       - ./docker/apache2.conf:/etc/apache2/conf.d/local.conf
       - ./docker/php.ini:/etc/php7/conf.d/99_docker.ini
     environment:
-      VALUED_DEVELOPMENT: 'yes'
+      VALUED_DEVELOPMENT: "yes"
     links:
       - mariadb
     ports:
       - 26064:80
-    profiles: ['php7']
+    profiles: ["php7"]
 
   php8:
     container_name: magento2_web
@@ -35,7 +34,7 @@ services:
       - ./docker/apache2.conf:/etc/apache2/conf.d/local.conf
       - ./docker/php.ini:/etc/php8/conf.d/99_docker.ini
     environment:
-      VALUED_DEVELOPMENT: 'yes'
+      VALUED_DEVELOPMENT: "yes"
     links:
       - mariadb
     ports:
@@ -47,7 +46,7 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: magento
     ports:
       - 26066:3306
@@ -55,8 +54,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
     environment:
-        - discovery.type=single-node
-        - xpack.security.enabled=false
+      - discovery.type=single-node
+      - xpack.security.enabled=false
 
 volumes:
   mariadb:

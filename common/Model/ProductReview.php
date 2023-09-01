@@ -18,22 +18,29 @@ use Valued\Magento2\Exceptions\UnconfiguredAppException;
 use Valued\Magento2\Helper\Invitation as InvitationHelper;
 
 class ProductReview {
+    /** @var InvitationHelper */
+    private $invitationHelper;
 
-    private InvitationHelper $invitationHelper;
+    /** @var LoggerInterface */
+    private $logger;
 
-    private LoggerInterface $logger;
+    /** @var ProductRepository */
+    private $productRepository;
 
-    private ProductRepository $productRepository;
+    /** @var ReviewFactory */
+    private $reviewFactory;
 
-    private ReviewFactory $reviewFactory;
+    /** @var RatingFactory */
+    private $ratingFactory;
 
-    private RatingFactory $ratingFactory;
+    /** @var CustomerRepositoryInterface */
+    private $customerInterface;
 
-    private CustomerRepositoryInterface $customerInterface;
+    /** @var Registry */
+    private $registry;
 
-    private Registry $registry;
-
-    private RatingVoteCollection $ratingVoteCollection;
+    /** @var RatingVoteCollection */
+    private $ratingVoteCollection;
 
     public function __construct(
         InvitationHelper $invitationHelper,

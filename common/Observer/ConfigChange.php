@@ -9,11 +9,14 @@ use Valued\Magento2\Model\Api as ApiModel;
 use Valued\Magento2\Setup\ExtensionBase;
 
 class ConfigChange implements ObserverInterface {
-    private ApiModel $apiModel;
+    /** @var ApiModel */
+    private $apiModel;
 
-    private Url $urlBuilder;
+    /** @var Url */
+    private $urlBuilder;
 
-    private ExtensionBase $extension;
+    /** @var ExtensionBase */
+    private $extension;
 
     public function __construct(
         ApiModel $apiModel,

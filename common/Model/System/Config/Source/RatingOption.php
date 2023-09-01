@@ -7,7 +7,8 @@ use Magento\Review\Model\ResourceModel\Rating\Collection as RatingCollection;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class RatingOption implements OptionSourceInterface {
-    private RatingCollection $ratingCollection;
+    /** @var RatingCollection */
+    private $ratingCollection;
 
     public function __construct(RatingCollection $ratingCollection) {
         $this->ratingCollection = $ratingCollection;
@@ -25,6 +26,4 @@ class RatingOption implements OptionSourceInterface {
 
         return $options;
     }
-
-
 }

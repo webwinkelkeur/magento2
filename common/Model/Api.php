@@ -23,21 +23,29 @@ class Api {
 
     const DEFAULT_TIMEOUT = 5;
 
-    private ExtensionBase $extension;
+    /** @var ExtensionBase */
+    private $extension;
 
-    private InvitationHelper $invitationHelper;
+    /** @var InvitationHelper */
+    private $invitationHelper;
 
-    private ReviewsHelper $reviewHelper;
+    /** @var ReviewsHelper */
+    private $reviewHelper;
 
-    private Curl $curl;
+    /** @var Curl */
+    private $curl;
 
-    private LoggerInterface $logger;
+    /** @var LoggerInterface */
+    private $logger;
 
-    private GeneralHelper $generalHelper;
+    /** @var GeneralHelper */
+    private $generalHelper;
 
-    private DateTime $date;
+    /** @var DateTime */
+    private $date;
 
-    private ProductRepository $productRepository;
+    /** @var ProductRepository */
+    private $productRepository;
 
     public function __construct(
         ReviewsHelper $reviewHelper,
@@ -299,7 +307,7 @@ class Api {
         $response = curl_exec($curl);
         if ($response === false) {
             throw new \Exception(
-                sprintf('(%s) %s', curl_errno($curl), curl_error($curl)),
+                sprintf('(%s) %s', curl_errno($curl), curl_error($curl))
             );
         }
 

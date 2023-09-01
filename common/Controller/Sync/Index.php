@@ -16,7 +16,8 @@ use Valued\Magento2\Exceptions\UnauthorizedException;
 use Valued\Magento2\Model\ProductReview as ProductReviewModel;
 
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface, CsrfAwareActionInterface {
-    private ProductReviewModel $productReviewModel;
+    /** @var ProductReviewModel */
+    private $productReviewModel;
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,

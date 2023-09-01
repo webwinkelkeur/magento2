@@ -15,7 +15,7 @@ services:
     links:
       - mariadb
     ports:
-      - 26063:80
+      - 26065:80
     profiles: ["php72"]
 
   php7:
@@ -35,7 +35,7 @@ services:
     links:
       - mariadb
     ports:
-      - 26064:80
+      - 26065:80
     profiles: ["php7"]
 
   php8:

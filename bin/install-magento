@@ -63,28 +63,27 @@ mysql "${mysql_opts[@]}" <<-EOF
 	CREATE DATABASE magento;
 EOF
 
-base_url="http://localhost:26065"
-if [[ -n ${GITPOD_WORKSPACE_ID:-} ]]; then
-	base_url="$(gp url 26065)"
+install_args=(
+	--base-url=http://localhost:26065
+	--db-host=mariadb
+	--db-name=magento
+	--db-user=root
+	--admin-firstname=Admin
+	--admin-lastname=Admin
+	--admin-email=info@webwinkelkeur.nl
+	--admin-user=admin
+	--admin-password=admin123
+	--language=en_US
+	--currency=EUR
+	--timezone=Europe/Amsterdam
+	--use-rewrites=1
+	--backend-frontname=admin
+)
+
+if [[ ! $magento_version =~ ^2\.[0-3]\. ]]; then
+	install_args+=( --elasticsearch-host=elasticsearch )
 fi
 
-bin/magento setup:install \
-	--base-url="$base_url" \
-	--db-host=mariadb \
-	--db-name=magento \
-	--db-user=root \
-	--admin-firstname=Admin \
-	--admin-lastname=Admin \
-	--admin-email=info@webwinkelkeur.nl \
-	--admin-user=admin \
-	--admin-password=admin123 \
-	--language=en_US \
-	--currency=EUR \
-	--timezone=Europe/Amsterdam \
-	--use-rewrites=1 \
-	--backend-frontname=admin \
-	--elasticsearch-host=elasticsearch
-
+bin/magento setup:install "${install_args[@]}"
 bin/magento config:set dev/template/allow_symlink 1
-
 bin/magento cache:clean

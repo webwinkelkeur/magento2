@@ -9,6 +9,6 @@ if [[ -t 1 ]]; then
 fi
 
 exec docker exec "${opts[@]}" magento2_web \
-	sudo -u apache \
+	sudo -u www-data \
 	env VALUED_DEVELOPMENT=yes \
 	php -d memory_limit=-1 /data/www/bin/magento "$@"

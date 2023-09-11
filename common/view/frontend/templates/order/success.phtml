@@ -1,0 +1,5 @@
+<?php if ($block->consentFlowEnabled()): ?>
+    <script id="<?= $block->getSystemKey(); ?>_order_completed">
+        <?= $block->getConsentData(); ?>
+    </script>
+<?php endif; ?>

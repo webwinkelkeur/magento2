@@ -39,21 +39,23 @@ class OrderConsentData extends Template implements BlockInterface {
         parent::__construct($context, $data);
     }
 
-    public function getConsentData(): string {
+    public function getConsentData(): ?string {
         $store_id = $this->storeManager->getStore()->getId();
         $config = $this->invitationHelper->getConfigData($store_id);
 
         if (!$config) {
-            return '';
+            return null;
         }
 
-        if (!$config['webshop_id']) {
-            return '';
+        $webshop_id = trim($config['webshop_id']);
+
+        if (!$webshop_id) {
+            return null;
         }
 
         $order = $this->getOrder();
         $consent_data = [
-            'webshopId' => $config['webshop_id'],
+            'webshopId' => $webshop_id,
             'orderNumber' => $order->getIncrementId(),
             'email' => $order->getCustomerEmail(),
             'firstName' => $order->getBillingAddress()->getFirstname(),

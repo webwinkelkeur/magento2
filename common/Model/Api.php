@@ -19,6 +19,7 @@ class Api {
     const INVITATION_URL = 'https://%s/api/1.0/invitations.json?id=%s&code=%s';
     const WEBSHOP_URL = 'https://%s/api/1.0/webshop.json?id=%s&code=%s';
     const SYNC_URL = 'https://%s/webshops/magento_sync_url';
+    const ORDER_CONSENT_URL = 'https://%s/api/2.0/order_permissions.json?id=%s&code=%s&orderNumber=%s';
     const GTIN_KEY = 'gtin_key';
 
     const DEFAULT_TIMEOUT = 5;
@@ -144,13 +145,20 @@ class Api {
             return false;
         }
 
+        $order_number = $order->getIncrementId();
+
+        if ($config['consent_flow'] && !$this->hasConsent($order_number, $config)) {
+            $this->logger->debug(sprintf('Invitation was not created for order (%s) as customer did not give a consent', $order_number));
+            return false;
+        }
+
         $date_diff = (time() - $this->date->strToTime($order->getCreatedAt()));
         if ($date_diff > $config['backlog']) {
             return false;
         }
 
         $request['email'] = $order->getCustomerEmail();
-        $request['order'] = $order->getIncrementId();
+        $request['order'] = $order_number;
         $request['delay'] = $config['delay'];
         $request['customer_name'] = $this->invitationHelper->getCustomerName($order);
         $request['client'] = 'magento2';
@@ -281,25 +289,53 @@ class Api {
         ];
 
         try {
-            $this->doSendSyncUrl($url, $data);
+            $this->doRequest($url, 'POST', $data);
         } catch (\Exception $e) {
             $this->logger->error(sprintf('Sending sync URL to Dashboard failed with error %s', $e->getMessage()));
         }
     }
 
-    private function doSendSyncUrl(string $url, array $data): void {
+    private function hasConsent(string $order_number, array $config): bool {
+        $url =  sprintf(
+            self::ORDER_CONSENT_URL,
+            $this->extension->getDashboardDomain(),
+            $config['webshop_id'],
+            $config['api_key'],
+            $order_number
+        );
+
+        try {
+            $response_data = $this->doRequest($url, 'GET',null);
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf(
+                'Checking order (%s consent failed with error %s',
+                $order_number,
+                $e->getMessage()
+            ));
+            return false;
+        }
+
+        return $response_data['has_consent'] ?? false;
+    }
+
+
+    private function doRequest(string $url ,string $method, ?array $data ): ?array {
         $curl = curl_init();
 
         $options = [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FAILONERROR => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_HTTPHEADER => ['Content-Type:application/json'],
             CURLOPT_URL => $url,
             CURLOPT_TIMEOUT => 10,
         ];
+
+        if ($data) {
+            $options[CURLOPT_POSTFIELDS] = json_encode($data);
+        }
+
         if (!curl_setopt_array($curl, $options)) {
             throw new \Exception('Could not set cURL options');
         }
@@ -312,5 +348,6 @@ class Api {
         }
 
         curl_close($curl);
+        return json_decode($response, true);
     }
 }

@@ -91,7 +91,7 @@
                 <field id="consent_flow" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Ask for consent</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>If set to "Yes", an invitation will be created only after customer has given consent via Consent pop-up</comment>
+                    <comment>If set to "Yes", an invitation will be created only after the customer has given a consent via Consent pop-up</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
                 <field id="product_reviews" translate="label" type="select" sortOrder="8" showInDefault="1"

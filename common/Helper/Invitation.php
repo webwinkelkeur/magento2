@@ -90,10 +90,10 @@ class Invitation extends AbstractHelper {
                 $this->extension->getSlug() . self::XPATH_RESEND,
                 $storeId) == 1
             ) ? 0 : 1;
-            $config['consent_flow'] = ($this->generalHelper->getStoreValue(
-                    $this->extension->getSlug() . self::XPATH_CONSENT_FLOW,
-                    $storeId) == 1
-            ) ? 0 : 1;
+            $config['consent_flow'] = $this->generalHelper->getStoreValue(
+                $this->extension->getSlug() . self::XPATH_CONSENT_FLOW,
+                $storeId
+            );
             $config['debug'] = $this->generalHelper->getStoreValue(
                 $this->extension->getSlug() . self::XPATH_INVITATION_DEBUG,
                 $storeId

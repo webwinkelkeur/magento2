@@ -88,7 +88,13 @@
                     <comment>If set to "Yes", customers will get new review reminders for every new order.</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
-                <field id="product_reviews" translate="label" type="select" sortOrder="7" showInDefault="1"
+                <field id="consent_flow" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ask for consent</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set to "Yes", an invitation will be created only after customer has given consent via Consent pop-up</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="product_reviews" translate="label" type="select" sortOrder="8" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Product reviews</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -97,7 +103,7 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
-                <field id="rating_options" translate="label" type="multiselect" sortOrder="8" showInDefault="1" showInWebsite="1"
+                <field id="rating_options" translate="label" type="multiselect" sortOrder="9" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <frontend_class>valued-rating-options</frontend_class>
                     <label>Rating options</label>
@@ -109,7 +115,7 @@
                     </depends>
                     <validate>required-entry</validate>
                 </field>
-                <field id="gtin_key" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1"
+                <field id="gtin_key" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>GTIN/EAN</label>
                     <source_model>Valued\Magento2\Model\System\Config\Source\ProductAttribute</source_model>

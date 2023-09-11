@@ -23,6 +23,7 @@ class Invitation extends AbstractHelper {
     const XPATH_INVITATION_DELAY = '_magento2/invitation/delay';
     const XPATH_INVITATION_BACKLOG = '_magento2/invitation/backlog';
     const XPATH_RESEND = '_magento2/invitation/resend_double';
+    const XPATH_CONSENT_FLOW = '_magento2/invitation/consent_flow';
     const XPATH_INVITATION_DEBUG = '_magento2/invitation/debug';
     const XPATH_PRODUCT_REVIEWS = '_magento2/invitation/product_reviews';
     const XPATH_RATING_OPTIONS = '_magento2/invitation/rating_options';
@@ -88,6 +89,10 @@ class Invitation extends AbstractHelper {
             $config['noremail'] = ($this->generalHelper->getStoreValue(
                 $this->extension->getSlug() . self::XPATH_RESEND,
                 $storeId) == 1
+            ) ? 0 : 1;
+            $config['consent_flow'] = ($this->generalHelper->getStoreValue(
+                    $this->extension->getSlug() . self::XPATH_CONSENT_FLOW,
+                    $storeId) == 1
             ) ? 0 : 1;
             $config['debug'] = $this->generalHelper->getStoreValue(
                 $this->extension->getSlug() . self::XPATH_INVITATION_DEBUG,

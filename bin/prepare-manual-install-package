@@ -20,14 +20,27 @@ trap cleanup EXIT
 
 bsdtar xf "$package" -C "$tmp"
 
+move_code() {
+	mkdir -p app/code/Valued
+	mv $1/common app/code/Valued/Magento2
+	mkdir -p app/code/$1
+	mv $1 app/code/$1/Magento2
+}
+
 (
 	cd "$tmp"
-	mkdir -p app/code/Valued
-	mv WebwinkelKeur/common app/code/Valued/Magento2
-	mkdir -p app/code/WebwinkelKeur
-	mv WebwinkelKeur app/code/WebwinkelKeur/Magento2
+
+	if [[ -d WebwinkelKeur ]]; then
+		move_code WebwinkelKeur
+	elif [[ -d TrustProfile ]]; then
+		move_code TrustProfile
+	else
+		echo "Unexpected contents found in input archive:" >&2
+		ls -l >&2
+		exit 1
+	fi
 )
 
-bsdtar cf "$outfile" -C "$tmp" app
+bsdtar cf "$outfile" --format zip --options zip:compression=deflate -C "$tmp" app
 
 echo "$outfile"

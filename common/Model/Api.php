@@ -5,7 +5,6 @@ namespace Valued\Magento2\Model;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
 use Psr\Log\LoggerInterface;
@@ -21,7 +20,6 @@ class Api {
     const SYNC_URL = 'https://%s/webshops/magento_sync_url';
     const ORDER_CONSENT_URL = 'https://%s/api/2.0/order_permissions.json?id=%s&code=%s&orderNumber=%s';
     const GTIN_KEY = 'gtin_key';
-
     const DEFAULT_TIMEOUT = 5;
 
     /** @var ExtensionBase */
@@ -33,7 +31,6 @@ class Api {
     /** @var ReviewsHelper */
     private $reviewHelper;
 
-    /** @var Curl */
     private $curl;
 
     /** @var LoggerInterface */
@@ -52,7 +49,6 @@ class Api {
         ReviewsHelper $reviewHelper,
         GeneralHelper $generalHelper,
         InvitationHelper $invitationHelper,
-        Curl $curl,
         DateTime $dateTime,
         LoggerInterface $logger,
         ExtensionBase $extension,
@@ -61,7 +57,6 @@ class Api {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
         $this->invitationHelper = $invitationHelper;
-        $this->curl = $curl;
         $this->date = $dateTime;
         $this->logger = $logger;
         $this->extension = $extension;
@@ -86,14 +81,8 @@ class Api {
                 $data['webshop_id'],
                 $data['api_key']
             );
-            $curl = $this->curl;
-            $curl->addOption(CURLOPT_URL, $url);
-            $curl->addOption(CURLOPT_RETURNTRANSFER, 1);
-            $curl->addOption(CURLOPT_SSL_VERIFYPEER, false);
-            $curl->connect($url);
-            $response = $curl->read();
-            $result = json_decode($response, true);
 
+            $result = $this->doRequest($url, 'GET');
             if (!empty($result['status'])) {
                 if ($result['status'] == 'error') {
                     return $this->generalHelper->createResponseError($result['message']);
@@ -114,13 +103,8 @@ class Api {
                 $data['webshop_id'],
                 $data['api_key']
             );
-            $curl = $this->curl;
-            $curl->addOption(CURLOPT_URL, $url);
-            $curl->addOption(CURLOPT_RETURNTRANSFER, 1);
-            $curl->addOption(CURLOPT_SSL_VERIFYPEER, false);
-            $curl->connect($url);
-            $response = $curl->read();
-            $result = json_decode($response, true);
+
+            $result = $this->doRequest($url, 'GET');
             if (!empty($result['status'])) {
                 if ($result['status'] == 'error') {
                     return $this->generalHelper->createResponseError($result['message']);
@@ -236,42 +220,27 @@ class Api {
             $config['webshop_id'],
             $config['api_key']
         );
+
+        $options = [
+            CURLOPT_POSTFIELDS => $request,
+        ];
+
         try {
-            $curl = $this->curl;
-            $curl->addOption(CURLOPT_RETURNTRANSFER, true);
-            $curl->addOption(CURLOPT_FOLLOWLOCATION, true);
-            $curl->addOption(CURLOPT_POST, true);
-            $curl->addOption(CURLOPT_POSTFIELDS, $request);
-            $curl->addOption(CURLOPT_URL, $url);
-            $curl->addOption(CURLOPT_HEADER, false);
-            $curl->addOption(CURLOPT_CONNECTTIMEOUT, self::DEFAULT_TIMEOUT);
-            $curl->connect($url);
-            $response = json_decode($curl->read(), true);
-            if (!empty($response['status'])) {
-                $status = $response['status'];
-                $message = $response['message'];
-            } else {
-                $status = 'unknown';
-                $message = 'unknown error';
-            }
-            if (!empty($config['debug'])) {
-                $debugMsg = $this->extension->getName() . ' - Invitation #' . $request['order'] . ' ';
-                $debugMsg .= '(Status: ' . $status . ', Msg: ' . $message . ', ';
-                $debugMsg .= 'Url: ' . $url . ', Data: ' . json_encode($request) . ')';
-                $this->logger->debug($debugMsg);
-            }
-            if ($status != 'unknown') {
-                return $response;
-            }
+            $response = $this->doRequest($url, 'POST', $options);
         } catch (\Exception $e) {
             if (!empty($config['debug'])) {
-                $debugMsg = $this->extension->getName() . ' - Invitation #' . $request['order'] . ' ';
-                $debugMsg .= '(Error: ' . $e . ', Request: ' . $url . ' Data: ' . json_encode($request) . ')';
-                $this->logger->debug($debugMsg);
+                $this->logInvitationError($request, $url, $e, $config);
             }
+            return false;
         }
 
-        return false;
+        if (empty($response['status'])) {
+            $this->logInvitationDebugMessage($request, 'unknown', 'unknown error', $url, $config);
+            return false;
+        }
+
+        $this->logInvitationDebugMessage($request, $response['status'], $response['message'], $url, $config);
+        return $response;
     }
 
     public function sendSyncUrl(string $syncUrl, ?int $storeId): void {
@@ -285,11 +254,14 @@ class Api {
             'webshop_id' => $config['webshop_id'],
             'api_key' => $config['api_key'],
             'url' => $syncUrl,
-
+        ];
+        $options = [
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => ['Content-Type:application/json'],
         ];
 
         try {
-            $this->doRequest($url, 'POST', $data);
+            $this->doRequest($url, 'POST', $options);
         } catch (\Exception $e) {
             $this->logger->error(sprintf('Sending sync URL to Dashboard failed with error %s', $e->getMessage()));
         }
@@ -305,13 +277,14 @@ class Api {
         );
 
         try {
-            $response_data = $this->doRequest($url, 'GET',null);
+            $response_data = $this->doRequest($url, 'GET');
         } catch (\Exception $e) {
-            $this->logger->error(sprintf(
+            $message = sprintf(
                 'Checking consent for order %s failed: %s',
                 $order_number,
                 $e->getMessage()
-            ));
+            );
+            $this->logMessage($message, $config);
             return false;
         }
 
@@ -319,26 +292,8 @@ class Api {
     }
 
 
-    private function doRequest(string $url ,string $method, ?array $data ): ?array {
-        $curl = curl_init();
-
-        $options = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FAILONERROR => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_CUSTOMREQUEST => $method,
-            CURLOPT_HTTPHEADER => ['Content-Type:application/json'],
-            CURLOPT_URL => $url,
-            CURLOPT_TIMEOUT => 10,
-        ];
-
-        if ($data) {
-            $options[CURLOPT_POSTFIELDS] = json_encode($data);
-        }
-
-        if (!curl_setopt_array($curl, $options)) {
-            throw new \Exception('Could not set cURL options');
-        }
+    private function doRequest(string $url, string $method, array $options = []): ?array {
+        $curl = $this->getCurl($url, $method, $options);
 
         $response = curl_exec($curl);
         if ($response === false) {
@@ -347,7 +302,49 @@ class Api {
             );
         }
 
-        curl_close($curl);
         return json_decode($response, true);
+    }
+
+    private function getCurl(string $url, string $method, array $options = []) {
+        if (!$this->curl) {
+            $this->curl = curl_init();
+        } else {
+            curl_reset($this->curl);
+        }
+
+        $default_options = [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FAILONERROR => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_URL => $url,
+            CURLOPT_TIMEOUT => self::DEFAULT_TIMEOUT,
+        ];
+
+        if (!curl_setopt_array($this->curl, $default_options + $options)) {
+            throw new \Exception(sprintf("Could not set cURL options: (%s) %s", curl_errno($this->curl), curl_error($this->curl)));
+        }
+
+        return $this->curl;
+    }
+
+    private function logInvitationError(array $request, string $url, \Exception $e, array $config): void {
+        $message = $this->extension->getName() . ' - Invitation #' . $request['order'] . ' ';
+        $message .= '(Error: ' . $e . ', Request: ' . $url . ' Data: ' . json_encode($request) . ')';
+        $this->logMessage($message, $config);
+    }
+
+    private function logInvitationDebugMessage(array $request, string $status, string $message, string $url, array $config): void {
+        $debug_message = $this->extension->getName() . ' - Invitation #' . $request['order'] . ' ';
+        $debug_message .= '(Status: ' . $status . ', Msg: ' . $message . ', ';
+        $debug_message .= 'Url: ' . $url . ', Data: ' . json_encode($request) . ')';
+        $this->logMessage($debug_message, $config);
+    }
+
+    private function logMessage(string $message, array $config): void {
+        if (empty($config['debug'])) {
+            return;
+        }
+        $this->logger->debug($message);
     }
 }

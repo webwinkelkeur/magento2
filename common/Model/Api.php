@@ -308,7 +308,7 @@ class Api {
             $response_data = $this->doRequest($url, 'GET',null);
         } catch (\Exception $e) {
             $this->logger->error(sprintf(
-                'Checking order (%s consent failed with error %s',
+                'Checking consent for order %s failed: %s',
                 $order_number,
                 $e->getMessage()
             ));

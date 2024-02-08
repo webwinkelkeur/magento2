@@ -149,7 +149,7 @@ class Api {
         $request['noremail'] = $config['noremail'];
         $orderItems = $order->getItems();
         $orderData = [
-            'products' => $this->getProducts($orderItems, $config)
+            'products' => $this->getProducts($orderItems, $config, $storeId)
         ];
         $request['order_data'] = json_encode($orderData);
 
@@ -167,7 +167,7 @@ class Api {
         return $this->postInvitation($request, $config);
     }
 
-    private function getProducts(array $orderItems, array $config): array {
+    private function getProducts(array $orderItems, array $config, int $storeId): array {
         if (empty($config['product_reviews'])) {
             return [];
         }
@@ -176,7 +176,7 @@ class Api {
         foreach ($orderItems as $item) {
             $id = $item->getProductId();
             try {
-                $product = $this->productRepository->getById($id);
+                $product = $this->productRepository->getById($id, false, $storeId);
             } catch (NoSuchEntityException $e) {
                 $this->logger->debug(sprintf('Could not find product with ID (%d)', $id));
                 continue;

@@ -167,7 +167,7 @@ class Api {
         return $this->postInvitation($request, $config);
     }
 
-    private function getProducts(array $orderItems, array $config, int $storeId): array {
+    private function getProducts(array $orderItems, array $config, ?int $storeId): array {
         if (empty($config['product_reviews'])) {
             return [];
         }

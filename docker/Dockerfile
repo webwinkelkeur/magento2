@@ -16,6 +16,8 @@ RUN install-php-extensions \
     intl \
     pdo_mysql \
     soap \
+    sodium \
+    sockets \
     xsl \
     zip
 

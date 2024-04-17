@@ -42,6 +42,10 @@ class ProductReview {
     /** @var RatingVoteCollection */
     private $ratingVoteCollection;
 
+
+    /** @var \Magento\Review\Model\ResourceModel\Review */
+    private $resourceModel;
+
     public function __construct(
         InvitationHelper $invitationHelper,
         LoggerInterface $logger,
@@ -50,7 +54,8 @@ class ProductReview {
         RatingFactory $ratingFactory,
         CustomerRepositoryInterface $customerInterface,
         Registry $registry,
-        RatingVoteCollection $ratingVoteCollection
+        RatingVoteCollection $ratingVoteCollection,
+        \Magento\Review\Model\ResourceModel\Review $resourceModel
     ) {
         $this->invitationHelper = $invitationHelper;
         $this->logger = $logger;
@@ -60,6 +65,7 @@ class ProductReview {
         $this->customerInterface = $customerInterface;
         $this->registry = $registry;
         $this->ratingVoteCollection = $ratingVoteCollection;
+        $this->resourceModel = $resourceModel;
     }
 
     public function sync(array $requestData): ?int {
@@ -80,7 +86,8 @@ class ProductReview {
 
         if ($productReview['deleted']) {
             $this->registry->register('isSecureArea', true);
-            $this->reviewFactory->create()->setId($productReview['id'])->delete();
+            $review = $this->reviewFactory->create()->setId($productReview['id']);
+            $this->resourceModel->delete($review);
             return null;
         }
 
@@ -94,8 +101,11 @@ class ProductReview {
             ->setStores($product->getStoreIds())
             ->setCustomerId($this->getCustomerId($productReview['reviewer']['email']))
             ->setNickname($productReview['reviewer']['name'])
-            ->save();
+            ->setCreatedAt($productReview['created']);
 
+        $this->resourceModel->save($review);
+        $review->setCreatedAt($productReview['created']);
+        $this->resourceModel->save($review);
         $this->saveReviewRatings($review, $productReview, $config);
 
         $review->aggregate();

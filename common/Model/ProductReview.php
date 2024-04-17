@@ -42,7 +42,6 @@ class ProductReview {
     /** @var RatingVoteCollection */
     private $ratingVoteCollection;
 
-
     /** @var \Magento\Review\Model\ResourceModel\Review */
     private $resourceModel;
 

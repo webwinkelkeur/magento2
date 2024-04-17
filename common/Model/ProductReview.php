@@ -5,6 +5,7 @@ namespace Valued\Magento2\Model;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
+use Magento\Review\Model\ResourceModel\Review as ResourceModel;
 use Magento\Review\Model\Review;
 use Magento\Review\Model\ReviewFactory;
 use Magento\Review\Model\RatingFactory;
@@ -42,7 +43,7 @@ class ProductReview {
     /** @var RatingVoteCollection */
     private $ratingVoteCollection;
 
-    /** @var \Magento\Review\Model\ResourceModel\Review */
+    /** @var ResourceModel */
     private $resourceModel;
 
     public function __construct(
@@ -54,7 +55,7 @@ class ProductReview {
         CustomerRepositoryInterface $customerInterface,
         Registry $registry,
         RatingVoteCollection $ratingVoteCollection,
-        \Magento\Review\Model\ResourceModel\Review $resourceModel
+        ResourceModel $resourceModel
     ) {
         $this->invitationHelper = $invitationHelper;
         $this->logger = $logger;

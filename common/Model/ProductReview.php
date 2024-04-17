@@ -5,6 +5,7 @@ namespace Valued\Magento2\Model;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
+use Magento\Review\Model\ResourceModel\Review as ResourceModel;
 use Magento\Review\Model\Review;
 use Magento\Review\Model\ReviewFactory;
 use Magento\Review\Model\RatingFactory;
@@ -42,6 +43,9 @@ class ProductReview {
     /** @var RatingVoteCollection */
     private $ratingVoteCollection;
 
+    /** @var ResourceModel */
+    private $resourceModel;
+
     public function __construct(
         InvitationHelper $invitationHelper,
         LoggerInterface $logger,
@@ -50,7 +54,8 @@ class ProductReview {
         RatingFactory $ratingFactory,
         CustomerRepositoryInterface $customerInterface,
         Registry $registry,
-        RatingVoteCollection $ratingVoteCollection
+        RatingVoteCollection $ratingVoteCollection,
+        ResourceModel $resourceModel
     ) {
         $this->invitationHelper = $invitationHelper;
         $this->logger = $logger;
@@ -60,6 +65,7 @@ class ProductReview {
         $this->customerInterface = $customerInterface;
         $this->registry = $registry;
         $this->ratingVoteCollection = $ratingVoteCollection;
+        $this->resourceModel = $resourceModel;
     }
 
     public function sync(array $requestData): ?int {
@@ -80,7 +86,8 @@ class ProductReview {
 
         if ($productReview['deleted']) {
             $this->registry->register('isSecureArea', true);
-            $this->reviewFactory->create()->setId($productReview['id'])->delete();
+            $review = $this->reviewFactory->create()->setId($productReview['id']);
+            $this->resourceModel->delete($review);
             return null;
         }
 
@@ -94,8 +101,11 @@ class ProductReview {
             ->setStores($product->getStoreIds())
             ->setCustomerId($this->getCustomerId($productReview['reviewer']['email']))
             ->setNickname($productReview['reviewer']['name'])
-            ->save();
+            ->setCreatedAt($productReview['created']);
 
+        $this->resourceModel->save($review);
+        $review->setCreatedAt($productReview['created']);
+        $this->resourceModel->save($review);
         $this->saveReviewRatings($review, $productReview, $config);
 
         $review->aggregate();

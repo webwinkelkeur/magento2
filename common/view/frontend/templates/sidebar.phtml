@@ -1,13 +1,16 @@
 <?php
 /**
- * Copyright © 2017 Magmodules.eu. All rights reserved.
- * See COPYING.txt for license details.
- *
  * @var $block \Valued\Magento2\Block\Sidebar
+ * @var $secureRenderer \Magento\Framework\View\Helper\SecureHtmlRenderer
  */
 ?>
-<?php if ($block->getEnabledSidebar()) { ?>
-    <script>
-        (function(url,id){var script=document.createElement('script');script.async=true;script.src=url+'/sidebar.js?id='+id+'&c='+cachebuster(10,id);var ref=document.getElementsByTagName('script')[0];ref.parentNode.insertBefore(script,ref);function cachebuster(refreshMinutes,id){var now=Date.now();var interval=refreshMinutes*60e3;var shift=(Math.sin(id)||0)*interval;return Math.floor((now+shift)/interval);}})(<?= json_encode('https://' . $block->getSidebarDomain()); ?>,<?= (int) $block->getWebshopId(); ?>);
-    </script>
-<?php } ?>
+
+<?php if ($block->getEnabledSidebar()): ?>
+    <?php
+    $webshop_id = $block->getWebshopId();
+    $dashboard_domain = 'https://' . $block->getSidebarDomain();
+    $nonce = $block->getNonce();
+    $scriptContent = sprintf('(function(n,r){var e=document.createElement("script");e.async=!0,e.src=n+"/sidebar.js?id="+r+"&c="+c(10,r);var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);function c(s,i){var o=Date.now(),a=s*6e4,_=(Math.sin(i)||0)*a;return Math.floor((o+_)/a)}})(%s, %d);', json_encode($dashboard_domain), (int) $webshop_id);
+    echo $secureRenderer->renderTag('script', ['nonce' => $nonce], $scriptContent, false);
+    ?>
+<?php endif; ?>

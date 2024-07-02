@@ -2,10 +2,10 @@
 namespace Valued\Magento2\Block;
 
 use Magento\Backend\Block\Template\Context;
-use Magento\Csp\Helper\CspNonceProvider;
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
 use Valued\Magento2\Helper\General as GeneralHelper;
+use Valued\Magento2\Helper\NonceProviderFactory;
 use Valued\Magento2\Setup\ExtensionBase;
 
 class Sidebar extends Template implements BlockInterface {
@@ -13,18 +13,18 @@ class Sidebar extends Template implements BlockInterface {
 
     private $extension;
 
-    private $cspNonceProvider;
+    private $nonceProvider;
 
     public function __construct(
         Context          $context,
         GeneralHelper    $generalHelper,
         ExtensionBase    $extension,
-        CspNonceProvider $cspNonceProvider,
+        NonceProviderFactory $nonceProviderFactory,
         array            $data = []
     ) {
         $this->generalHelper = $generalHelper;
         $this->extension = $extension;
-        $this->cspNonceProvider = $cspNonceProvider;
+        $this->nonceProvider = $nonceProviderFactory->create();
         parent::__construct($context, $data);
     }
 
@@ -44,7 +44,11 @@ class Sidebar extends Template implements BlockInterface {
         return $this->generalHelper->getLanguage();
     }
 
-    public function getNonce(): string {
-        return $this->cspNonceProvider->generateNonce();
+    public function getAttributes(): array {
+        $attributes = [];
+        if ($nonce = $this->nonceProvider->getNonce()) {
+            $attributes['nonce'] = $nonce;
+        }
+        return $attributes;
     }
 }

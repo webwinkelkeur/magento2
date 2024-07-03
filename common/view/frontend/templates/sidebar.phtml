@@ -10,6 +10,6 @@
     $webshop_id = $block->getWebshopId();
     $dashboard_domain = 'https://' . $block->getSidebarDomain();
     $scriptContent = sprintf('(function(n,r){var e=document.createElement("script");e.async=!0,e.src=n+"/sidebar.js?id="+r+"&c="+c(10,r);var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);function c(s,i){var o=Date.now(),a=s*6e4,_=(Math.sin(i)||0)*a;return Math.floor((o+_)/a)}})(%s, %d);', json_encode($dashboard_domain), (int) $webshop_id);
-    echo $secureRenderer->renderTag('script', $block->getAttributes(), $scriptContent, false);
+    echo $secureRenderer->renderTag('script', [], $scriptContent, false);
     ?>
 <?php endif; ?>

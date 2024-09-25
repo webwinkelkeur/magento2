@@ -28,6 +28,8 @@ $result = preg_replace_callback('~{{\s*(\w+)?\s*}}~', function ($match) use ($pr
         return strtolower($project);
     case 'DASHBOARD_DOMAIN':
         return $extension->getDashboardDomain();
+        case 'VERSION':
+            return str_replace('v', '', trim(exec("git describe --tags --match 'v*' | sed 's/-.*$/-BETA/'")));
     default:
         throw new RuntimeException("Unknown template variable: {$match[1]}");
     }

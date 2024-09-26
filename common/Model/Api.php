@@ -5,6 +5,7 @@ namespace Valued\Magento2\Model;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
@@ -13,7 +14,6 @@ use Valued\Magento2\Helper\General as GeneralHelper;
 use Valued\Magento2\Helper\Invitation as InvitationHelper;
 use Valued\Magento2\Helper\Reviews as ReviewsHelper;
 use Valued\Magento2\Setup\ExtensionBase;
-use \Magento\Framework\Module\ModuleListInterface;
 
 class Api {
     const REVIEWS_URL = 'https://%s/api/1.0/ratings_summary.json?id=%s&code=%s';

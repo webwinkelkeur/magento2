@@ -4,6 +4,8 @@ namespace Valued\Magento2\Model;
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
@@ -45,14 +47,22 @@ class Api {
     /** @var ProductRepository */
     private $productRepository;
 
+    /** @var ModuleListInterface */
+    private $moduleList;
+
+    /** @var ProductMetadataInterface */
+    private $productMetadata;
+
     public function __construct(
-        ReviewsHelper $reviewHelper,
-        GeneralHelper $generalHelper,
-        InvitationHelper $invitationHelper,
-        DateTime $dateTime,
-        LoggerInterface $logger,
-        ExtensionBase $extension,
-        ProductRepository $productRepository
+        ReviewsHelper            $reviewHelper,
+        GeneralHelper            $generalHelper,
+        InvitationHelper         $invitationHelper,
+        DateTime                 $dateTime,
+        LoggerInterface          $logger,
+        ExtensionBase            $extension,
+        ProductRepository        $productRepository,
+        ModuleListInterface      $moduleList,
+        ProductMetadataInterface $productMetadata
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
@@ -61,6 +71,8 @@ class Api {
         $this->logger = $logger;
         $this->extension = $extension;
         $this->productRepository = $productRepository;
+        $this->moduleList = $moduleList;
+        $this->productMetadata = $productMetadata;
     }
 
     public function getReviews($type) {
@@ -146,6 +158,8 @@ class Api {
         $request['delay'] = $config['delay'];
         $request['customer_name'] = $this->invitationHelper->getCustomerName($order);
         $request['client'] = 'magento2';
+        $request['platform_version'] = $this->getPlatformVersion();
+        $request['plugin_version'] = $this->getPluginVersion();
         $request['noremail'] = $config['noremail'];
         $orderItems = $order->getItems();
         $orderData = [
@@ -268,7 +282,7 @@ class Api {
     }
 
     private function hasConsent(string $order_number, array $config): bool {
-        $url =  sprintf(
+        $url = sprintf(
             self::ORDER_CONSENT_URL,
             $this->extension->getDashboardDomain(),
             $config['webshop_id'],
@@ -346,5 +360,13 @@ class Api {
             return;
         }
         $this->logger->debug($message);
+    }
+
+    private function getPluginVersion(): ?string {
+        return $this->moduleList->getOne($this->extension->getModuleCode())['setup_version'] ?? null;
+    }
+
+    private function getPlatformVersion(): ?string {
+        return $this->productMetadata->getVersion();
     }
 }

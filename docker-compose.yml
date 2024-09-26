@@ -47,7 +47,7 @@ services:
       dockerfile: docker/Dockerfile
       args:
         - ALPINE_VERSION=3.16
-        - PHP_VERSION=8.1.0
+        - PHP_VERSION=8.3.0
     volumes:
       - .:/data
       - ./docker/apache2.conf:/etc/apache2/sites-enabled/000-default.conf

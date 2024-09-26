@@ -29,7 +29,7 @@ $result = preg_replace_callback('~{{\s*(\w+)?\s*}}~', function ($match) use ($pr
     case 'DASHBOARD_DOMAIN':
         return $extension->getDashboardDomain();
     case 'VERSION':
-        $tag = trim(exec("git describe --tags --match 'v*'")));
+        $tag = trim(exec("git describe --tags --match 'v*'"));
         if (!preg_match('~^v~', $tag)) {
             throw new RuntimeException("Could not find matching tag for HEAD");
         }

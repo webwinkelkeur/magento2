@@ -22,20 +22,16 @@ if ($input === false) {
 
 $result = preg_replace_callback('~{{\s*(\w+)?\s*}}~', function ($match) use ($project, $extension) {
     switch ($match[1]) {
-    case 'PROJECT':
-        return $project;
-    case 'LOWERCASE_PROJECT':
-        return strtolower($project);
-    case 'DASHBOARD_DOMAIN':
-        return $extension->getDashboardDomain();
-    case 'VERSION':
-        $tag = trim(exec("git describe --tags --match 'v*'"));
-        if (!preg_match('~^v~', $tag)) {
-            throw new RuntimeException("Could not find matching tag for HEAD");
-        }
-        return preg_replace('~-.*$/-~', '-BETA', preg_replace('~^v~', '', $tag));
-    default:
-        throw new RuntimeException("Unknown template variable: {$match[1]}");
+        case 'PROJECT':
+            return $project;
+        case 'LOWERCASE_PROJECT':
+            return strtolower($project);
+        case 'DASHBOARD_DOMAIN':
+            return $extension->getDashboardDomain();
+        case 'VERSION':
+            return getVersion();
+        default:
+            throw new RuntimeException("Unknown template variable: {$match[1]}");
     }
 }, $input);
 
@@ -45,3 +41,19 @@ if (!$dom->loadXML($result)) {
 }
 
 echo $result;
+
+function getVersion() {
+    $tag = trim(exec("git describe --tags --match 'v*'"));
+    if (!preg_match('~^v~', $tag)) {
+        return getVersionFromFile();
+    }
+    return preg_replace('~-.*$/-~', '-BETA', preg_replace('~^v~', '', $tag));
+}
+
+function getVersionFromFile() {
+    $file_path = __DIR__ . '/../version.txt';
+    if (file_exists($file_path)) {
+        return trim(file_get_contents($file_path));
+    }
+    throw new RuntimeException('Could not extract version from version.txt');
+}

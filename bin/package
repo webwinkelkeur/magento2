@@ -24,7 +24,7 @@ trap cleanup EXIT
 git archive HEAD | tar xf - -C "$tmp"
 
 cd "$tmp"
-
+echo $version > version.txt
 make PROJECTS="$project" >&2
 
 find common -type f -not -name '*.php' -delete

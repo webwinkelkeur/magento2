@@ -42,18 +42,14 @@ if (!$dom->loadXML($result)) {
 
 echo $result;
 
-function getVersion() {
-    $tag = trim(exec("git describe --tags --match 'v*'"));
-    if (!preg_match('~^v~', $tag)) {
-        return getVersionFromFile();
-    }
-    return preg_replace('~-.*$/-~', '-BETA', preg_replace('~^v~', '', $tag));
+function getVersion(): string {
+    return getenv('MODULE_VERSION') ?: getVersionFromGit();
 }
 
-function getVersionFromFile() {
-    $file_path = __DIR__ . '/../version.txt';
-    if (file_exists($file_path)) {
-        return trim(file_get_contents($file_path));
+function getVersionFromGit(): string {
+    $tag = trim(exec("git describe --tags --match 'v*'"));
+    if (!preg_match('~^v~', $tag)) {
+        throw new RuntimeException("Could not find matching tag for HEAD");
     }
-    throw new RuntimeException('Could not extract version from version.txt');
+    return preg_replace('~-.*$/-~', '-BETA', preg_replace('~^v~', '', $tag));
 }

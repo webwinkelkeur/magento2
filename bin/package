@@ -12,6 +12,7 @@ project="$1"
 
 version="$(git describe --tags --match 'v*' | sed 's/-.*$/-BETA/')"
 version="${version#v}"
+export MODULE_VERSION="$version"
 
 dist="$PWD/dist"
 out="$dist/$project-magento2-$version.zip"

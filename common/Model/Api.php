@@ -9,6 +9,7 @@ use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\ResourceModel\Order\Item\Collection\Interceptor;
 use Psr\Log\LoggerInterface;
 use Valued\Magento2\Helper\General as GeneralHelper;
 use Valued\Magento2\Helper\Invitation as InvitationHelper;
@@ -161,7 +162,7 @@ class Api {
         $request['platform_version'] = $this->getPlatformVersion();
         $request['plugin_version'] = $this->getPluginVersion();
         $request['noremail'] = $config['noremail'];
-        $orderItems = $order->getItems();
+        $orderItems = $order->getItemsCollection([], true);
         $orderData = [
             'products' => $this->getProducts($orderItems, $config, $storeId)
         ];
@@ -181,13 +182,9 @@ class Api {
         return $this->postInvitation($request, $config);
     }
 
-    private function getProducts(array $orderItems, array $config, ?int $storeId): array {
-        if (empty($config['product_reviews'])) {
-            return [];
-        }
-
+    private function getProducts(Interceptor $orderItems, array $config, ?int $storeId): array {
         $products = [];
-        foreach ($orderItems as $item) {
+        foreach ($orderItems->getItems() as $item) {
             $id = $item->getProductId();
             try {
                 $product = $this->productRepository->getById($id, false, $storeId);

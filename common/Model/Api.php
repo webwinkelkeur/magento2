@@ -9,7 +9,7 @@ use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\ResourceModel\Order\Item\Collection\Interceptor;
+use Magento\Sales\Model\ResourceModel\Order\Item\Collection;
 use Psr\Log\LoggerInterface;
 use Valued\Magento2\Helper\General as GeneralHelper;
 use Valued\Magento2\Helper\Invitation as InvitationHelper;
@@ -164,7 +164,7 @@ class Api {
         $request['noremail'] = $config['noremail'];
         $orderItems = $order->getItemsCollection([], true);
         $orderData = [
-            'products' => $this->getProducts($orderItems, $config, $storeId)
+            'products' => $this->getProductsSafe($orderItems, $config, $storeId)
         ];
         $request['order_data'] = json_encode($orderData);
 
@@ -182,7 +182,16 @@ class Api {
         return $this->postInvitation($request, $config);
     }
 
-    private function getProducts(Interceptor $orderItems, array $config, ?int $storeId): array {
+    private function getProductsSafe(Collection $orderItems, array $config, ?int $storeId): array {
+        try {
+            return $this->getProducts($orderItems, $config, $storeId);
+        } catch (\Exception $e) {
+            $this->logger->debug(sprintf('Error retrieving products: %s', $e->getMessage()));
+            return [];
+        }
+    }
+
+    private function getProducts(Collection $orderItems, array $config, ?int $storeId): array {
         $products = [];
         foreach ($orderItems->getItems() as $item) {
             $id = $item->getProductId();

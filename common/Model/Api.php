@@ -186,7 +186,7 @@ class Api {
         try {
             return $this->getProducts($orderItems, $config, $storeId);
         } catch (\Exception $e) {
-            $this->logger->debug(sprintf('Error retrieving products: %s', $e->getMessage()));
+            $this->logger->debug(sprintf('Error retrieving products: %s: (%s) %s', get_class($e), $e->getCode(), $e->getMessage()));
             return [];
         }
     }

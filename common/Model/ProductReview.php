@@ -88,6 +88,7 @@ class ProductReview {
             $this->registry->register('isSecureArea', true);
             $review = $this->reviewFactory->create()->setId($productReview['id']);
             $this->resourceModel->delete($review);
+            $this->logger->debug(sprintf('Delete review with ID (%d)', $productReview['product_id']));
             return null;
         }
 

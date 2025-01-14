@@ -84,6 +84,10 @@ class ProductReview {
             throw new ForbidenException('Product review sync is disabled');
         }
 
+        if (!isset($config['rating_options'])) {
+            throw new UnconfiguredAppException('Rating options not selected');
+        }
+
         if ($productReview['deleted']) {
             $this->registry->register('isSecureArea', true);
             $review = $this->reviewFactory->create()->setId($productReview['id']);
@@ -153,9 +157,6 @@ class ProductReview {
     }
 
     private function getRatings(int $rating_value, array $config): array {
-        if (!isset($config['rating_options'])) {
-            throw new UnconfiguredAppException('Rating options not selected');
-        }
         /*
          $_ratingOptions = array(
              1 => array(1 => 1,  2 => 2,  3 => 3,  4 => 4,  5 => 5),   //quality

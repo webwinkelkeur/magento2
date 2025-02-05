@@ -134,7 +134,7 @@ class Invitation extends AbstractHelper {
             );
         }
 
-        return true;
+        return false;
     }
 
     public function getEnabled($storeId) {

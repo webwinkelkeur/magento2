@@ -11,6 +11,9 @@
             <div itemscope itemtype="http://schema.org/WebPage">
                 <div class="<?= $block->getSlug(); ?>-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
                     <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                        <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/Organization">
+                            <meta itemprop="name" content="<?= $block->escapeHtml($summary['name']);; ?>">
+                        </div>
                         <div class="rating-summary">
                             <div class="rating-result">
                   				<span style="width: <?php echo (int)$summary['percentage']; ?>%;"></span>

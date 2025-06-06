@@ -11,6 +11,9 @@
             <div itemscope itemtype="http://schema.org/WebPage">
                 <div class="<?= $block->getSlug(); ?>-big-score <?php echo $block->escapeHtml($summary['iso']); ?>">
                     <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                        <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/Organization">
+                            <meta itemprop="name" content="<?= $block->escapeHtml($summary['name']);; ?>">
+                        </div>
                         <p>
                             <?php echo __('<span class="score">Rated with %1 </span><span class="text">Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank">%3 Customer Reviews</a></span>', '<span itemprop="ratingValue">' . $block->escapeHtml($summary['score']) . '</span> / <span itemprop="bestRating">' . (int)$summary['score_max'] . '</span>', $block->escapeUrl($summary['review_url']), '<span itemprop="ratingCount">' . (int)$summary['total_reviews'] . '</span>'); ?>
                         </p>

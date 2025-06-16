@@ -156,6 +156,7 @@ class Api {
 
         $request['email'] = $order->getCustomerEmail();
         $request['order'] = $order_number;
+        $request['order_total'] = $order->getGrandTotal();
         $request['delay'] = $config['delay'];
         $request['customer_name'] = $this->invitationHelper->getCustomerName($order);
         $request['client'] = 'magento2';

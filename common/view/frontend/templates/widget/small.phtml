@@ -29,7 +29,7 @@
             <div class="<?= $block->escapeHtmlAttr($block->getSlug()); ?>-small-score <?php echo $block->escapeHtmlAttr($summary['iso']); ?>">
                 <div class="rating-summary">
                     <div class="rating-result">
-                  		<span style="width: <?php echo $block->escapeHtml((int)$summary['percentage']); ?>%;"></span>
+                  		<span style="width: <?= $block->escapeHtmlAttr((int)$summary['percentage']); ?>%;"></span>
                     </div>
                 </div>
                 <p>

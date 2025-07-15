@@ -1,9 +1,13 @@
 <?php
+/**
+ * @var $block \Valued\Magento2\Block\OrderConsentData
+ */
+
 $consentData = $block->getConsentData();
 ?>
 
 <?php if ($block->consentFlowEnabled() && $consentData): ?>
-    <script id="<?= $block->getSystemKey(); ?>_order_completed">
-        <?= $consentData; ?>
+    <script id="<?= $block->escapeHtmlAttr($block->getSystemKey()); ?>_order_completed">
+        <?= $block->escapeHtml($consentData); ?>
     </script>
 <?php endif; ?>

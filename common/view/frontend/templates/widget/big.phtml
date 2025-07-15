@@ -26,7 +26,7 @@
                 </div>
             </div>
         <?php } else { ?>
-            <div class="<?= $block->escapeHtml($block->getSlug()); ?>-big-score <?php echo $block->escapeHtml($summary['iso']); ?>">
+            <div class="<?= $block->escapeHtmlAttr($block->getSlug()); ?>-big-score <?= $block->escapeHtmlAttr($summary['iso']); ?>">
                 <p>
                     <?php echo __('<span class="score">Rated with %1 </span><span class="text">Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank">%3 Customer Reviews</a></span>', $block->escapeHtml($summary['score']) . ' / ' . $block->escapeHtml((int)$summary['score_max']), $block->escapeUrl($summary['review_url']), $block->escapeHtml((int) $summary['total_reviews'])); ?>
                 </p>

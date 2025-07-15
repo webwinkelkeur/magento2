@@ -7,7 +7,7 @@ $consentData = $block->getConsentData();
 ?>
 
 <?php if ($block->consentFlowEnabled() && $consentData): ?>
-    <script id="<?= $block->escapeHtml($block->getSystemKey()); ?>_order_completed">
+    <script id="<?= $block->escapeHtmlAttr($block->getSystemKey()); ?>_order_completed">
         <?= $block->escapeHtml($consentData); ?>
     </script>
 <?php endif; ?>

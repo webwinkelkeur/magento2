@@ -5,35 +5,35 @@
  * @var $block \Valued\Magento2\Block\Widget\Summary
  */
 ?>
-<div class="<?= $block->getSlug(); ?>-small-widget">
+<div class="<?= $block->escapeHtml($block->getSlug()); ?>-small-widget">
     <?php if ($summary = $block->getSummaryData()) { ?>
         <?php if ($block->getRichSnippets()) { ?>
             <div itemscope itemtype="http://schema.org/WebPage">
-                <div class="<?= $block->getSlug(); ?>-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
+                <div class="<?= $block->escapeHtml($block->getSlug()); ?>-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
                     <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                         <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/Organization">
                             <meta itemprop="name" content="<?= $block->escapeHtml($summary['name']);; ?>">
                         </div>
                         <div class="rating-summary">
                             <div class="rating-result">
-                  				<span style="width: <?php echo (int)$summary['percentage']; ?>%;"></span>
+                  				<span style="width: <?php echo $block->escapeHtml((int)$summary['percentage']); ?>%;"></span>
                             </div>
                         </div>
                         <p>
-                            <?php echo __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', '<span itemprop="ratingValue">' . $block->escapeHtml($summary['score']) . '</span> / <span itemprop="bestRating">' . (int)$summary['score_max'] . '</span>', $block->escapeUrl($summary['review_url']), '<span itemprop="ratingCount">' . (int)$summary['total_reviews'] . '</span>'); ?>
+                            <?php echo __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', '<span itemprop="ratingValue">' . $block->escapeHtml($summary['score']) . '</span> / <span itemprop="bestRating">' . $block->escapeHtml((int)$summary['score_max']) . '</span>', $block->escapeUrl($summary['review_url']), '<span itemprop="ratingCount">' . $block->escapeHtml((int)$summary['total_reviews']) . '</span>'); ?>
                         </p>
                     </div>
                 </div>
             </div>
         <?php } else { ?>
-            <div class="<?= $block->getSlug(); ?>-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
+            <div class="<?= $block->escapeHtml($block->getSlug()); ?>-small-score <?php echo $block->escapeHtml($summary['iso']); ?>">
                 <div class="rating-summary">
                     <div class="rating-result">
-                  		<span style="width: <?php echo (int)$summary['percentage']; ?>%;"></span>
+                  		<span style="width: <?php echo $block->escapeHtml((int)$summary['percentage']); ?>%;"></span>
                     </div>
                 </div>
                 <p>
-                    <?php echo __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', $block->escapeHtml($summary['score']) . ' / ' . (int)$summary['score_max'], $block->escapeUrl($summary['review_url']), (int)$summary['total_reviews']); ?>
+                    <?php echo __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', $block->escapeHtml($summary['score']) . ' / ' . $block->escapeHtml((int)$summary['score_max']), $block->escapeUrl($summary['review_url']), $block->escapeHtml((int)$summary['total_reviews'])); ?>
                 </p>
             </div>
         <?php } ?>

@@ -5,7 +5,7 @@
  * @var $block \Valued\Magento2\Block\Widget\Summary
  */
 ?>
-<div class="<?= $block->escapeHtml($block->getSlug()); ?>-big-widget">
+<div class="<?= $block->escapeHtmlAttr($block->getSlug()); ?>-big-widget">
     <?php if ($summary = $block->getSummaryData()) { ?>
         <?php if ($block->getRichSnippets()) { ?>
             <div itemscope itemtype="http://schema.org/WebPage">

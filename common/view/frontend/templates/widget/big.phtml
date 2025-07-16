@@ -12,14 +12,15 @@
                 <div class="<?= $block->escapeHtmlAttr($block->getSlug()); ?>-big-score <?php echo $block->escapeHtmlAttr($summary['iso']); ?>">
                     <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                         <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/Organization">
-                            <meta itemprop="name" content="<?= $block->escapeHtml($summary['name']);; ?>">
+                            <meta itemprop="name" content="<?= $block->escapeHtml($summary['name']); ?>">
                         </div>
                         <p>
-                            <?php echo __('<span class="score">Rated with %1 </span><span class="text">Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank">%3 Customer Reviews</a></span>', '<span itemprop="ratingValue">' . $block->escapeHtml($summary['score']) . '</span> / <span itemprop="bestRating">' . $block->escapeHtml((int)$summary['score_max']) . '</span>', $block->escapeUrl($summary['review_url']), '<span itemprop="ratingCount">' . $block->escapeHtml((int)$summary['total_reviews']) . '</span>'); ?>
+                            <span class="score"><?= $block->escapeHtml(__('Rated with')); ?> <span itemprop="ratingValue"><?= $block->escapeHtml($summary['score']) ?></span> / <span itemprop="bestRating"><?= $block->escapeHtml((int)$summary['score_max']) ?></span></span>
+                            <span class="text"> <?= $block->escapeHtml(__('Based on')); ?> <a href="<?= $block->escapeUrl($summary['review_url']) ?>" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span itemprop="ratingCount"><?= $block->escapeHtml((int)$summary['total_reviews']) ?></span> <?= $block->escapeHtml(__('Customer Reviews')); ?></a></span>
                         </p>
                         <div class="rating-summary">
                             <div class="rating-result">
-                  	 			 <span style="width: <?= $block->escapeHtmlAttr((int)$summary['percentage']); ?>%;"></span>
+                                <span style="width: <?= $block->escapeHtmlAttr((int)$summary['percentage']); ?>%;"></span>
                             </div>
                         </div>
                     </div>
@@ -28,11 +29,12 @@
         <?php } else { ?>
             <div class="<?= $block->escapeHtmlAttr($block->getSlug()); ?>-big-score <?= $block->escapeHtmlAttr($summary['iso']); ?>">
                 <p>
-                    <?php echo __('<span class="score">Rated with %1 </span><span class="text">Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank">%3 Customer Reviews</a></span>', $block->escapeHtml($summary['score']) . ' / ' . $block->escapeHtml((int)$summary['score_max']), $block->escapeUrl($summary['review_url']), $block->escapeHtml((int) $summary['total_reviews'])); ?>
+                    <span class="score"><?= $block->escapeHtml(__('Rated with')); ?> <?= $block->escapeHtml($summary['score']) ?> / <?= $block->escapeHtml((int)$summary['score_max']) ?></span>
+                    <span class="text"><?= $block->escapeHtml(__('Based on'));?> <a href="<?= $block->escapeUrl($summary['review_url']) ?>" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><?= $block->escapeHtml((int) $summary['total_reviews']) ?> <?= $block->escapeHtml(__('Customer Reviews')); ?></a></span>
                 </p>
                 <div class="rating-summary">
                     <div class="rating-result">
-                  		<span style="width: <?php echo $block->escapeHtml((int)$summary['percentage']); ?>%;"></span>
+                        <span style="width: <?= $block->escapeHtml((int)$summary['percentage']); ?>%;"></span>
                     </div>
                 </div>
             </div>

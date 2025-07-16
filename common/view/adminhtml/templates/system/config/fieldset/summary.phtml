@@ -8,25 +8,24 @@
 <span id="result">
     <img class="connecting" hidden="hidden" style="margin:0 5px" src="<?= $block->escapeUrl($block->getViewFileUrl('images/process_spinner.gif')) ?>"/>
     <span id="stats_result">
-        <?php
-        if ($summaryData = $block->getReviewSummary()) {
-            foreach ($summaryData as $key => $summary) {
-                echo '<span class="valued-review-summary">';
-                if ($summary['status'] == 'success') {
-                    echo '<div class="field-summary-rating">';
-                    echo '	<div class="rating-box">';
-                    echo '		<div class="rating" style="width: ' . $block->escapeHtmlAttr((int)$summary['percentage']) . '%;"></span>';
-                    echo '	</div>';
-                    echo '</div>';
-                    echo __('%1 <br>Rated %2 with <a href="%3" target="_blank">%4 reviews</a>', $block->escapeHtml($summary['name']), $block->escapeHtml($summary['score']) . '/' . $block->escapeHtml((int)$summary['score_max']), $block->escapeUrl($summary['link']['default']), $block->escapeHtml((int)$summary['total_reviews']));
-                } else {
-                    echo '<span class="valued-review-message">';
-                    echo 'Website ID: ' . $key . '<br/>Error: ' . $block->escapeHtml($summary['msg']);
-                    echo '</div>';
-                }
-                echo '</span>';
-            }
-        }
-        ?>
+        <?php if ($summaryData = $block->getReviewSummary()): ?>
+            <?php foreach ($summaryData as $key => $summary): ?>
+                <span class="valued-review-summary">
+                    <?php if ($summary['status'] == 'success'): ?>
+                        <div class="field-summary-rating">
+                            <div class="rating-box">
+                                <div class="rating" style="width: <?= $block->escapeHtmlAttr((int)$summary['percentage']) ?>%;"></div>
+                            </div>
+                        </div>
+                        <?= $block->escapeHtml($summary['name']) ?><br>
+                        <?= $block->escapeHtml(__('Rated')) ?> <?= $block->escapeHtml($summary['score']) ?>/<?= $block->escapeHtml((int)$summary['score_max']) ?> <?= $block->escapeHtml(__('with')) ?> <a href="<?= $block->escapeUrl($summary['link']['default']) ?>" target="_blank"><?= $block->escapeHtml((int)$summary['total_reviews']) ?> <?= $block->escapeHtml(__('reviews')) ?></a>
+                    <?php else: ?>
+                        <span class="valued-review-message">
+                            Website ID: <?= $block->escapeHtml($key) ?><br/>Error: <?= $block->escapeHtml($summary['msg']) ?>
+                        </span>
+                    <?php endif; ?>
+                </span>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </span>
 </span>

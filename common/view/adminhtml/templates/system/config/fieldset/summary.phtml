@@ -2,10 +2,11 @@
 /**
  * Copyright © 2017 Magmodules.eu. All rights reserved.
  * See COPYING.txt for license details.
+ * @var $block \Valued\Magento2\Block\Widget\Summary
  */
-?> 
+?>
 <span id="result">
-    <img class="connecting" hidden="hidden" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
+    <img class="connecting" hidden="hidden" style="margin:0 5px" src="<?= $block->escapeUrl($block->getViewFileUrl('images/process_spinner.gif')) ?>"/>
     <span id="stats_result">
         <?php
         if ($summaryData = $block->getReviewSummary()) {
@@ -14,13 +15,13 @@
                 if ($summary['status'] == 'success') {
                     echo '<div class="field-summary-rating">';
                     echo '	<div class="rating-box">';
-                    echo '		<div class="rating" style="width: ' . (int)$summary['percentage'] . '%;"></span>';
+                    echo '		<div class="rating" style="width: ' . $block->escapeHtmlAttr((int)$summary['percentage']) . '%;"></span>';
                     echo '	</div>';
                     echo '</div>';
-                    echo __('%1 <br>Rated %2 with <a href="%3" target="_blank">%4 reviews</a>', $block->escapeHtml($summary['name']), $block->escapeHtml($summary['score']) . '/' . (int)$summary['score_max'], $block->escapeUrl($summary['link']['default']), (int)$summary['total_reviews']);
+                    echo __('%1 <br>Rated %2 with <a href="%3" target="_blank">%4 reviews</a>', $block->escapeHtml($summary['name']), $block->escapeHtml($summary['score']) . '/' . $block->escapeHtml((int)$summary['score_max']), $block->escapeUrl($summary['link']['default']), $block->escapeHtml((int)$summary['total_reviews']));
                 } else {
                     echo '<span class="valued-review-message">';
-                    echo 'Website ID: ' . $key . '<br/>Error: ' . $summary['msg'];
+                    echo 'Website ID: ' . $key . '<br/>Error: ' . $block->escapeHtml($summary['msg']);
                     echo '</div>';
                 }
                 echo '</span>';

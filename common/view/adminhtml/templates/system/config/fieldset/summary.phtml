@@ -18,7 +18,12 @@
                             </div>
                         </div>
                         <?= $block->escapeHtml($summary['name']) ?><br>
-                        <?= $block->escapeHtml(__('Rated')) ?> <?= $block->escapeHtml($summary['score']) ?>/<?= $block->escapeHtml((int)$summary['score_max']) ?> <?= $block->escapeHtml(__('with')) ?> <a href="<?= $block->escapeUrl($summary['link']['default']) ?>" target="_blank"><?= $block->escapeHtml((int)$summary['total_reviews']) ?> <?= $block->escapeHtml(__('reviews')) ?></a>
+                        <?= /* @noEscape */ __(
+                                'Rated %1/%2 with',
+                                $block->escapeHtml($summary['score']),
+                        $block->escapeHtml((int) $summary['score_max'])
+                    ) ?>
+                        <a href="<?= $block->escapeUrl($summary['link']['default']) ?>" target="_blank"><?= /* @noEscape */  __('%1 reviews', $block->escapeHtml((int) $summary['total_reviews'])) ?></a>
                     <?php else: ?>
                         <span class="valued-review-message">
                             Website ID: <?= $block->escapeHtml($key) ?><br/>Error: <?= $block->escapeHtml($summary['msg']) ?>

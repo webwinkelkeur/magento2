@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <p>
-                            <?php echo __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', '<span itemprop="ratingValue">' . $block->escapeHtml($summary['score']) . '</span> / <span itemprop="bestRating">' . $block->escapeHtml((int)$summary['score_max']) . '</span>', $block->escapeUrl($summary['review_url']), '<span itemprop="ratingCount">' . $block->escapeHtml((int)$summary['total_reviews']) . '</span>'); ?>
+                            <?= /* @noEscape */  __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', '<span itemprop="ratingValue">' . $block->escapeHtml($summary['score']) . '</span> / <span itemprop="bestRating">' . $block->escapeHtml((int)$summary['score_max']) . '</span>', $block->escapeUrl($summary['review_url']), '<span itemprop="ratingCount">' . $block->escapeHtml((int)$summary['total_reviews']) . '</span>'); ?>
                         </p>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <p>
-                    <?php echo __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', $block->escapeHtml($summary['score']) . ' / ' . $block->escapeHtml((int)$summary['score_max']), $block->escapeUrl($summary['review_url']), $block->escapeHtml((int)$summary['total_reviews'])); ?>
+                    <?= /* @noEscape */  __('Rated with %1 - Based on <a href="%2" class="webwinkelkeurPopup" title="Webshop Trustmark" target="_blank"><span class="brandicon"></span> %3 reviews</a>', $block->escapeHtml($summary['score']) . ' / ' . $block->escapeHtml((int)$summary['score_max']), $block->escapeUrl($summary['review_url']), $block->escapeHtml((int)$summary['total_reviews'])); ?>
                 </p>
             </div>
         <?php } ?>

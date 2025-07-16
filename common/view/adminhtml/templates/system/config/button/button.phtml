@@ -17,7 +17,7 @@
         var resultSpan = jQuery('#result');
         jQuery('#import_button').click(function () {
             var params = {};
-            new Ajax.Request(<?= json_encode($block->getAjaxUrl()); ?>, {
+            new Ajax.Request(<?= /* @noEscape */  json_encode($block->getAjaxUrl()); ?>, {
                 parameters:     params,
                 loaderArea:     false,
                 asynchronous:   true,
@@ -47,5 +47,5 @@
 </script>
 <?= $block->getButtonHtml() ?>
 <p class="note" id="button-valued-note">
-    <span><?php echo __('Last import: ') . $block->escapeHtml($block->getLastImported()) ?></span>
+    <span><?= /* @noEscape */  __('Last import: ') . $block->escapeHtml($block->getLastImported()) ?></span>
 </p>

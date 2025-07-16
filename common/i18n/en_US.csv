@@ -1,3 +1,5 @@
+"Rated %1/%2 with", "Beoordeeld %1/%2 met"
+"%1 reviews", "%1 beoordelingen"
 "-- Please Select --","-- Please Select --"
 "</span> from <span itemprop="bestRating">","</span> from <span itemprop="bestRating">"
 "<span class=""score"">Rated with %1 </span><span class=""text"">Based on <a href=""%2"" class=""webwinkelkeurPopup"" title=""Webshop Trustmark"" target=""_blank""><span class=""brandicon""></span> %3 reviews</a><br />Customer Reviews</span>","<span class=""score"">Rated with %1 </span><span class=""text"">Based on <a href=""%2""class=""webwinkelkeurPopup"" title=""Webshop Trustmark""target=""_blank""><span class=""brandicon""></span> %3 reviews</a><br />Customer Reviews</span>"

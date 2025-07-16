@@ -9,7 +9,7 @@
     <?php if ($summary = $block->getSummaryData()) { ?>
         <?php if ($block->getRichSnippets()) { ?>
             <div itemscope itemtype="http://schema.org/WebPage">
-                <div class="<?= $block->escapeHtmlAttr($block->getSlug()); ?>-big-score <?php echo $block->escapeHtmlAttr($summary['iso']); ?>">
+                <div class="<?= $block->escapeHtmlAttr($block->getSlug()); ?>-big-score <?= $block->escapeHtmlAttr($summary['iso']); ?>">
                     <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                         <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/Organization">
                             <meta itemprop="name" content="<?= $block->escapeHtml($summary['name']);; ?>">
@@ -32,7 +32,7 @@
                 </p>
                 <div class="rating-summary">
                     <div class="rating-result">
-                  		<span style="width: <?php echo $block->escapeHtml((int)$summary['percentage']); ?>%;"></span>
+                  		<span style="width: <?= $block->escapeHtml((int)$summary['percentage']); ?>%;"></span>
                     </div>
                 </div>
             </div>

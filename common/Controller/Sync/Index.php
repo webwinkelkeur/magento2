@@ -62,7 +62,7 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
             throw new UnauthorizedException('Missing credential fields');
         }
 
-        return $this->productReviewModel->sync($input);
+        return $this->productReviewModel->sync($input, $this->getRequest()->getParam('storeId'));
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException {

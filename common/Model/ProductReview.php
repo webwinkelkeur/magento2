@@ -68,7 +68,7 @@ class ProductReview {
         $this->resourceModel = $resourceModel;
     }
 
-    public function sync(array $requestData): ?int {
+    public function sync(array $requestData, ?int $storeId): ?int {
         $productReview = $requestData['product_review'];
 
         try {
@@ -77,7 +77,11 @@ class ProductReview {
             throw new NotFoundException(sprintf('Could not find product with ID (%d)', $productReview['product_id']));
         }
 
-        $config = $this->invitationHelper->getConfigData($product->getStoreId());
+        if (!$storeId) {
+            $storeId = $product->getStoreId();
+        }
+
+        $config = $this->invitationHelper->getConfigData($storeId);
         $this->isAuthorized($config, $requestData['webshop_id'], $requestData['api_key']);
 
         if (!$config['product_reviews']) {

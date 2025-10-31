@@ -8,6 +8,7 @@ use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\Url;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\Item\Collection;
 use Psr\Log\LoggerInterface;
@@ -54,6 +55,9 @@ class Api {
     /** @var ProductMetadataInterface */
     private $productMetadata;
 
+    /** @var Url */
+    private $urlBuilder;
+
     public function __construct(
         ReviewsHelper            $reviewHelper,
         GeneralHelper            $generalHelper,
@@ -63,7 +67,8 @@ class Api {
         ExtensionBase            $extension,
         ProductRepository        $productRepository,
         ModuleListInterface      $moduleList,
-        ProductMetadataInterface $productMetadata
+        ProductMetadataInterface $productMetadata,
+        Url $urlBuilder
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
@@ -74,6 +79,7 @@ class Api {
         $this->productRepository = $productRepository;
         $this->moduleList = $moduleList;
         $this->productMetadata = $productMetadata;
+        $this->urlBuilder = $urlBuilder;
     }
 
     public function getReviews($type) {
@@ -208,7 +214,11 @@ class Api {
                 'url' => $product->getUrlModel()->getUrl($product),
                 'image_url' => $this->getProductImageUrl($product),
                 'sku' => $product->getSku(),
-                'gtin' => $this->getProductGtinValue($product, $config)
+                'gtin' => $this->getProductGtinValue($product, $config),
+                'sync_url' => $this->urlBuilder->getUrl(
+                    sprintf('%s/sync', $this->extension->getSlug()),
+                    $storeId ? ['_query' => ['storeId' => $storeId]] : []
+                )
             ];
         }
 

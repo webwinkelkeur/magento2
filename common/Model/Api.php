@@ -215,11 +215,10 @@ class Api {
                 'image_url' => $this->getProductImageUrl($product),
                 'sku' => $product->getSku(),
                 'gtin' => $this->getProductGtinValue($product, $config),
-                'sync_url' => $this->urlBuilder->getUrl(sprintf(
-                    '%s/sync?storeId=%s',
-                    $this->extension->getSlug(),
-                    $storeId
-                )),
+                'sync_url' => $this->urlBuilder->getUrl(
+                    sprintf('%s/sync', $this->extension->getSlug()),
+                    $storeId ? ['_query' => ['storeId' => $storeId]] : []
+                )
             ];
         }
 

@@ -107,7 +107,7 @@ class ProductReview {
             ->setTitle($productReview['title'])
             ->setDetail($productReview['review'])
             ->setEntityId($review->getEntityIdByCode(Review::ENTITY_PRODUCT_CODE))
-            ->setStores($product->getStoreIds())
+            ->setStores([$storeId])
             ->setCustomerId($this->getCustomerId($productReview['reviewer']['email']))
             ->setNickname($productReview['reviewer']['name'])
             ->setCreatedAt($productReview['created']);

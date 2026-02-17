@@ -200,6 +200,7 @@ class Api {
 
     private function getProducts(Collection $orderItems, array $config, ?int $storeId): array {
         $products = [];
+        $this->urlBuilder->setScope($storeId);
         foreach ($orderItems->getItems() as $item) {
             $id = $item->getProductId();
             try {

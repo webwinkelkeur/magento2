@@ -103,7 +103,7 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
-                <field id="product_review_sync_stores" translate="label" type="multiselect" sortOrder="9" showInDefault="1"
+                <field id="product_review_sync_stores" translate="label,comment" type="multiselect" sortOrder="9" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Sync product reviews to store views</label>
                     <source_model>Magento\Store\Model\System\Store</source_model>

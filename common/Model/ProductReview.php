@@ -106,8 +106,6 @@ class ProductReview {
             return null;
         }
 
-        $storeIds = $this->getStoreIdsForReview($storeId, $config);
-
         ($review = $this->reviewFactory->create())
             ->setId($productReview['id'])
             ->setEntityPkValue($productReview['product_id'])
@@ -115,7 +113,7 @@ class ProductReview {
             ->setTitle($productReview['title'])
             ->setDetail($productReview['review'])
             ->setEntityId($review->getEntityIdByCode(Review::ENTITY_PRODUCT_CODE))
-            ->setStores($storeIds)
+            ->setStores($this->getStoreIdsForReview($storeId, $config))
             ->setCustomerId($this->getCustomerId($productReview['reviewer']['email']))
             ->setNickname($productReview['reviewer']['name'])
             ->setCreatedAt($productReview['created']);

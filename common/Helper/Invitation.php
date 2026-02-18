@@ -26,6 +26,7 @@ class Invitation extends AbstractHelper {
     const XPATH_CONSENT_FLOW = '_magento2/invitation/consent_flow';
     const XPATH_INVITATION_DEBUG = '_magento2/invitation/debug';
     const XPATH_PRODUCT_REVIEWS = '_magento2/invitation/product_reviews';
+    const XPATH_PRODUCT_REVIEW_SYNC_STORES = '_magento2/invitation/product_review_sync_stores';
     const XPATH_RATING_OPTIONS = '_magento2/invitation/rating_options';
     const XPATH_GTIN_KEY = '_magento2/invitation/gtin_key';
 
@@ -103,6 +104,11 @@ class Invitation extends AbstractHelper {
                 $this->extension->getSlug() . self::XPATH_PRODUCT_REVIEWS,
                 $storeId
             );
+            $syncStores = $this->generalHelper->getStoreValue(
+                $this->extension->getSlug() . self::XPATH_PRODUCT_REVIEW_SYNC_STORES,
+                $storeId
+            );
+            $config['product_review_sync_stores'] = array_filter(array_map('intval', explode(',', $syncStores ?? '')));
             $config['rating_options'] = $this->generalHelper->getStoreValue(
                 $this->extension->getSlug() . self::XPATH_RATING_OPTIONS,
                 $storeId

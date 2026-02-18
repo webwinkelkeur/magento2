@@ -100,6 +100,8 @@ class ProductReview {
             return null;
         }
 
+        $storeIds = $this->getStoreIdsForReview($storeId, $config);
+
         ($review = $this->reviewFactory->create())
             ->setId($productReview['id'])
             ->setEntityPkValue($productReview['product_id'])
@@ -107,7 +109,7 @@ class ProductReview {
             ->setTitle($productReview['title'])
             ->setDetail($productReview['review'])
             ->setEntityId($review->getEntityIdByCode(Review::ENTITY_PRODUCT_CODE))
-            ->setStores([$storeId])
+            ->setStores($storeIds)
             ->setCustomerId($this->getCustomerId($productReview['reviewer']['email']))
             ->setNickname($productReview['reviewer']['name'])
             ->setCreatedAt($productReview['created']);
@@ -121,6 +123,14 @@ class ProductReview {
 
         $this->logger->debug(sprintf('Saved product review with ID (%d)', $review->getId()));
         return $review->getId();
+    }
+
+    private function getStoreIdsForReview(int $originStoreId, array $config): array {
+        $syncStores = $config['product_review_sync_stores'] ?? [];
+        if (empty($syncStores)) {
+            return [$originStoreId];
+        }
+        return $syncStores;
     }
 
     private function isAuthorized(array $config, int $webshop_id, string $api_key): void {

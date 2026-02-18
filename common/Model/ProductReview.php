@@ -11,6 +11,7 @@ use Magento\Review\Model\ReviewFactory;
 use Magento\Review\Model\RatingFactory;
 use Magento\Review\Model\ResourceModel\Rating\Option\Vote\Collection as RatingVoteCollection;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Valued\Magento2\Exceptions\ForbidenException;
 use Valued\Magento2\Exceptions\NotFoundException;
@@ -46,6 +47,9 @@ class ProductReview {
     /** @var ResourceModel */
     private $resourceModel;
 
+    /** @var StoreManagerInterface */
+    private $storeManager;
+
     public function __construct(
         InvitationHelper $invitationHelper,
         LoggerInterface $logger,
@@ -55,7 +59,8 @@ class ProductReview {
         CustomerRepositoryInterface $customerInterface,
         Registry $registry,
         RatingVoteCollection $ratingVoteCollection,
-        ResourceModel $resourceModel
+        ResourceModel $resourceModel,
+        StoreManagerInterface $storeManager
     ) {
         $this->invitationHelper = $invitationHelper;
         $this->logger = $logger;
@@ -66,6 +71,7 @@ class ProductReview {
         $this->registry = $registry;
         $this->ratingVoteCollection = $ratingVoteCollection;
         $this->resourceModel = $resourceModel;
+        $this->storeManager = $storeManager;
     }
 
     public function sync(array $requestData, ?int $storeId): ?int {
@@ -125,12 +131,28 @@ class ProductReview {
         return $review->getId();
     }
 
-    private function getStoreIdsForReview(int $originStoreId, array $config): array {
-        $syncStores = $config['product_review_sync_stores'] ?? [];
-        if (empty($syncStores)) {
-            return [$originStoreId];
+    private function getStoreIdsForReview(int $sync_store_id, array $config): array {
+        $existing_store_ids = $this->getExistingStoreIds();
+
+        $sync_stores = $config['product_review_sync_stores'] ?? [];
+        if (empty($sync_stores)) {
+            return [$sync_store_id];
         }
-        return $syncStores;
+
+        $valid_store_ids = array_values(array_intersect($sync_stores, $existing_store_ids));
+        if (empty($valid_store_ids)) {
+            return [$sync_store_id];
+        }
+
+        return $valid_store_ids;
+    }
+
+    private function getExistingStoreIds(): array {
+        $store_ids = [];
+        foreach ($this->storeManager->getStores() as $store) {
+            $store_ids[] = $store->getId();
+        }
+        return $store_ids;
     }
 
     private function isAuthorized(array $config, int $webshop_id, string $api_key): void {

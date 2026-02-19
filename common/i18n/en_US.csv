@@ -48,6 +48,8 @@
 "Small Widget","Small Widget"
 "Status","Status"
 "Specify at which status you want to send the invitation. Default is Completed","Specify at which status you want to send the invitation. Default is Completed"
+"Select the store views in which product reviews can be synced to. If none are selected, reviews are synced to the store from which the order originated.","Select the store views in which product reviews can be synced to. If none are selected, reviews are synced to the store from which the order originated."
+"Sync product reviews to store views","Sync product reviews to store views"
 "The WebwinkelKeur javascript integration ensures that your WebwinkelKeur to load page on your own web store. Now customers don't have to leave your store anymore to read the reviews. This effectively increases your conversion. The display of the javascript integration can be personalized via https://dashboard.webwinkelkeur.nl. In your dashboard you will find under the option the personalization options such as how the sidebar is displayed and if it is activated on the mobile.","The WebwinkelKeur javascript integration ensures that your WebwinkelKeur to load page on your own web store. Now customers don't have to leave your store anymore to read the reviews. This effectively increases your conversion. The display of the javascript integration can be personalized via https://dashboard.webwinkelkeur.nl. In your dashboard you will find under the option the personalization options such as how the sidebar is displayed and if it is activated on the mobile."
 "This code can be obtained from WebwinkelKeur Dashboard.","This code can be obtained from WebwinkelKeur Dashboard."
 "Use Cron","Use Cron"

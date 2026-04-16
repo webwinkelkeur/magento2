@@ -3,12 +3,12 @@
     <policies>
         <policy id="script-src">
             <values>
-                <value id="{{ LOWERCASE_PROJECT }}-sidebar" type="host">https://{{ DASHBOARD_DOMAIN }}/sidebar.js</value>
+                <value id="{{ LOWERCASE_PROJECT }}-sidebar" type="host">https://{{ DASHBOARD_DOMAIN }}</value>
             </values>
         </policy>
         <policy id="font-src">
             <values>
-                <value id="{{ LOWERCASE_PROJECT }}-sidebar-font" type="host">https://{{ DASHBOARD_DOMAIN }}fonts/webandbrand.woff</value>
+                <value id="{{ LOWERCASE_PROJECT }}-sidebar-font" type="host">https://{{ DASHBOARD_DOMAIN }}</value>
             </values>
         </policy>
         <policy id="frame-src">

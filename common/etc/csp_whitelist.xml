@@ -11,6 +11,11 @@
                 <value id="{{ LOWERCASE_PROJECT }}-sidebar-font" type="host">https://{{ DASHBOARD_DOMAIN }}</value>
             </values>
         </policy>
+        <policy id="img-src">
+            <values>
+                <value id="{{ LOWERCASE_PROJECT }}-sidebar-image" type="host">https://{{ DASHBOARD_DOMAIN }}</value>
+            </values>
+        </policy>
         <policy id="frame-src">
             <values>
                 <value id="{{ LOWERCASE_PROJECT }}-frame" type="host">https://{{ DASHBOARD_DOMAIN }}</value>

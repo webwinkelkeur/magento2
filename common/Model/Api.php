@@ -175,18 +175,37 @@ class Api {
         ];
         $request['order_data'] = json_encode($orderData);
 
-        if (!empty($config['language'])) {
-            $request['language'] = $config['language'];
-            if ($config['language'] == 'cus') {
-                $lanArray = ['NL' => 'nld', 'EN' => 'eng', 'DE' => 'deu', 'FR' => 'fra', 'ES' => 'spa'];
-                if (!empty($address)) {
-                    if (isset($lanArray[$address->getCountry()])) {
-                        $request['language'] = $lanArray[$address->getCountry()];
-                    }
-                }
-            }
+        $language = $this->getInvitationLanguage($order, $config['language'], $storeId);
+        if ($language) {
+            $request['language'] = $language;
         }
         return $this->postInvitation($request, $config);
+    }
+
+    private function getInvitationLanguage(Order $order, ?string $language, $storeId): ?string {
+        if ($language != 'cus') {
+            return $language ?: null;
+        }
+
+        // Only countries with a single official language; others (e.g. BE, CH) fall back to the store locale
+        $countryLanguages = [
+            'NL' => 'nld',
+            'DE' => 'deu',
+            'AT' => 'deu',
+            'FR' => 'fra',
+            'ES' => 'spa',
+            'GB' => 'eng',
+            'IE' => 'eng',
+            'US' => 'eng',
+        ];
+        $address = $order->getShippingAddress() ?: $order->getBillingAddress();
+        if ($address && isset($countryLanguages[$address->getCountryId()])) {
+            return $countryLanguages[$address->getCountryId()];
+        }
+
+        $localeLanguages = ['nl' => 'nld', 'de' => 'deu', 'fr' => 'fra', 'es' => 'spa', 'en' => 'eng'];
+        $locale = (string) $this->generalHelper->getStoreValue('general/locale/code', $storeId);
+        return $localeLanguages[substr($locale, 0, 2)] ?? null;
     }
 
     private function getProductsSafe(Collection $orderItems, array $config, ?int $storeId): array {

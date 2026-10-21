@@ -10,6 +10,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Url;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\OrderFactory;
+use Magento\Sales\Model\ResourceModel\Order as OrderResource;
 use Magento\Sales\Model\ResourceModel\Order\Item\Collection;
 use Psr\Log\LoggerInterface;
 use Valued\Magento2\Helper\General as GeneralHelper;
@@ -25,6 +27,13 @@ class Api {
     const ORDER_CONSENT_URL = 'https://%s/api/2.0/order_permissions.json?id=%s&code=%s&orderNumber=%s';
     const GTIN_KEY = 'gtin_key';
     const DEFAULT_TIMEOUT = 5;
+    const REQUIRED_ORDER_FIELDS = [
+        'increment_id',
+        'customer_email',
+        'store_id',
+        'status',
+        'created_at',
+    ];
 
     /** @var ExtensionBase */
     private $extension;
@@ -58,6 +67,12 @@ class Api {
     /** @var Url */
     private $urlBuilder;
 
+    /** @var OrderFactory */
+    private $orderFactory;
+
+    /** @var OrderResource */
+    private $orderResource;
+
     public function __construct(
         ReviewsHelper            $reviewHelper,
         GeneralHelper            $generalHelper,
@@ -68,7 +83,9 @@ class Api {
         ProductRepository        $productRepository,
         ModuleListInterface      $moduleList,
         ProductMetadataInterface $productMetadata,
-        Url $urlBuilder
+        Url $urlBuilder,
+        OrderFactory $orderFactory,
+        OrderResource $orderResource
     ) {
         $this->reviewHelper = $reviewHelper;
         $this->generalHelper = $generalHelper;
@@ -80,6 +97,8 @@ class Api {
         $this->moduleList = $moduleList;
         $this->productMetadata = $productMetadata;
         $this->urlBuilder = $urlBuilder;
+        $this->orderFactory = $orderFactory;
+        $this->orderResource = $orderResource;
     }
 
     public function getReviews($type) {
@@ -137,6 +156,11 @@ class Api {
     }
 
     public function sendInvitation(Order $order) {
+        $order = $this->getCompleteOrder($order);
+        if (!$order) {
+            return false;
+        }
+
         $storeId = $order->getStoreId();
 
         $config = $this->invitationHelper->getConfigData($storeId);
@@ -157,6 +181,11 @@ class Api {
 
         $date_diff = (time() - $this->date->strToTime($order->getCreatedAt()));
         if ($date_diff > $config['backlog']) {
+            return false;
+        }
+
+        if (empty($order->getCustomerEmail())) {
+            $this->logMessage(sprintf('Invitation was not created for order (%s) as it has no customer email', $order_number), $config);
             return false;
         }
 
@@ -206,6 +235,36 @@ class Api {
         $localeLanguages = ['nl' => 'nld', 'de' => 'deu', 'fr' => 'fra', 'es' => 'spa', 'en' => 'eng'];
         $locale = (string) $this->generalHelper->getStoreValue('general/locale/code', $storeId);
         return $localeLanguages[substr($locale, 0, 2)] ?? null;
+    }
+
+    /**
+     * Other extensions may save an order that was loaded from a collection with
+     * only a few columns selected, so sales_order_save_after receives an object
+     * without e.g. the email. Reload such orders from the
+     * database. The resource model is used instead of the order repository
+     * because the repository may return a cached instance with stale data.
+     */
+    private function getCompleteOrder(Order $order): ?Order {
+        $missingFields = array_filter(self::REQUIRED_ORDER_FIELDS, function ($field) use ($order) {
+            return !$order->hasData($field);
+        });
+        if (!$missingFields) {
+            return $order;
+        }
+
+        if (!$order->getId()) {
+            $this->logger->debug('Invitation was not created for an order without ID and incomplete data');
+            return null;
+        }
+
+        $completeOrder = $this->orderFactory->create();
+        $this->orderResource->load($completeOrder, $order->getId());
+        if (!$completeOrder->getId()) {
+            $this->logger->debug(sprintf('Invitation was not created for order with ID (%d) as it could not be reloaded', $order->getId()));
+            return null;
+        }
+
+        return $completeOrder;
     }
 
     private function getProductsSafe(Collection $orderItems, array $config, ?int $storeId): array {

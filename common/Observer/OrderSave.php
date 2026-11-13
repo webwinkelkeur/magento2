@@ -43,7 +43,7 @@ class OrderSave implements ObserverInterface {
         try {
             $order = $observer->getEvent()->getOrder();
             $this->apiModel->sendInvitation($order);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->critical($e);
             $this->logger->debug('exception');
         }

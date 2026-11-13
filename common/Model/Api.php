@@ -270,7 +270,7 @@ class Api {
     private function getProductsSafe(Collection $orderItems, array $config, ?int $storeId): array {
         try {
             return $this->getProducts($orderItems, $config, $storeId);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->debug(sprintf('Error retrieving products: %s: (%s) %s', get_class($e), $e->getCode(), $e->getMessage()));
             return [];
         }
@@ -305,10 +305,12 @@ class Api {
     }
 
     private function getProductImageUrl(Product $product): ?string {
-        if (!$imageAttribute = $product->getResource()->getAttribute('image')) {
+        $image = $product->getImage();
+        if (!$image || $image === 'no_selection') {
             return null;
         }
-        return $imageAttribute->getFrontend()->getUrl($product);
+        return $product->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)
+            . 'catalog/product/' . ltrim($image, '/');
     }
 
     private function getProductGtinValue(Product $product, array $config): ?string {

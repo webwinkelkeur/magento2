@@ -270,7 +270,7 @@ class Api {
     private function getProductsSafe(Collection $orderItems, array $config, ?int $storeId): array {
         try {
             return $this->getProducts($orderItems, $config, $storeId);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->debug(sprintf('Error retrieving products: %s: (%s) %s', get_class($e), $e->getCode(), $e->getMessage()));
             return [];
         }
